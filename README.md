@@ -50,9 +50,9 @@ __Auteurs :__
     - [1.1.6. Solidity Coverage](#116-solidity-coverage)
     - [1.1.7. Eth-Gas-Reporter](#117-eth-gas-reporter)
   - [1.2. Paramétrage des fichiers de configurations](#12-paramétrage-des-fichiers-de-configurations)
-    - [1.2.1. truffle-config.js](#121-truffle-configjs)
-    - [1.2.2. .env](#122-env)
-    - [1.2.3. .gitignore](#123-gitignore)
+    - [1.2.1. Fichier truffle-config.js](#121-fichier-truffle-configjs)
+    - [1.2.2. Fichier .env](#122-fichier-env)
+    - [1.2.3. Fichier .gitignore](#123-fichier-gitignore)
 - [2. SMARTS CONTRACTS](#2-smarts-contracts)
   - [2.1. Ecriture des Smarts Contracts](#21-ecriture-des-smarts-contracts)
     - [2.1.1. ayg_erc20.sol](#211-ayg_erc20sol)
@@ -81,11 +81,14 @@ __Auteurs :__
     - [3.2.2.2 Apport de liquidité dans une POOL](#3222-apport-de-liquidité-dans-une-pool)
     - [3.2.2.3 Swap entre token ERC20](#3223-swap-entre-token-erc20)
   - [3.3 Test local](#33-test-local)
+    - [3.3.1 Blockchain local](#331-blockchain-local)
+    - [3.3.2 Deployement des Smarts Contrats en local](#332-deployement-des-smarts-contrats-en-local)
+    - [3.3.3 Ouverture de la Dapp en local](#333-ouverture-de-la-dapp-en-local)
 - [4. MISE EN LIGNE](#4-mise-en-ligne)
   - [4.1 Choix de la blockchain](#41-choix-de-la-blockchain)
-    - [4.1.1 Deployement sur Kovan](#411-deployement-sur-kovan)
+    - [4.1.1 Deployement des Smarts Contracts sur Kovan](#411-deployement-des-smarts-contracts-sur-kovan)
   - [4.2 Choix de l'hébergement](#42-choix-de-lhébergement)
-    - [4.2.1 Deployement sur Github Pages](#421-deployement-sur-github-pages)
+    - [4.2.1 Deployement de la DApp sur Github Pages](#421-deployement-de-la-dapp-sur-github-pages)
 - [5. JEUX DE DONNEES](#5-jeux-de-donnees)
   - [5.1. Création d'un bot](#51-création-dun-bot)
 - [6. LICENCE](#6-licence)
@@ -192,9 +195,99 @@ $ npm install --save-dev --prefixe . eth-gas-reporter
 
 ## 1.2. Paramétrage des fichiers de configurations
 
-### 1.2.1. truffle-config.js
-### 1.2.2. .env
-### 1.2.3. .gitignore
+<br />
+
+### 1.2.1. Fichier truffle-config.js
+
+```js
+
+const HDWalletProvider = require('@truffle/hdwallet-provider');
+require('dotenv').config();
+
+module.exports = {
+
+  contracts_build_directory: "../client/src/contracts",
+
+  networks: {
+    development: {
+      host: "127.0.0.1",     // Localhost (default: none)
+      port: 8545,            // Standard Ethereum port (default: none)
+      network_id: "*",       // Any network (default: none)
+    },
+
+    kovan:{
+      provider : function() { return new HDWalletProvider({mnemonic:{phrase:`${process.env.MNEMONIC}`},providerOrUrl:`https://kovan.infura.io/v3/${process.env.INFURA_ID}`})},
+      network_id:42,
+    },
+
+  },
+
+  // Set default mocha options here, use special reporters, etc.
+  mocha: {
+    // timeout: 100000
+  },
+
+  // Configure your compilers
+  compilers: {
+    solc: {
+      version: "0.8.15",      // Fetch exact version from solc-bin (default: truffle's version)
+      // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
+       settings: {          // See the solidity docs for advice about optimization and evmVersion
+        optimizer: {
+          enabled: false,
+          runs: 200
+        },
+      //  evmVersion: "byzantium"
+       }
+    }
+  },
+
+};
+
+```
+
+### 1.2.2. Fichier .env
+
+```txt
+INFURA_ID = 75eefb9868c74cccb605c888eafaa629
+MNEMONIC = dove balance bargain cave recall verb pause innocent unusual boost vacuum dance
+```
+
+### 1.2.3. Fichier .gitignore
+
+```sh
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Production
+build
+client/src/contracts
+client/*/src/contracts
+
+# Testing
+coverage
+
+# Env
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor
+.vscode
+
+# Misc.
+.DS_Store
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+```
 
 <br />
 <br />
@@ -277,10 +370,10 @@ Pour le stockage des NFT nous avons utilisé la solution [IPFS](https://ipfs.io/
 ## 3.1 Librairie UI
 
 Pour l'UI de la DApp nous avons choisi d'utiliser [Material UI](https://mui.com/).   
-- Doc 
+- Doc https://mui.com/material-ui/getting-started/overview/   
 - Github https://github.com/mui/material-ui   
 
-Installation :
+Depuis notre dossier `client` excécutons la commande suivante :
 ```sh
 $ npm install @mui/material @emotion/react @emotion/styled
 ```
@@ -303,8 +396,10 @@ $ npm install @mui/material @emotion/react @emotion/styled
 
 ## 3.3 Test local
 
+### 3.3.1 Blockchain local
+
 Dans un premier temps la DApp sera testée localement en utilisant la blockchain locale `Ganache`.   
-Depuis notre dossier `Truffle` excécutons la commande suivante
+Depuis notre dossier `truffle` excécutons la commande suivante
 
 ```sh
 $ ganache
@@ -345,6 +440,28 @@ Nous pouvons ajouté le compte(0) qui servira de compte de deployement pour nos 
 
 ![N|Solid](assets/soft_metamask_local_addaccount.png)
 
+
+### 3.3.2 Deployement des Smarts Contrats en local
+
+Depuis notre dossier `truffle` excécutons la commande suivante
+
+```sh
+$ truffle migrate
+```
+
+
+### 3.3.3 Ouverture de la Dapp en local
+
+Depuis notre dossier `client` excécutons la commande suivante
+
+```sh
+$ npm run start
+```
+
+![N|Solid](assets/cmd_npmrunstart.png)
+
+Cela à pour effet d'ouvrir notre DApp dans une nouvelle fenetre à l'adresse http://localhost:3000/
+
 <br />
 <br />
 <br />
@@ -369,9 +486,9 @@ Nous avons fait le choix de déployer nos smarts contracts sur la blockchain de 
 
 <br />
 
-### 4.1.1 Deployement sur Kovan
+### 4.1.1 Deployement des Smarts Contracts sur Kovan
 
-Depuis notre dossier `Truffle` excécutons la commande suivante
+Depuis notre dossier `truffle` excécutons la commande suivante
 
 ```sh
 $ truffle migrate --network kovan
@@ -381,7 +498,13 @@ $ truffle migrate --network kovan
 
 ## 4.2 Choix de l'hébergement
 
-### 4.2.1 Deployement sur Github Pages
+### 4.2.1 Deployement de la DApp sur Github Pages
+
+Depuis notre dossier `client` excécutons la commande suivante
+
+```sh
+$ ...
+```
 
 <br />
 <br />
