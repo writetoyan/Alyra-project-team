@@ -370,6 +370,10 @@ Pour le stockage des NFT nous avons utilisé la solution [IPFS](https://ipfs.io/
 ## 3.1 Librairie UI
 
 Pour l'UI de la DApp nous avons choisi d'utiliser [Material UI](https://mui.com/).   
+Material UI est une bibliothèque de composants React UI qui implémente le Material Design de Google.  
+Il comprend une collection complète de composants prédéfinis prêts à être utilisés en production dès la sortie de la boîte.
+
+Material UI est magnifique par sa conception et propose une suite d'options de personnalisation qui facilitent la mise en œuvre de votre propre système de conception personnalisé en plus de nos composants.
 - Doc https://mui.com/material-ui/getting-started/overview/   
 - Github https://github.com/mui/material-ui   
 
@@ -377,6 +381,13 @@ Depuis notre dossier `client` excécutons la commande suivante :
 ```sh
 $ npm install @mui/material @emotion/react @emotion/styled
 ```
+Nous allons utilisez les icons :
+```sh
+$ npm install @mui/icons-material
+```
+Preview https://fonts.google.com/icons?icon.set=Material+Icons   
+
+npm install material-ui-image
 
 <br /><hr />
 
@@ -436,7 +447,7 @@ Private Keys
 (9) 0x227d7181ad85473b983f397c36662f909d8157d4df6744f281427deb5ed2c0c7
 ```
 
-Nous pouvons ajouté le compte(0) qui servira de compte de deployement pour nos tests.
+Nous pouvons ajouter le compte(0) qui servira de compte de déployement (owner) pour nos tests.
 
 ![N|Solid](assets/soft_metamask_local_addaccount.png)
 
