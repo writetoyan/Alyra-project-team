@@ -1,6 +1,6 @@
 ![N|Solid](assets/ban_logo.png)
 
-Ce projet DeFi consiste à mettre en place une solution de stacking ERC20 utilisant une méthode de récompense proportionnel au montant stacké.
+Ce projet DeFi consiste à mettre en place une solution de stacking ERC20 utilisant une méthode de récompense proportionnelle au montant stacké.
 
 __Auteurs :__
 - Alex
@@ -19,15 +19,36 @@ __Auteurs :__
 
 <br />
 
-
-# Sommaire
+# Table des matières  
+- [Spécifications fonctionnelles](#spécifications-fonctionnelles)
+- [Table des matières](#table-des-matières)
+- [DOSSIER DE TRAVAIL](#dossier-de-travail)
+  - [1.1.Installation des PACKAGES](#11installation-des-packages)
+    - [1.1.1 TRUFFLE-UNBOX-REACT](#111-truffle-unbox-react)
+    - [1.1.2. HDWalletProvider](#112-hdwalletprovider)
+    - [1.1.3. DOTENV](#113-dotenv)
+    - [1.1.4. MochaJS](#114-mochajs)
+    - [1.1.5. ChaiJS](#115-chaijs)
+    - [1.1.6. Solidity Coverage](#116-solidity-coverage)
+    - [1.1.6. Eth-Gas-Reporter](#116-eth-gas-reporter)
+  - [1.2. Paramétrage des fichiers de configurations](#12-paramétrage-des-fichiers-de-configurations)
+  - [Smart Contracts](#smart-contracts)
+  - [Documentation NatSpec](#documentation-natspec)
+- [2. SMARTS CONTRACTS](#2-smarts-contracts)
+  - [2.1. ayg_erc20.sol](#21-ayg_erc20sol)
+- [3. DAPP](#3-dapp)
+- [4. MISE EN LIGNE](#4-mise-en-ligne)
 
 
 <br />
 
 ![N|Solid](assets/ban_hr.png)
 
-# 1. Dossier de travail
+<div id='dossierdetravail'/> 
+
+
+# DOSSIER DE TRAVAIL
+
 
 Création du dossier depuis lequel nous allons travailler
 
@@ -40,12 +61,13 @@ $ cd ayg_labs
 
 ## 1.1.Installation des PACKAGES   
 
-Dans le cadre ce développement nous aurons besoin d'utiliser différents packages et librairies.
+Dans le cadre de ce développement nous aurons besoin d'installer différents packages et librairies.
 
 <br />
 
 ### 1.1.1 TRUFFLE-UNBOX-REACT
 
+Pour notre envoronnement de travail nous avons choisi d'utilser la box `Truffle-Unbox-React` qui offre l'avantage d'embarquer un environement Truffle et la structure initiale d'une Dapp sous le language React.
 ```sh
 $ truffle unbox react
 ```
@@ -118,6 +140,8 @@ $ npm install --save-dev --prefixe . eth-gas-reporter
 
 <br /><hr />
 
+<div id='parametragefichierconfig'/> 
+
 ## 1.2. Paramétrage des fichiers de configurations
 
 ...
@@ -138,16 +162,29 @@ $ npm install --save-dev --prefixe . eth-gas-reporter
 
 
 
-<br /><hr />
-## Smart Contracts
 
 
 
+<br />
+
+![N|Solid](assets/ban_hr.png)
+
+<div id='smartcontract'/> 
+
+# 2. SMARTS CONTRACTS
 
 
 
-<br /><hr />
-## Smart Contracts
+<div id='aygerc20'/> 
+
+
+## 2.1. ayg_erc20.sol 
+
+
+...
+
+
+<br />
 
 
 
@@ -156,16 +193,9 @@ $ npm install --save-dev --prefixe . eth-gas-reporter
 
 ![N|Solid](assets/ban_hr.png)
 
-# 2. Smart Contract
+<div id='dapp'/> 
 
-
-
-
-<br />
-
-![N|Solid](assets/ban_hr.png)
-
-# 3. DApp
+# 3. DAPP
 
 
 
@@ -175,7 +205,9 @@ $ npm install --save-dev --prefixe . eth-gas-reporter
 
 ![N|Solid](assets/ban_hr.png)
 
-# 4. Mise en ligne
+<div id='misenligne'/> 
+
+# 4. MISE EN LIGNE
 
 
 
