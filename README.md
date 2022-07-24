@@ -1,40 +1,199 @@
-# React Truffle Box
+![N|Solid](assets/ban_logo.png)
 
-This box comes with everything you need to start using Truffle to write, compile, test, and deploy smart contracts, and interact with them from a React app.
+Ce projet DeFi consiste à mettre en place une solution de stacking ERC20 utilisant une méthode de récompense proportionnel au montant stacké.
 
-## Installation
+__Auteurs :__
+- Alex
+- Yannick
+- Gregory
 
-First ensure you are in an empty directory.
 
-Run the `unbox` command using 1 of 2 ways.
+<br />
+
+# Spécifications fonctionnelles
+- Pouvoir 'stake' son token ERC20
+- Pouvoir 'unstake' ses tokens
+- Créer son propre token de récompense ou utiliser l’ETH ou un autre token ERC20 
+- Respecter un ratio entre la quantité de la récompense et la valeur bloquées sur le smart contract
+- Utiliser l’oracle Chainlink
+
+<br />
+
+
+# Sommaire
+
+
+<br />
+
+![N|Solid](assets/ban_hr.png)
+
+# 1. Dossier de travail
+
+Création du dossier depuis lequel nous allons travailler
 
 ```sh
-# Install Truffle globally and run `truffle unbox`
-$ npm install -g truffle
+$ mkdir ayg_labs
+$ cd ayg_labs
+```
+
+<br /><hr />
+
+## 1.1.Installation des PACKAGES   
+
+Dans le cadre ce développement nous aurons besoin d'utiliser différents packages et librairies.
+
+<br />
+
+### 1.1.1 TRUFFLE-UNBOX-REACT
+
+```sh
 $ truffle unbox react
 ```
 
+![N|Solid](assets/cmd_truffle-unbox-react1.png)
+![N|Solid](assets/cmd_truffle-unbox-react2.png)
+
+<br />
+
+### 1.1.2. HDWalletProvider
+
 ```sh
-# Alternatively, run `truffle unbox` via npx
-$ npx truffle unbox react
+$ npm install @truffle/hdwallet-provider
 ```
 
-Start the react dev server.
+<br />
+
+### 1.1.3. DOTENV
 
 ```sh
-$ cd client
-$ npm start
-  Starting the development server...
+$ npm install dotenv
 ```
 
-From there, follow the instructions on the hosted React app. It will walk you through using Truffle and Ganache to deploy the `SimpleStorage` contract, making calls to it, and sending transactions to change the contract's state.
 
-## FAQ
+<br />
 
-- __How do I use this with Ganache (or any other network)?__
+### 1.1.4. MochaJS
 
-  The Truffle project is set to deploy to Ganache by default. If you'd like to change this, it's as easy as modifying the Truffle config file! Check out [our documentation on adding network configurations](https://trufflesuite.com/docs/truffle/reference/configuration/#networks). From there, you can run `truffle migrate` pointed to another network, restart the React dev server, and see the change take place.
+```sh
+$ npm install --global mocha
+```
 
-- __Where can I find more resources?__
+<br />
 
-  This Box is a sweet combo of [Truffle](https://trufflesuite.com) and [Create React App](https://create-react-app.dev). Either one would be a great place to start!
+
+
+
+### 1.1.5. ChaiJS
+
+```sh
+$ npm install chai
+```
+
+<br />
+
+
+
+
+### 1.1.6. Solidity Coverage
+
+```sh
+$ npm install --save-dev solidity-coverage
+```
+
+<br />
+
+
+
+
+### 1.1.6. Eth-Gas-Reporter
+
+```sh
+$ npm install --save-dev --prefixe . eth-gas-reporter 
+```
+
+<br />
+
+
+
+
+<br /><hr />
+
+## 1.2. Paramétrage des fichiers de configurations
+
+...
+
+<br /><hr />
+## Smart Contracts
+
+
+
+
+
+
+<br /><hr />
+## Documentation NatSpec
+
+
+
+
+
+
+<br /><hr />
+## Smart Contracts
+
+
+
+
+
+
+<br /><hr />
+## Smart Contracts
+
+
+
+
+<br />
+
+![N|Solid](assets/ban_hr.png)
+
+# 2. Smart Contract
+
+
+
+
+<br />
+
+![N|Solid](assets/ban_hr.png)
+
+# 3. DApp
+
+
+
+
+
+<br />
+
+![N|Solid](assets/ban_hr.png)
+
+# 4. Mise en ligne
+
+
+
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+![N|Solid](assets/ban_foot.png)
