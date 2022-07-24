@@ -7,9 +7,17 @@ __Auteurs :__
 - Yannick
 - Gregory
 
-
+<br />
+<br />
+<br />
+<br />
 <br />
 
+
+
+
+
+![N|Solid](assets/ban_hr.png)
 # Spécifications fonctionnelles
 - Pouvoir 'stake' son token ERC20
 - Pouvoir 'unstake' ses tokens
@@ -18,11 +26,21 @@ __Auteurs :__
 - Utiliser l’oracle Chainlink
 
 <br />
+<br />
+<br />
+<br />
+<br />
+
+
+
+
+
+![N|Solid](assets/ban_hr.png)
 
 # Table des matières  
 - [Spécifications fonctionnelles](#spécifications-fonctionnelles)
 - [Table des matières](#table-des-matières)
-- [DOSSIER DE TRAVAIL](#dossier-de-travail)
+- [1. DOSSIER DE TRAVAIL](#1-dossier-de-travail)
   - [1.1.Installation des PACKAGES](#11installation-des-packages)
     - [1.1.1 TRUFFLE-UNBOX-REACT](#111-truffle-unbox-react)
     - [1.1.2. HDWalletProvider](#112-hdwalletprovider)
@@ -30,24 +48,57 @@ __Auteurs :__
     - [1.1.4. MochaJS](#114-mochajs)
     - [1.1.5. ChaiJS](#115-chaijs)
     - [1.1.6. Solidity Coverage](#116-solidity-coverage)
-    - [1.1.6. Eth-Gas-Reporter](#116-eth-gas-reporter)
+    - [1.1.7. Eth-Gas-Reporter](#117-eth-gas-reporter)
   - [1.2. Paramétrage des fichiers de configurations](#12-paramétrage-des-fichiers-de-configurations)
-  - [Smart Contracts](#smart-contracts)
-  - [Documentation NatSpec](#documentation-natspec)
+    - [1.2.1. truffle-config.js](#121-truffle-configjs)
+    - [1.2.2. .env](#122-env)
+    - [1.2.3. .gitignore](#123-gitignore)
 - [2. SMARTS CONTRACTS](#2-smarts-contracts)
-  - [2.1. ayg_erc20.sol](#21-ayg_erc20sol)
+  - [2.1. Ecriture des Smarts Contracts](#21-ecriture-des-smarts-contracts)
+    - [2.1.1. ayg_erc20.sol](#211-ayg_erc20sol)
+    - [2.1.2. ayg_app.sol](#212-ayg_appsol)
+    - [2.1.3. ayg_erc721.sol](#213-ayg_erc721sol)
+  - [2.2. Tests unitaires des Smarts Contracts](#22-tests-unitaires-des-smarts-contracts)
+    - [2.2.1. Résultat du Coverage](#221-résultat-du-coverage)
+    - [2.2.2. Résultat de la consomation de gas](#222-résultat-de-la-consomation-de-gas)
+  - [2.3. Documentation des Smarts Contracts](#23-documentation-des-smarts-contracts)
+    - [2.3.1. Utilisation de NatSpec](#231-utilisation-de-natspec)
+    - [2.3.2. Mise en ligne de la documentation](#232-mise-en-ligne-de-la-documentation)
+  - [2.4. Utilisation d'un Oracle](#24-utilisation-dun-oracle)
+  - [2.5. Utilisation d'INFURA](#25-utilisation-dinfura)
+  - [2.5. Utilisation d'IPFS](#25-utilisation-dipfs)
 - [3. DAPP](#3-dapp)
+  - [3.1 Librairie UI](#31-librairie-ui)
+  - [3.2 Codage de la DApp](#32-codage-de-la-dapp)
+  - [3.2.1 Fonctionnalité pour l'admin](#321-fonctionnalité-pour-ladmin)
+    - [3.2.1.1 Création d'un ERC20](#3211-création-dun-erc20)
+    - [3.2.1.2 Paramètres de stacking](#3212-paramètres-de-stacking)
+    - [3.2.1.3 Paramètre de pool](#3213-paramètre-de-pool)
+    - [3.2.1.4 Création de NFT Reward / NFT Boost](#3214-création-de-nft-reward--nft-boost)
+  - [3.2.2 Fonctionnalité pour l'utilisateur](#322-fonctionnalité-pour-lutilisateur)
+    - [3.2.2.1 Stacking de Token ERC20](#3221-stacking-de-token-erc20)
+    - [3.2.2.2 Apport de liquidité dans une POOL](#3222-apport-de-liquidité-dans-une-pool)
+    - [3.2.2.3 Swap entre token ERC20](#3223-swap-entre-token-erc20)
 - [4. MISE EN LIGNE](#4-mise-en-ligne)
-
+  - [4.1 Choix de l'hébergement](#41-choix-de-lhébergement)
+  - [4.2 Deployement](#42-deployement)
+- [5. JEUX DE DONNEES](#5-jeux-de-donnees)
+  - [5.1. Création d'un bot](#51-création-dun-bot)
+- [6. LICENCE](#6-licence)
 
 <br />
+<br />
+<br />
+<br />
+<br />
+
+
+
+
 
 ![N|Solid](assets/ban_hr.png)
 
-<div id='dossierdetravail'/> 
-
-
-# DOSSIER DE TRAVAIL
+# 1. DOSSIER DE TRAVAIL
 
 
 Création du dossier depuis lequel nous allons travailler
@@ -57,7 +108,7 @@ $ mkdir ayg_labs
 $ cd ayg_labs
 ```
 
-<br /><hr />
+<br />
 
 ## 1.1.Installation des PACKAGES   
 
@@ -127,7 +178,7 @@ $ npm install --save-dev solidity-coverage
 
 
 
-### 1.1.6. Eth-Gas-Reporter
+### 1.1.7. Eth-Gas-Reporter
 
 ```sh
 $ npm install --save-dev --prefixe . eth-gas-reporter 
@@ -135,97 +186,126 @@ $ npm install --save-dev --prefixe . eth-gas-reporter
 
 <br />
 
-
-
-
-<br /><hr />
-
-<div id='parametragefichierconfig'/> 
-
 ## 1.2. Paramétrage des fichiers de configurations
 
-...
-
-<br /><hr />
-## Smart Contracts
-
-
-
-
-
-
-<br /><hr />
-## Documentation NatSpec
-
-
-
-
-
-
-
-
+### 1.2.1. truffle-config.js
+### 1.2.2. .env
+### 1.2.3. .gitignore
 
 <br />
+<br />
+<br />
+<br />
+<br />
+
+
+
+
 
 ![N|Solid](assets/ban_hr.png)
-
-<div id='smartcontract'/> 
 
 # 2. SMARTS CONTRACTS
+## 2.1. Ecriture des Smarts Contracts
+### 2.1.1. ayg_erc20.sol 
+### 2.1.2. ayg_app.sol 
+### 2.1.3. ayg_erc721.sol
+
+## 2.2. Tests unitaires des Smarts Contracts
+### 2.2.1. Résultat du Coverage
+### 2.2.2. Résultat de la consomation de gas
+
+## 2.3. Documentation des Smarts Contracts
+### 2.3.1. Utilisation de NatSpec
+### 2.3.2. Mise en ligne de la documentation
 
 
+## 2.4. Utilisation d'un Oracle
+## 2.5. Utilisation d'INFURA
+## 2.5. Utilisation d'IPFS
 
-<div id='aygerc20'/> 
-
-
-## 2.1. ayg_erc20.sol 
-
-
-...
-
-
+<br />
+<br />
+<br />
+<br />
 <br />
 
 
 
 
-<br />
 
 ![N|Solid](assets/ban_hr.png)
-
-<div id='dapp'/> 
 
 # 3. DAPP
 
-
-
-
+## 3.1 Librairie UI
+## 3.2 Codage de la DApp
+## 3.2.1 Fonctionnalité pour l'admin
+### 3.2.1.1 Création d'un ERC20
+### 3.2.1.2 Paramètres de stacking
+### 3.2.1.3 Paramètre de pool
+### 3.2.1.4 Création de NFT Reward / NFT Boost
+## 3.2.2 Fonctionnalité pour l'utilisateur
+### 3.2.2.1 Stacking de Token ERC20
+### 3.2.2.2 Apport de liquidité dans une POOL
+### 3.2.2.3 Swap entre token ERC20
 
 <br />
+<br />
+<br />
+<br />
+<br />
+
+
+
+
 
 ![N|Solid](assets/ban_hr.png)
 
-<div id='misenligne'/> 
-
 # 4. MISE EN LIGNE
 
+## 4.1 Choix de l'hébergement
+
+## 4.2 Deployement
+
+<br />
+<br />
+<br />
+<br />
+<br />
 
 
 
+
+
+![N|Solid](assets/ban_hr.png)
+
+# 5. JEUX DE DONNEES
+
+## 5.1. Création d'un bot
+
 <br />
 <br />
 <br />
 <br />
 <br />
+
+
+
+
+
+![N|Solid](assets/ban_hr.png)
+
+# 6. LICENCE
+
+MIT
 <br />
 <br />
 <br />
 <br />
 <br />
-<br />
-<br />
-<br />
-<br />
-<br />
+
+
+
+
 
 ![N|Solid](assets/ban_foot.png)
