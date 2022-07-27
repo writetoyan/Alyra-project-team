@@ -16,6 +16,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const pages = ['Swap', 'Stacking', 'Pool'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -161,6 +162,7 @@ const ResponsiveAppBar = () => {
               ))}
             </Menu>
           </Box>
+          <ConnectButton />
         </Toolbar>
       </Container>
     </AppBar>
