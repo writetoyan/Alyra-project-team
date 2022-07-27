@@ -162,7 +162,7 @@ const ResponsiveAppBar = () => {
               ))}
             </Menu>
           </Box>
-          <ConnectButton />
+         <ConnectButton />
         </Toolbar>
       </Container>
     </AppBar>
