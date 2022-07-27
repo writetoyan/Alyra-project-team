@@ -45,10 +45,11 @@ __Auteurs :__
     - [1.1.1 TRUFFLE-UNBOX-REACT](#111-truffle-unbox-react)
     - [1.1.2. HDWalletProvider](#112-hdwalletprovider)
     - [1.1.3. DOTENV](#113-dotenv)
-    - [1.1.4. MochaJS](#114-mochajs)
-    - [1.1.5. ChaiJS](#115-chaijs)
-    - [1.1.6. Solidity Coverage](#116-solidity-coverage)
-    - [1.1.7. Eth-Gas-Reporter](#117-eth-gas-reporter)
+    - [1.1.4. Test-helper d'@openzeppelin](#114-test-helper-dopenzeppelin)
+    - [1.1.5. MochaJS](#115-mochajs)
+    - [1.1.6. ChaiJS](#116-chaijs)
+    - [1.1.7. Solidity Coverage](#117-solidity-coverage)
+    - [1.1.8. Eth-Gas-Reporter](#118-eth-gas-reporter)
   - [1.2. Paramétrage des fichiers de configurations](#12-paramétrage-des-fichiers-de-configurations)
     - [1.2.1. Fichier truffle-config.js](#121-fichier-truffle-configjs)
     - [1.2.2. Fichier .env](#122-fichier-env)
@@ -69,7 +70,9 @@ __Auteurs :__
   - [2.6. Utilisation d'un noeud RPC](#26-utilisation-dun-noeud-rpc)
   - [2.7. Utilisation d'un stockage décentralisé](#27-utilisation-dun-stockage-décentralisé)
 - [3. DAPP](#3-dapp)
-  - [3.1 Librairie UI](#31-librairie-ui)
+  - [3.1 Languages](#31-languages)
+    - [3.1.1 Librairie UI](#311-librairie-ui)
+    - [3.1.2 Librairie Graphique](#312-librairie-graphique)
   - [3.2 Codage de la DApp](#32-codage-de-la-dapp)
   - [3.2.1 Fonctionnalité pour l'admin](#321-fonctionnalité-pour-ladmin)
     - [3.2.1.1 Création d'un ERC20](#3211-création-dun-erc20)
@@ -149,10 +152,17 @@ $ npm install @truffle/hdwallet-provider
 $ npm install dotenv
 ```
 
+<br />
+
+### 1.1.4. Test-helper d'@openzeppelin
+
+```sh
+$ npm install @openzeppelin/test-helpers
+```
 
 <br />
 
-### 1.1.4. MochaJS
+### 1.1.5. MochaJS
 
 ```sh
 $ npm install --global mocha
@@ -163,7 +173,7 @@ $ npm install --global mocha
 
 
 
-### 1.1.5. ChaiJS
+### 1.1.6. ChaiJS
 
 ```sh
 $ npm install chai
@@ -174,7 +184,7 @@ $ npm install chai
 
 
 
-### 1.1.6. Solidity Coverage
+### 1.1.7. Solidity Coverage
 
 ```sh
 $ npm install --save-dev solidity-coverage
@@ -185,7 +195,7 @@ $ npm install --save-dev solidity-coverage
 
 
 
-### 1.1.7. Eth-Gas-Reporter
+### 1.1.8. Eth-Gas-Reporter
 
 ```sh
 $ npm install --save-dev --prefixe . eth-gas-reporter 
@@ -324,6 +334,9 @@ yarn-error.log*
 
 ## 2.4. Documentation des Smarts Contracts
 ### 2.4.1. Utilisation de NatSpec
+
+- Doc https://solidity-fr.readthedocs.io/fr/latest/natspec-format.html
+
 ### 2.4.2. Mise en ligne de la documentation
 
 <br /><hr />
@@ -367,7 +380,16 @@ Pour le stockage des NFT nous avons utilisé la solution [IPFS](https://ipfs.io/
 
 <br />
 
-## 3.1 Librairie UI
+## 3.1 Languages
+
+<br />
+
+Ayant installé la Truffle-React-Box la DApp sera développé sous le language React.
+Par ailleur nous aurons besoin de librairies supplémentaires afin d'améliorer l'expérience utilisateur. 
+
+<br />
+
+### 3.1.1 Librairie UI
 
 Pour l'UI de la DApp nous avons choisi d'utiliser [Material UI](https://mui.com/).   
 Material UI est une bibliothèque de composants React UI qui implémente le Material Design de Google.  
@@ -387,7 +409,21 @@ $ npm install @mui/icons-material
 ```
 Preview https://fonts.google.com/icons?icon.set=Material+Icons   
 
-npm install material-ui-image
+
+<br /><hr />
+
+### 3.1.2 Librairie Graphique
+
+Pour l'affichage de graphiques nous avons choisi d'utiliser la libraire [Recharts](https://recharts.org/en-US)
+
+- Doc https://recharts.org/en-US/guide/getting-started
+
+Depuis notre dossier `client` excécutons la commande suivante :
+
+```sh
+$ npm install recharts
+```
+
 
 <br /><hr />
 
