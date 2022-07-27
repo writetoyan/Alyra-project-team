@@ -20,7 +20,7 @@ contract Staking {
     uint8 constant public numberOfAygRewardPerBlock = 100;
 
     event Stake(address _stakerAddress, uint _amount); 
-    event Unstake(address stakerAddress, uint _amount, uint _rewardWon); 
+    event Unstake(address _stakerAddress, uint _amount, uint _rewardWon); 
 
 
     modifier amountNotNull(uint _amount) {
