@@ -17,9 +17,6 @@ import TextField from '@mui/material/TextField';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
-import IconButton from '@mui/material/IconButton';
-import StakeIcon from '@mui/icons-material/ArrowDropDownCircle';
-
 function DrawIcoToken({ alt, code }) {
   const href= `ico_${code}.png`;
   const CODE = code.toUpperCase();

@@ -1,9 +1,6 @@
 import * as React from 'react';
 import {Routes, Route, useNavigate} from 'react-router-dom';
 
-import PropTypesLib from 'prop-types';
-
-
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -184,7 +181,7 @@ function LogStatut(props) {
 
   console.log("addrUser = "+addrUser)
 
-  if(props.addrUser!="0x0000000000000000000000000000000000000000"){
+  if(props.addrUser!=="0x0000000000000000000000000000000000000000"){
       return (
         <Chip label={props.addrUser} />
       );

@@ -18,11 +18,8 @@ import Footer from "./components/Footer";
 
 
 function App() {
-  const [state, setState] = useState({ isOwner: false, isVoter: false, web3: null, accounts: null, contract: null });
-  const [contractState, setContractState] = useState({
-    owner: '',
-    workflowStatus: 0
-  });
+  const [state, setState] = useState({ isOwner: false, web3: null, accounts: null, contract: null });
+
   const [addrOwner, setAddrOwner] = useState(0);
   const [addrUser, setAddrUser] = useState(0);
   const [displayAdmintool, setDisplayAdmintool] = useState(0);

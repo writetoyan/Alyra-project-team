@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Routes, Route, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -21,11 +21,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
 import Typography from '@mui/material/Typography';
-
-
-import PoolAdd from "./../components/PoolAdd";
-import PoolManage from "./../components/PoolManage";
-
 
 function createData(token1, token2, poolValue, volume24, apr) {
   return { token1, token2, poolValue, volume24, apr };

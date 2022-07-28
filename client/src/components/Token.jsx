@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import {Routes, Route, useNavigate} from 'react-router-dom';
+import React from 'react';
+import {useNavigate} from 'react-router-dom';
 
 import { styled } from '@mui/material/styles';
 
@@ -18,9 +18,6 @@ import TextField from '@mui/material/TextField';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
-
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -30,7 +27,6 @@ import TableRow from '@mui/material/TableRow';
 
 import IconButton from '@mui/material/IconButton';
 import IconAdd from '@mui/icons-material/Add';
-import StakeIcon from '@mui/icons-material/ArrowDropDownCircle';
 import IconMore from '@mui/icons-material/MoreHoriz';
 import IconFaucet from '@mui/icons-material/CleanHands';
 
@@ -147,7 +143,7 @@ function Token() {
                     <TableCell>{row.name}</TableCell>
                     <TableCell>{row.decimals}</TableCell>
                     <TableCell>{row.totalsupply}</TableCell>
-                    <TableCell><a href="https://kovan.etherscan.io/address/{row.address}" target="_blank">{row.address}</a></TableCell>
+                    <TableCell><a href="https://kovan.etherscan.io/address/{row.address}" target="_blank" rel="noreferrer">{row.address}</a></TableCell>
                     <TableCell>
                       <IconButton
                         aria-label="more"
