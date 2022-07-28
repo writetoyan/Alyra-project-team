@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
+import {Routes, Route, useNavigate} from 'react-router-dom';
 
 import { styled } from '@mui/material/styles';
 
@@ -17,8 +18,29 @@ import TextField from '@mui/material/TextField';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+
 import IconButton from '@mui/material/IconButton';
+import IconAdd from '@mui/icons-material/Add';
 import StakeIcon from '@mui/icons-material/ArrowDropDownCircle';
+import IconMore from '@mui/icons-material/MoreHoriz';
+import IconFaucet from '@mui/icons-material/CleanHands';
+
+function createData(name, symbol, decimals, totalsupply, address) {
+  return { name, symbol, decimals, totalsupply, address };
+}
+
+const rows = [
+  createData('AYG token', 'AYG', 18, 50000000000000000000, '0x84E0d217CD3Af6F5CCe2759442bA84b9A1D59253'),
+];
 
 function DrawIcoToken({ alt, code }) {
   const href= `ico_${code}.png`;
@@ -39,13 +61,44 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-function StakeManage() {
+function importToken()
+{
+  alert('Test OK');       
+
+}
+
+
+
+
+function Token(props) {
+
+  const addrUser = props.addrUser;
+
+  console.log("addrUser = "+addrUser)
+
+  const navigate = useNavigate();
 
   const [alignment, setAlignment] = React.useState('stake');
 
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
   };  
+
+
+
+  const asyncFunc = async () => {
+    let promise = new Promise((resolve, reject) => {
+        setTimeout(() => resolve("I am a done promise!"), 3000)
+    });
+
+    let result = await promise
+
+    alert(result);
+  }
+
+
+
+
   return (
     <React.Fragment>
       {/* Head */}
@@ -64,6 +117,70 @@ function StakeManage() {
         </Typography>
       </Container>
       {/* End Head */}
+
+      <TextField id="outlined-basic" label="address contract ERC20" variant="outlined" />
+      <br />
+      <Button
+        variant="contained"
+        endIcon={<IconAdd />}
+        onClick={importToken}
+      >
+        Ajouter un TOKEN
+      </Button>
+      <br />
+      <br />
+
+      <Container maxWidth="xl" component="main">
+        <Box>
+          <TableContainer component={Paper}>
+            <Table aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Symbol</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Decimals</TableCell>
+                  <TableCell>TotalSupply</TableCell>
+                  <TableCell>Address</TableCell>
+                  <TableCell></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <TableRow
+                    key={row.name}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      <DrawIcoToken alt={row.symbol} code={row.symbol} />
+                    </TableCell>
+                    <TableCell>{row.name}</TableCell>
+                    <TableCell>{row.decimals}</TableCell>
+                    <TableCell>{row.totalsupply}</TableCell>
+                    <TableCell><a href="https://kovan.etherscan.io/address/{row.address}" target="_blank">{row.address}</a></TableCell>
+                    <TableCell>
+                    <IconButton aria-label="more" size="large">
+                        <IconMore
+                          fontSize="inherit"
+                          onClick={(e) => {
+                            navigate('/StakeManage');
+                          }}
+                        />
+                      </IconButton>
+                      <IconButton aria-label="more" size="large">
+                        <IconFaucet
+                          fontSize="inherit"
+                          onClick={asyncFunc}
+                        />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+        </Box>
+      </Container>
 
      
       <Container maxWidth="xl">
@@ -143,4 +260,4 @@ function StakeManage() {
   );
 }
 
-export default StakeManage;
+export default Token;

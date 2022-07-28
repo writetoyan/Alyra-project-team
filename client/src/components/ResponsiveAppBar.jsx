@@ -1,6 +1,9 @@
 import * as React from 'react';
 import {Routes, Route, useNavigate} from 'react-router-dom';
 
+import PropTypesLib from 'prop-types';
+
+
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,8 +16,9 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-
+import Chip from '@mui/material/Chip';
 import Logo from "./../assets/logoH.png";
+
 
 import Home from "./../components/Home";
 import Dashboard from "./../components/Dashboard";
@@ -31,7 +35,7 @@ import NFT from "./../components/NFT";
 const pages = ['Dashboard', 'Token', 'Trade', 'Stake', 'Pool', 'NFT'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-const ResponsiveAppBar = () => {
+const ResponsiveAppBar = (props) => {
 
   const navigate = useNavigate();
 
@@ -117,6 +121,8 @@ const ResponsiveAppBar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
+            <LogStatut addrUser={props.addrUser} />
+
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Account" src="/static/images/avatar/2.jpg" />
@@ -149,10 +155,16 @@ const ResponsiveAppBar = () => {
       </Container>
     </AppBar>
 
+    
+
+
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/Dashboard" element={<Dashboard />} />
-      <Route path="/Token" element={<Token />} />
+      <Route 
+        path="/Token"
+        element={<Token />}
+      />
       <Route path="/Trade" element={<Trade />} />
       <Route path="/Stake" element={<Stake />} />
       <Route path="/StakeManage" element={<StakeManage />} />
@@ -165,4 +177,29 @@ const ResponsiveAppBar = () => {
     </React.Fragment>
   );
 };
+
+
+function LogStatut(props) {
+
+  const addrUser = props.addrUser;
+
+  console.log("addrUser = "+addrUser)
+
+  if(props.addrUser!="0x0000000000000000000000000000000000000000"){
+      return (
+        <Chip label={props.addrUser} />
+      );
+  } else {
+      return (
+          <div className="LogWallet">
+                  Vous n'êtes pas connecté<br /> 
+                  <Button variant="primary">
+                      Connecter un wallet
+                  </Button>
+          </div>
+      );
+  }
+
+}
+
 export default ResponsiveAppBar;
