@@ -6,7 +6,8 @@
   "dependencies": {
     "@openzeppelin/contracts": "^4.7.1",
     "@truffle/hdwallet-provider": "^2.0.12",
-    "dotenv": "^16.0.1"
+    "dotenv": "^16.0.1",
+    "@openzeppelin/test-helpers": "^0.5.15"
   },
   "scripts": {
     "test": "truffle test"

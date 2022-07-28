@@ -1,7 +1,5 @@
 import * as React from 'react';
-
-
-import CssBaseline from '@mui/material/CssBaseline';
+import {Routes, Route, useNavigate} from 'react-router-dom';
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -18,53 +16,51 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
-const pages = ['Swap', 'Stacking', 'Pool'];
+import Logo from "./../assets/logoH.png";
+
+import Home from "./../components/Home";
+import Dashboard from "./../components/Dashboard";
+import Token from "./../components/Token";
+import Trade from "./../components/Trade";
+import Stake from "./../components/Stake";
+import StakeManage from "./../components/StakeManage";
+import Pool from "./../components/Pool";
+import PoolAdd from "./../components/PoolAdd";
+import PoolManage from "./../components/PoolManage";
+import NFT from "./../components/NFT";
+
+
+const pages = ['Dashboard', 'Token', 'Trade', 'Stake', 'Pool', 'NFT'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
+
+  const navigate = useNavigate();
+
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
   return (
     <React.Fragment>
-      <CssBaseline />
 
       <AppBar position="static" color="primary">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 2 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.05rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            AYG Labs
-          </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -101,31 +97,20 @@ const ResponsiveAppBar = () => {
                 </MenuItem>
               ))}
             </Menu>
+            <img src={Logo} alt="AYG Labs !" height='60px' />
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            AYG Labs
-          </Typography>
+
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            <img src={Logo} alt="AYG Labs !" height='60px' />
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={(e) => {
+                  console.log(e.currentTarget.dataset.buttonKey);
+                  navigate('/'+e.currentTarget.dataset.buttonKey);
+
+                }}
+                data-button-key={page}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page}
@@ -166,6 +151,19 @@ const ResponsiveAppBar = () => {
         </Toolbar>
       </Container>
     </AppBar>
+
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/Dashboard" element={<Dashboard />} />
+      <Route path="/Token" element={<Token />} />
+      <Route path="/Trade" element={<Trade />} />
+      <Route path="/Stake" element={<Stake />} />
+      <Route path="/StakeManage" element={<StakeManage />} />
+      <Route path="/Pool" element={<Pool />} />
+      <Route path="/PoolAdd" element={<PoolAdd />} />
+      <Route path="/PoolManage" element={<PoolManage />} />
+      <Route path="/NFT" element={<NFT />} />
+    </Routes>
 
     </React.Fragment>
   );

@@ -1,10 +1,13 @@
-import * as React from 'react';
+// Import NPM
+import React from 'react';
 
+// Import ASSETS
+import './App.css';
+
+// Import UI
 import CssBaseline from '@mui/material/CssBaseline';
 
-// Import COMPONENTS
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
-import Body from "./components/Body";
 import Footer from "./components/Footer";
 
 //Connect Button import
@@ -28,10 +31,6 @@ function Link({ uri, text }) {
   return <a href={uri} target="_blank" rel="noreferrer">{text}</a>;
 }
 
-const App = () => {
-
-//  const [BodyPage, setBodyPage] = React.useState(null);
-//  setBodyPage('Footer');
 
 //Connect Button
 const { chains, provider } = configureChains(
@@ -69,5 +68,6 @@ const wagmiClient = createClient({
     </WagmiConfig>
 
   );
-};
+
+
 export default App;
