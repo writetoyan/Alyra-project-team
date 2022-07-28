@@ -61,20 +61,12 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-function importToken()
-{
-  alert('Test OK');       
-
-}
 
 
 
 
-function Token(props) {
+function Token() {
 
-  const addrUser = props.addrUser;
-
-  console.log("addrUser = "+addrUser)
 
   const navigate = useNavigate();
 
@@ -123,7 +115,6 @@ function Token(props) {
       <Button
         variant="contained"
         endIcon={<IconAdd />}
-        onClick={importToken}
       >
         Ajouter un TOKEN
       </Button>
@@ -158,18 +149,24 @@ function Token(props) {
                     <TableCell>{row.totalsupply}</TableCell>
                     <TableCell><a href="https://kovan.etherscan.io/address/{row.address}" target="_blank">{row.address}</a></TableCell>
                     <TableCell>
-                    <IconButton aria-label="more" size="large">
+                      <IconButton
+                        aria-label="more"
+                        size="large"
+                        onClick={(e) => {
+                          navigate('/StakeManage');
+                        }}
+                      >
                         <IconMore
                           fontSize="inherit"
-                          onClick={(e) => {
-                            navigate('/StakeManage');
-                          }}
                         />
                       </IconButton>
-                      <IconButton aria-label="more" size="large">
+                      <IconButton
+                        aria-label="more"
+                        size="large"
+                        onClick={asyncFunc}
+                      >
                         <IconFaucet
                           fontSize="inherit"
-                          onClick={asyncFunc}
                         />
                       </IconButton>
                     </TableCell>

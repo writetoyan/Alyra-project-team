@@ -163,8 +163,7 @@ const ResponsiveAppBar = (props) => {
       <Route path="/Dashboard" element={<Dashboard />} />
       <Route 
         path="/Token"
-        element={<Token />}
-      />
+        element={<Token />} />
       <Route path="/Trade" element={<Trade />} />
       <Route path="/Stake" element={<Stake />} />
       <Route path="/StakeManage" element={<StakeManage />} />
