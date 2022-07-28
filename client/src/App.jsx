@@ -53,9 +53,6 @@ const wagmiClient = createClient({
   provider
 });
 
-
-
-
   return (
 
     <WagmiConfig client={wagmiClient}>

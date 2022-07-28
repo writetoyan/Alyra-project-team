@@ -3,13 +3,16 @@ import { providers, ethers } from 'ethers';
 import { SwapWidget } from '@uniswap/widgets';
 import detectEthereumProvider from '@metamask/detect-provider';
 import '@uniswap/widgets/dist/fonts.css';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import Button from '@mui/material/Button';
 
-// const infuraId = process.env.INFURA_ID;
-const jsonRpcEndpoint = 'https://mainnet.infura.io/v3/a8fef4bc80f142ba94cc78f051397b3a';
+const infuraId = process.env.INFURA_ID;
+const jsonRpcEndpoint = `https://mainnet.infura.io/v3/${infuraId}`;
 const jsonRpcProvider = new providers.JsonRpcProvider(jsonRpcEndpoint);
 const provider = new ethers.providers.Web3Provider(jsonRpcProvider);
 
+const theme: Theme = {
+  accent: '#1976d2',
+}
 
 export default function Uniswap() {
 
@@ -17,6 +20,7 @@ export default function Uniswap() {
     address: '',
     provider: provider,
   })
+
 
   async function connectWallet() {
     const ethereumProvider = await detectEthereumProvider();
@@ -33,19 +37,19 @@ export default function Uniswap() {
       })
     }
   }
-return (
-  
- 
-    <div className="App">
-      
+
+  return (
+    <div>
       <div>
-        <button onClick={connectWallet}> <ConnectButton /></button>
+        <Button variant="contained" onClick={connectWallet}>Activate Swap</Button>
       </div>
       <div className="Uniswap">
         <SwapWidget 
         provider={account.provider}
-        JsonRpcEndpoint={jsonRpcEndpoint} />
+        JsonRpcEndpoint={jsonRpcEndpoint}
+        theme={theme}
+        />
       </div>
     </div>
-)
+  )
 }
