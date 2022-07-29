@@ -4,6 +4,8 @@ import { SwapWidget } from '@uniswap/widgets';
 import detectEthereumProvider from '@metamask/detect-provider';
 import '@uniswap/widgets/dist/fonts.css';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 
 const infuraId = process.env.INFURA_ID;
 const jsonRpcEndpoint = `https://mainnet.infura.io/v3/${infuraId}`;
@@ -39,17 +41,19 @@ export default function Uniswap() {
   }
 
   return (
-    <div>
-      <div>
+    <Container maxwidth="sx">
+      <Box marginTop={8} marginBottom={5}>
         <Button variant="contained" onClick={connectWallet}>Activate Swap</Button>
-      </div>
-      <div className="Uniswap">
-        <SwapWidget 
-        provider={account.provider}
-        JsonRpcEndpoint={jsonRpcEndpoint}
-        theme={theme}
-        />
-      </div>
-    </div>
+      </Box>
+      <Box >
+        <div className="Uniswap">
+          <SwapWidget 
+          provider={account.provider}
+          JsonRpcEndpoint={jsonRpcEndpoint}
+          theme={theme}
+          />
+        </div>
+      </Box>
+    </Container>
   )
 }

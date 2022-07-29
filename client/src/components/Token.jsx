@@ -30,7 +30,6 @@ function DrawIcoToken({ alt, code }) {
   />
 }
 
-
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -46,6 +45,7 @@ function StakeManage() {
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
   };  
+
   return (
     <React.Fragment>
       {/* Head */}
@@ -97,9 +97,7 @@ function StakeManage() {
                 <Button
                   variant="contained"
                   startIcon={<IconApprove />}
-                  onClick={(e) => {
-                    alert("Contract approuved")
-                  }}
+                  
                 >
                   Approuve contract
                 </Button>

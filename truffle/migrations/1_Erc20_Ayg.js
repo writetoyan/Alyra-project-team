@@ -1,13 +1,10 @@
-// const Erc20_Ayg = artifacts.require("Erc20_Ayg");
-
-// module.exports = function (deployer) {
-//   deployer.deploy(Erc20_Ayg);
-// };
-
-
+const Erc20_Ayg = artifacts.require("Erc20_Ayg");
 const Staking = artifacts.require("Staking");
 
-let address = '0xBc7bA86803C8117cD02a92ca10aDcd8601Ae0497';
-module.exports = function (deployer) {
-  deployer.deploy(Staking,address);
+module.exports = async function (deployer, _network, accounts) {
+  await deployer.deploy(Erc20_Ayg);
+  const ayg = await Erc20_Ayg.deployed();
+  await ayg.faucet(accounts[0], 100);
+  await deployer.deploy(Staking, ayg.address);
+  
 };

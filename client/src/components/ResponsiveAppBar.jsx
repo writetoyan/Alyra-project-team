@@ -16,12 +16,13 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
+
 import Logo from "./../assets/logoH.png";
 
 import Home from "./../components/Home";
 import Dashboard from "./../components/Dashboard";
 import Token from "./../components/Token";
-import Trade from "./../components/Trade";
+import Uniswap from './../components/Uniswap';
 import Stake from "./../components/Stake";
 import StakeManage from "./../components/StakeManage";
 import Pool from "./../components/Pool";
@@ -30,7 +31,7 @@ import PoolManage from "./../components/PoolManage";
 import NFT from "./../components/NFT";
 
 
-const pages = ['Dashboard', 'Token', 'Trade', 'Stake', 'Pool', 'NFT'];
+const pages = ['Dashboard', 'Token', 'Swap', 'Stake', 'Pool', 'NFT'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
@@ -156,7 +157,7 @@ const ResponsiveAppBar = () => {
       <Route path="/" element={<Home />} />
       <Route path="/Dashboard" element={<Dashboard />} />
       <Route path="/Token" element={<Token />} />
-      <Route path="/Trade" element={<Trade />} />
+      <Route path="/Swap" element={<Uniswap />} />
       <Route path="/Stake" element={<Stake />} />
       <Route path="/StakeManage" element={<StakeManage />} />
       <Route path="/Pool" element={<Pool />} />

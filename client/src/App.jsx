@@ -1,6 +1,8 @@
 // Import NPM
 import React from 'react';
 
+import { EthProvider } from "./contexts/EthContext";
+
 // Import ASSETS
 import './App.css';
 
@@ -24,8 +26,6 @@ import {
 } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
-
-import Uniswap from './components/Uniswap';
 
 function Link({ uri, text }) {
   return <a href={uri} target="_blank" rel="noreferrer">{text}</a>;
@@ -52,22 +52,22 @@ const wagmiClient = createClient({
   provider
 });
 
+function App() {
   return (
-
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>  
-        <React.Fragment>
-          <CssBaseline />
-          <ResponsiveAppBar></ResponsiveAppBar>
-          <Body></Body>
-          <Footer> </Footer>
-          <Link uri={"https://soliditylang.org"} text={"Link"} />
-        <Uniswap />
-        </React.Fragment>
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <EthProvider>
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider chains={chains}>  
+          <React.Fragment>
+            <CssBaseline />
+            <ResponsiveAppBar></ResponsiveAppBar> 
+            <Footer> </Footer>
+            <Link uri={"https://soliditylang.org"} text={"Link"} />
+          </React.Fragment>
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </EthProvider>
 
   );
-
+}
 
 export default App;

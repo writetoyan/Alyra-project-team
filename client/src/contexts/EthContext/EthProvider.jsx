@@ -2,27 +2,33 @@ import React, { useReducer, useCallback, useEffect } from "react";
 import Web3 from "web3";
 import EthContext from "./EthContext";
 import { reducer, actions, initialState } from "./state";
+import Erc20_Ayg from "../../contracts/Erc20_Ayg.json";
+import Staking from "../../contracts/Staking.json";
+
 
 function EthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const init = useCallback(
-    async artifact => {
-      if (artifact) {
+    async (artifactAyg, artifactStaking) => {
+      if (artifactAyg, artifactAyg) {
         const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
         const accounts = await web3.eth.requestAccounts();
         const networkID = await web3.eth.net.getId();
-        const { abi } = artifact;
-        let address, contract;
+        const abiAyg = artifactAyg.abi;
+        const abiStaking = artifactStaking.abi;
+        let addressAyg, addressStaking, contractAyg, contractStaking;
         try {
-          address = artifact.networks[networkID].address;
-          contract = new web3.eth.Contract(abi, address);
+          addressAyg = Erc20_Ayg.networks[networkID].address;
+          addressStaking = Staking.networks[networkID].address;
+          contractAyg = new web3.eth.Contract(abiAyg, addressAyg);
+          contractStaking = new web3.eth.Contract(abiStaking, addressStaking);
         } catch (err) {
           console.error(err);
         }
         dispatch({
           type: actions.init,
-          data: { artifact, web3, accounts, networkID, contract }
+          data: { artifactAyg, artifactStaking, web3, accounts, networkID, contractAyg, contractStaking, addressStaking }
         });
       }
     }, []);
@@ -30,8 +36,9 @@ function EthProvider({ children }) {
   useEffect(() => {
     const tryInit = async () => {
       try {
-        const artifact = require("../../contracts/Ayg.json");
-        init(artifact);
+        const artifactAyg = require("../../contracts/Erc20_Ayg.json");
+        const artifactStaking = require("../../contracts/Staking.json");
+        init(artifactAyg, artifactStaking);
       } catch (err) {
         console.error(err);
       }

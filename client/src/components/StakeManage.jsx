@@ -20,6 +20,9 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import IconButton from '@mui/material/IconButton';
 import StakeIcon from '@mui/icons-material/ArrowDropDownCircle';
 
+import useEth from "../contexts/EthContext/useEth";
+
+
 function DrawIcoToken({ alt, code }) {
   const href= `ico_${code}.png`;
   const CODE = code.toUpperCase();
@@ -42,10 +45,51 @@ const Item = styled(Paper)(({ theme }) => ({
 function StakeManage() {
 
   const [alignment, setAlignment] = React.useState('stake');
+  const [inputValue, setInputValue] = React.useState("");
+  const { state: { contractAyg, contractStaking, accounts, addressStaking } } = useEth();
+
 
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
   };  
+
+  // staking/unstaking amount enterered by the user
+  const handleInputChange = event => {
+    setInputValue(event.target.value);
+  }
+
+  // Calling the stakeAyg function on the Staking smart contract
+  const handleStake = async event => { 
+    event.preventDefault();
+    try {
+      await contractStaking.methods.stakeAyg(inputValue).send({from: accounts[0]});
+    
+    } catch(err) {
+        console.error(err)
+    }
+  }
+
+  // Calling the unstakingAyg function to unstake the token on the Staking contract
+  const handleUnstake = async event => {
+    event.preventDefault();
+    try {
+    await contractStaking.methods.unstakeAyg(inputValue).send({from: accounts[0]})
+    } catch(err) {
+      console.log(err)
+    }
+  }
+
+  // Calling the approve function on the Erc20_Ayg contract
+  // The amount to approve is set up to a high amount to improve user experiencebut less secure in case of a smart contract flaw
+  const handleApprove = async event => { 
+    event.preventDefault();
+    try {
+      await contractAyg.methods.approve(addressStaking, "1000000").send({from: accounts[0]});
+    } catch(err) {
+        console.error(err)
+    }
+  }
+
   return (
     <React.Fragment>
       {/* Head */}
@@ -106,11 +150,9 @@ function StakeManage() {
                 <Button
                   variant="contained"
                   startIcon={<IconApprove />}
-                  onClick={(e) => {
-                    alert("Contract approuved")
-                  }}
+                  onClick={handleApprove}
                 >
-                  Approuve contract
+                  Approve contract
                 </Button>
                 <br />
                 <br />
@@ -123,15 +165,15 @@ function StakeManage() {
                   exclusive
                   onChange={handleChange}
                 >
-                  <ToggleButton value="stake">STAKE</ToggleButton>
-                  <ToggleButton value="unstake">UNSTAKE</ToggleButton>
+                  <ToggleButton value="stake" onClick={handleStake}>STAKE</ToggleButton>
+                  <ToggleButton value="unstake" onClick={handleUnstake}>UNSTAKE</ToggleButton>
                 </ToggleButtonGroup>
                 <br />
                 <br />
                 <DrawIcoToken alt="eth" code="eth" />
                 <br />
                 <br />
-                <TextField id="filled-basic" label="Filled" variant="filled" />
+                <TextField id="filled-basic" label="Filled" variant="filled" value={inputValue} onChange={handleInputChange}/>
               </Item>
             </Grid>
           </Grid>
