@@ -3,26 +3,32 @@ import Web3 from "web3";
 import EthContext from "./EthContext";
 import { reducer, actions, initialState } from "./state";
 
+import Dapp from '../../contracts/Dapp_Greg.json';
+import Erc20_AYG from '../../contracts/Erc20_AYG.json';
+
 function EthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const init = useCallback(
-    async artifact => {
-      if (artifact) {
+    async (artifact_Erc20_AYG, artifact_Dapp) => {
+      if (artifact_Erc20_AYG, artifact_Dapp) {
         const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
         const accounts = await web3.eth.requestAccounts();
         const networkID = await web3.eth.net.getId();
-        const { abi } = artifact;
-        let address, contract;
+        const abi_Erc20_AYG = artifact_Erc20_AYG.abi;
+        const abi_Dapp = artifact_Dapp.abi;
+        let address_Erc20_AYG, address_Dapp, contract_Erc20_AYG, contract_Dapp;
         try {
-          address = artifact.networks[networkID].address;
-          contract = new web3.eth.Contract(abi, address);
+          address_Dapp = Dapp.networks[networkID].address;
+          address_Erc20_AYG = Erc20_AYG.networks[networkID].address;
+          contract_Dapp = new web3.eth.Contract(abi_Dapp, address_Dapp);
+          contract_Erc20_AYG = new web3.eth.Contract(abi_Erc20_AYG, address_Erc20_AYG);
         } catch (err) {
           console.error(err);
         }
         dispatch({
           type: actions.init,
-          data: { artifact, web3, accounts, networkID, contract }
+          data: { artifact_Erc20_AYG, artifact_Dapp, web3, accounts, networkID, contract_Erc20_AYG, contract_Dapp, address_Dapp }
         });
       }
     }, []);
@@ -30,8 +36,9 @@ function EthProvider({ children }) {
   useEffect(() => {
     const tryInit = async () => {
       try {
-        const artifact = require("../../contracts/SimpleStorage.json");
-        init(artifact);
+        const artifact_Erc20_AYG = require("../../contracts/Erc20_AYG.json");
+        const artifact_Dapp = require("../../contracts/Dapp_Greg.json");
+        init(artifact_Erc20_AYG, artifact_Dapp);
       } catch (err) {
         console.error(err);
       }

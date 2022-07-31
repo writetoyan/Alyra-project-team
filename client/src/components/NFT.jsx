@@ -66,69 +66,193 @@ function PricingContent() {
         </Typography>
       </Container>
       {/* End Head */}
+
+
+
+
+
       <Container maxWidth="md" component="main">
-        <Grid container spacing={5} alignItems="flex-end">
-          {tiers.map((tier) => (
-            // Enterprise card is full width at sm breakpoint
+        <Grid container spacing={2} alignItems="flex-end">
             <Grid
-              item
-              key={tier.title}
-              xs={12}
-              sm={tier.title === 'Silver NFT' ? 12 : 6}
-              md={4}
-            >
-              <Card>
-                <CardHeader
-                  title={tier.title}
-                  subheader={tier.subheader}
-                  titleTypographyProps={{ align: 'center' }}
-                  subheaderTypographyProps={{
-                    align: 'center',
-                  }}
+            item
+            xs={12}
+            sm={6}
+            md={4}
+          >
+            <Card>
+              <CardContent
+                sx={{
+                  backgroundColor: (theme) =>
+                    theme.palette.mode === 'light'
+                      ? theme.palette.grey[200]
+                      : theme.palette.grey[700],
+                }}
+              >
+                <Box
+                  component="img"
                   sx={{
-                    backgroundColor: (theme) =>
-                      theme.palette.mode === 'light'
-                        ? theme.palette.grey[200]
-                        : theme.palette.grey[700],
+                    height: 700,
+                    width: 500,
+                    maxHeight: { xs: 233, md: 350 },
+                    maxWidth: { xs: 166, md: 250 },
                   }}
+                  alt="Captain Alyra NFT"
+                  src="./ayg-nft_captain-alyra_ban.png"
                 />
-                <CardContent>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'baseline',
-                      mb: 2,
-                    }}
-                  >
-                    <Typography component="h2" variant="h3" color="text.primary">
-                      {tier.price}
+              </CardContent>
+              <CardContent>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'baseline',
+                    mb: 2,
+                  }}
+                >
+                  <Typography component="h2" variant="h3" color="text.primary">
+                    1000
+                  </Typography>
+                  <Typography variant="h6" color="text.secondary">
+                    /$AYG
+                  </Typography>
+                </Box>
+                <ul>
+                    <Typography
+                      component="li"
+                      variant="subtitle1"
+                      align="center"
+                    >
+                      Avec ce NFT votre rendement<br />de staking AYG sera <br />boosté de <strong>+10%</strong>
                     </Typography>
-                    <Typography variant="h6" color="text.secondary">
-                      /$AYG
+                </ul>
+              </CardContent>
+              <CardActions>
+                <Button fullWidth variant="contained">
+                  Mint
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
+            <Grid
+            item
+            xs={12}
+            sm={6}
+            md={4}
+          >
+            <Card>
+              <CardContent
+                sx={{
+                  backgroundColor: (theme) =>
+                    theme.palette.mode === 'light'
+                      ? theme.palette.grey[200]
+                      : theme.palette.grey[700],
+                }}
+              >
+                <Box
+                  component="img"
+                  sx={{
+                    height: 700,
+                    width: 500,
+                    maxHeight: { xs: 233, md: 350 },
+                    maxWidth: { xs: 166, md: 250 },
+                  }}
+                  alt="Super Alyra NFT"
+                  src="./ayg-nft_super-alyra_ban.png"
+                />
+              </CardContent>
+              <CardContent>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'baseline',
+                    mb: 2,
+                  }}
+                >
+                  <Typography component="h2" variant="h3" color="text.primary">
+                    2500
+                  </Typography>
+                  <Typography variant="h6" color="text.secondary">
+                    /$AYG
+                  </Typography>
+                </Box>
+                <ul>
+                    <Typography
+                      component="li"
+                      variant="subtitle1"
+                      align="center"
+                    >
+                      Avec ce NFT votre rendement<br />de staking AYG sera <br />boosté de <strong>+30%</strong>
                     </Typography>
-                  </Box>
-                  <ul>
-                    {tier.description.map((line) => (
-                      <Typography
-                        component="li"
-                        variant="subtitle1"
-                        align="center"
-                        key={line}
-                      >
-                        {line}
-                      </Typography>
-                    ))}
-                  </ul>
-                </CardContent>
-                <CardActions>
-                  <Button fullWidth variant={tier.buttonVariant}>
-                    {tier.buttonText}
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
+                </ul>
+              </CardContent>
+              <CardActions>
+                <Button fullWidth variant="contained">
+                  Mint
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
+            <Grid
+            item
+            xs={12}
+            sm={6}
+            md={4}
+          >
+            <Card>
+              <CardContent
+                sx={{
+                  backgroundColor: (theme) =>
+                    theme.palette.mode === 'light'
+                      ? theme.palette.grey[200]
+                      : theme.palette.grey[700],
+                }}
+              >
+                <Box
+                  component="img"
+                  sx={{
+                    height: 700,
+                    width: 500,
+                    maxHeight: { xs: 233, md: 350 },
+                    maxWidth: { xs: 166, md: 250 },
+                  }}
+                  alt="Wonder Alyra NFT"
+                  src="./ayg-nft_wonder-alyra_ban.png"
+                />
+              </CardContent>
+              <CardContent>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'baseline',
+                    mb: 2,
+                  }}
+                >
+                  <Typography component="h2" variant="h3" color="text.primary">
+                    4000
+                  </Typography>
+                  <Typography variant="h6" color="text.secondary">
+                    /$AYG
+                  </Typography>
+                </Box>
+                <ul>
+                    <Typography
+                      component="li"
+                      variant="subtitle1"
+                      align="center"
+                    >
+                      Avec ce NFT votre rendement<br />de staking AYG sera <br />boosté de <strong>+50%</strong>
+                    </Typography>
+                </ul>
+              </CardContent>
+              <CardActions>
+                <Button fullWidth variant="contained">
+                  Mint
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
         </Grid>
       </Container>
 

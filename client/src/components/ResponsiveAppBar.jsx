@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import {Routes, Route, useNavigate} from 'react-router-dom';
 
 import AppBar from '@mui/material/AppBar';
@@ -17,16 +17,6 @@ import Chip from '@mui/material/Chip';
 import Logo from "./../assets/logoH.png";
 
 
-import Home from "./../components/Home";
-import Dashboard from "./../components/Dashboard";
-import Token from "./../components/Token";
-import Trade from "./../components/Trade";
-import Stake from "./../components/Stake";
-import StakeManage from "./../components/StakeManage";
-import Pool from "./../components/Pool";
-import PoolAdd from "./../components/PoolAdd";
-import PoolManage from "./../components/PoolManage";
-import NFT from "./../components/NFT";
 
 
 const pages = ['Dashboard', 'Token', 'Trade', 'Stake', 'Pool', 'NFT'];
@@ -53,6 +43,9 @@ const ResponsiveAppBar = (props) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+
+
 
   return (
     <React.Fragment>
@@ -155,20 +148,7 @@ const ResponsiveAppBar = (props) => {
     
 
 
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/Dashboard" element={<Dashboard />} />
-      <Route 
-        path="/Token"
-        element={<Token />} />
-      <Route path="/Trade" element={<Trade />} />
-      <Route path="/Stake" element={<Stake />} />
-      <Route path="/StakeManage" element={<StakeManage />} />
-      <Route path="/Pool" element={<Pool />} />
-      <Route path="/PoolAdd" element={<PoolAdd />} />
-      <Route path="/PoolManage" element={<PoolManage />} />
-      <Route path="/NFT" element={<NFT />} />
-    </Routes>
+
 
     </React.Fragment>
   );

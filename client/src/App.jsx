@@ -1,8 +1,11 @@
 // Import NPM
 import React, { useEffect, useState } from 'react';
-import Dapp_Contract from './contracts/Dapp_Greg.json';
-import Erc20AYG_Contract from './contracts/Erc20_AYG.json';
-import getWeb3 from './getWeb3';
+import {Routes, Route, useNavigate} from 'react-router-dom';
+
+// Import SC & Web3
+import { EthProvider } from "./contexts/EthContext";
+//import useEth from "./contexts/EthContext/useEth";
+//import getWeb3 from './getWeb3';
 
 // Import ASSETS
 import './App.css';
@@ -13,17 +16,26 @@ import CssBaseline from '@mui/material/CssBaseline';
 // Import COMPONENTS
 import CnxWeb3 from "./components/CnxWeb3";
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
+
+import Home from "./components/Home";
+import Dashboard from "./components/Dashboard";
+import Token from "./components/Token";
+import TokenManageAYG from "./components/TokenManageAYG";
+import Trade from "./components/Trade";
+import Stake from "./components/Stake";
+import StakeManage from "./components/StakeManage";
+import Pool from "./components/Pool";
+import PoolAdd from "./components/PoolAdd";
+import PoolManage from "./components/PoolManage";
+import NFT from "./components/NFT";
 import Footer from "./components/Footer";
 
 
-
 function App() {
-  const [state, setState] = useState({ isOwner: false, web3: null, accounts: null, contract: null });
+  const [state, setState] = useState({ isOwner: false, web3: null, accounts: null, contract_dapp: null, contract_erc20ayg: null });
 
-  const [addrOwner, setAddrOwner] = useState(0);
-  const [addrUser, setAddrUser] = useState(0);
-  const [displayAdmintool, setDisplayAdmintool] = useState(0);
 
+  /*
   useEffect(() => {
     (async function () {
       try {
@@ -37,34 +49,24 @@ function App() {
         const networkId = await web3.eth.net.getId();
         const deployedNetwork = Dapp_Contract.networks[networkId];
   
-        const instance = new web3.eth.Contract(Dapp_Contract.abi, deployedNetwork && deployedNetwork.address);
-        console.log(instance.methods);
+        const dapp_instance = new web3.eth.Contract(Dapp_Contract.abi, deployedNetwork && deployedNetwork.address);
+        console.log(dapp_instance.methods);
 
+        const TOKEN_ADDRESS = "0x4fa8a098151D6d739Dab43D414164225D5e8Fd58" //AYG
+        const erc20ayg_instance = new web3.eth.Contract(Erc20AYG_Contract.abi, TOKEN_ADDRESS)
+        console.log(erc20ayg_instance.methods);
 
-
-//      let workflowStatus = await instance.methods.workflowStatus().call();
-        let owner = await instance.methods.owner().call();
-//        setContractState({ owner: owner, workflowStatus: workflowStatus });
+        setState({ web3: web3, accounts: accounts, contract_dapp: dapp_instance, contract_erc20ayg: erc20ayg_instance });
   
-        setState({ web3: web3, accounts: accounts, contract: instance });
-  
-        const addrOwner = setAddrOwner(owner);
-        const addrUser = setAddrUser(accounts[0]);
-  
-        if(owner==accounts[0]){
-          setDisplayAdmintool(1);
-  //          await SetDisplayAdmintool();
-        }
-  
-  
-        
       } catch (error) {
         alert(`Failed to load web3, accounts, or contract. Check console for details.`);
         console.error(error);
       }
     })();
   }, []);
+*/
 
+/*
   useEffect(() => {
     (async function () {
       try {
@@ -73,11 +75,10 @@ function App() {
 
         // Use web3 to get the user's accounts.
         const accounts = await web3.eth.getAccounts();
-        const addrUser = setAddrUser(accounts[0]);
 
         const TOKEN_ADDRESS = "0x4fa8a098151D6d739Dab43D414164225D5e8Fd58" //AYG
         const erc20token = new web3.eth.Contract(Erc20AYG_Contract.abi, TOKEN_ADDRESS)
-        
+        console.log("ok?");
         console.log(erc20token.methods);
 
         erc20token.methods.name().call(function (err, res) {
@@ -95,34 +96,16 @@ function App() {
           }
           console.log("La totalSupply est de : ", res)
         })
-        console.log("addrUser = "+addrUser)
 
+        const faucetValue = web3.utils.toWei('5', 'ether')
+        await erc20token.methods.faucet(accounts[0], faucetValue).send(({ from: accounts[0] }))
+        .then(function (receipt) {
+          let newSupply = receipt.events.MintSupply.returnValues.amount;
+//          component.setState({ toastResult: "Proposition n°" + newProposal + " viens d'être ajoutée !" });
+          console.log("claim : "+newSupply)
+//          setTimeout(() => window.location.reload(), 3000);
+        });
 
-/*
-        deposit = async(depositAmount)=>{
-          const web3 = window.web3
-          const ethers = web3.utils.toWei(this.depositAmount.value, 'ether')
-          await web3.contract.methods.Deposit(depositAmount).send({from: this.account, value: ethers})
-        }
-*/
-//        erc20token.methods.faucet(addrUser, 1000000000000000000).send({from: addrUser})
-//          .then(function () {
-//            console.log("Claim Faucet OK : ")
-//          });
-
-
-//        handleSubmit = async (e) => {
-//          e.preventDefault();
-//          const component = this;
-/*
-          await erc20token.methods.faucet(addrUser, 1000000000000000000).send({ from: addrUser })
-            .then(function (receipt) {
-              let newProposal = receipt.events.ProposalRegistered.returnValues.proposalId;
-//              component.setState({ toastResult: "Proposition n°" + newProposal + " viens d'être ajoutée !" });
-              setTimeout(() => window.location.reload(), 3000);
-            });
-//        }
-*/
 
       } catch (error) {
         alert(`Failed to load web3, accounts, or contract. Check console for details.`);
@@ -130,7 +113,9 @@ function App() {
       }
     })();
   }, []);
+*/
 
+/*
   if (!state.web3) {
 
     return (
@@ -140,23 +125,49 @@ function App() {
     );
 
   } else {
-
+*/
     return (
-      <div className="App">
+      <EthProvider>
 
-        <CssBaseline />
+        <div className="App">
 
-        <ResponsiveAppBar
-          contract={state.contract}
-          account={state.accounts[0]}
-          addrUser={addrUser}
-        />
+          <CssBaseline />
 
-        <Footer> </Footer>
-      </div>
+          <ResponsiveAppBar
+//            contract={state.contract_dapp}
+//            account={state.accounts[0]}
+//            addrUser={state.accounts[0]}
+          />
+
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/Dashboard" element={<Dashboard />} />
+            <Route 
+              path="/Token"
+              element={
+                <Token 
+///                  web3={state.web3}
+//                  contract={state.contract_erc20ayg}
+//                  account={state.accounts[0]}
+                />
+              }/>
+            <Route path="/TokenManage/AYG" element={<TokenManageAYG />} />
+            <Route path="/Trade" element={<Trade />} />
+            <Route path="/Stake" element={<Stake />} />
+            <Route path="/StakeManage" element={<StakeManage />} />
+            <Route path="/Pool" element={<Pool />} />
+            <Route path="/PoolAdd" element={<PoolAdd />} />
+            <Route path="/PoolManage" element={<PoolManage />} />
+            <Route path="/NFT" element={<NFT />} />
+          </Routes>
+
+          <Footer> </Footer>
+        </div>
+
+      </EthProvider>
     );
 
-  }
+//  }
 
 
 };
