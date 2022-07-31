@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import {Routes, Route, useNavigate} from 'react-router-dom';
 
 import AppBar from '@mui/material/AppBar';
@@ -29,12 +29,15 @@ import Pool from "./../components/Pool";
 import PoolAdd from "./../components/PoolAdd";
 import PoolManage from "./../components/PoolManage";
 import NFT from "./../components/NFT";
+import Chip from '@mui/material/Chip';
+
+
 
 
 const pages = ['Dashboard', 'Token', 'Swap', 'Stake', 'Pool', 'NFT'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-const ResponsiveAppBar = () => {
+const ResponsiveAppBar = (props) => {
 
   const navigate = useNavigate();
 
@@ -55,6 +58,9 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+
+
 
   return (
     <React.Fragment>
@@ -120,6 +126,8 @@ const ResponsiveAppBar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
+            <LogStatut addrUser={props.addrUser} />
+
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Account" src="/static/images/avatar/2.jpg" />
@@ -152,21 +160,32 @@ const ResponsiveAppBar = () => {
         </Toolbar>
       </Container>
     </AppBar>
-
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/Dashboard" element={<Dashboard />} />
-      <Route path="/Token" element={<Token />} />
-      <Route path="/Swap" element={<Uniswap />} />
-      <Route path="/Stake" element={<Stake />} />
-      <Route path="/StakeManage" element={<StakeManage />} />
-      <Route path="/Pool" element={<Pool />} />
-      <Route path="/PoolAdd" element={<PoolAdd />} />
-      <Route path="/PoolManage" element={<PoolManage />} />
-      <Route path="/NFT" element={<NFT />} />
-    </Routes>
-
     </React.Fragment>
   );
 };
+
+
+function LogStatut(props) {
+
+  const addrUser = props.addrUser;
+
+  console.log("addrUser = "+addrUser)
+
+  if(props.addrUser!=="0x0000000000000000000000000000000000000000"){
+      return (
+        <Chip label={props.addrUser} />
+      );
+  } else {
+      return (
+          <div className="LogWallet">
+                  Vous n'êtes pas connecté<br /> 
+                  <Button variant="primary">
+                      Connecter un wallet
+                  </Button>
+          </div>
+      );
+  }
+
+}
+
 export default ResponsiveAppBar;

@@ -1,16 +1,13 @@
 import * as React from 'react';
-import {Routes, Route, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import IconAdd from '@mui/icons-material/Add';
 import IconMore from '@mui/icons-material/MoreHoriz';
 
 import Table from '@mui/material/Table';
@@ -23,14 +20,8 @@ import TableRow from '@mui/material/TableRow';
 
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
 
 import Typography from '@mui/material/Typography';
-
-
-//import PoolAdd from "./../components/PoolAdd";
-//import PoolManage from "./../components/PoolManage";
-
 
 function createData(token1, token2, apy, totalStaked) {
   return { token1, token2, apy, totalStaked };
