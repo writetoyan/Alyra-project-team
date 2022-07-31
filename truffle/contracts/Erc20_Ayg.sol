@@ -5,20 +5,40 @@ pragma solidity 0.8.15;
 import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
  
 /**
-* @title Staking Token (AYK)
+* @title Staking Token (AYG)
 * @author Alex YE, Yannick JEN, Gregory BADET
 * @notice Implements a basic ERC20 staking token with incentive distribution.
 */
 contract Erc20_Ayg is ERC20 {
-	constructor() ERC20('AYG token', 'AYG') {} 
+	constructor() ERC20('AYG token', 'AYG') {
+        _mint(msg.sender, 10000 * 10**18);
+    } 
 
-	// fonction faucet pour créer des AYG tokens
-   /**
-    * @notice The constructor for the Staking Token.
-    * @param _owner The address to receive all tokens on construction.
-    * @param _supply The amount of tokens to mint on construction.
+    struct Receiver {
+        bool hasClaimed;
+    }
+
+    mapping(address => Receiver) public receiver;
+    uint maxTokenFaucet;
+
+   /**@dev The faucet is limited to bootstrap users and give value to our token
+    * @notice Be quick to claim and test our protocol. The faucet is limited
+    * @param _receiver is the address that is claiming in the faucet
     */
-	function faucet(address _owner, uint _supply) external {
-		_mint(_owner, _supply);
+	function faucet(address _receiver) external {
+        require(msg.sender == _receiver, "You should own the account");
+        require(!receiver[_receiver].hasClaimed, "Already claimed");
+        require(maxTokenFaucet < 10000 * 10**18, "Faucet is empty");
+        receiver[_receiver].hasClaimed = true;
+        maxTokenFaucet += 10 * 10**18;
+		_mint(_receiver, 10 * 10**18);
 	}
 }
+
+
+ 
+
+
+
+ 
+

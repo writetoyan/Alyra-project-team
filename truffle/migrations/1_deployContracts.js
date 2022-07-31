@@ -4,10 +4,8 @@ const EthUsdPriceFeed = artifacts.require("EthUsdPriceFeed");
 
 const { mainnet_fork, kovan} = require("../helper-chainlink.js");
 
-module.exports = async function (deployer, network, accounts) {
+module.exports = async function (deployer, network) {
   await deployer.deploy(Erc20_Ayg);
-  const ayg = await Erc20_Ayg.deployed();
-  await ayg.faucet(accounts[0], 100);
   await deployer.deploy(Staking, ayg.address);
   network == "mainnet_fork" ? 
     ethAddress = mainnet_fork :
