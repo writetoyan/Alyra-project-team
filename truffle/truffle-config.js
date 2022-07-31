@@ -13,8 +13,14 @@ module.exports = {
       network_id: "*",       // Any network (default: none)
     },
 
+    mainnet_fork: {
+      host: "127.0.0.1",     
+      port: 8545,           
+      network_id: "1",       
+    },
+
     kovan:{
-      provider : function() { return new HDWalletProvider({mnemonic:{phrase:`${process.env.MNEMONIC}`},providerOrUrl:`https://kovan.infura.io/v3/${process.env.INFURA_ID}`})},
+      provider : function() { return new HDWalletProvider({mnemonic:{phrase:`${process.env.MNEMONIC}`},providerOrUrl:`wss://kovan.infura.io/ws/v3/${process.env.INFURA_ID}`})},
       network_id:42,
     },
 

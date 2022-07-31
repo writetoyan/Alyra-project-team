@@ -34,7 +34,7 @@ function Link({ uri, text }) {
 
 //Connect Button
 const { chains, provider } = configureChains(
-  [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum, chain.ropsten],
+  [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum, chain.kovan],
   [
     alchemyProvider({ alchemyId: process.env.ALCHEMY_ID }),
     publicProvider()

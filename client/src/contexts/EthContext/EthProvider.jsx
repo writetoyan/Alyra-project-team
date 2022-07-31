@@ -4,20 +4,22 @@ import EthContext from "./EthContext";
 import { reducer, actions, initialState } from "./state";
 import Erc20_Ayg from "../../contracts/Erc20_Ayg.json";
 import Staking from "../../contracts/Staking.json";
+import EthUsdPriceFeed from "../../contracts/EthUsdPriceFeed.json";
 
 
 function EthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const init = useCallback(
-    async (artifactAyg, artifactStaking) => {
-      if (artifactAyg, artifactAyg) {
+    async (artifactAyg, artifactStaking, artifactEthUsd) => {
+      if (artifactAyg) {
         const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
         const accounts = await web3.eth.requestAccounts();
         const networkID = await web3.eth.net.getId();
         const abiAyg = artifactAyg.abi;
-        const abiStaking = artifactStaking.abi;
-        let addressAyg, addressStaking, contractAyg, contractStaking;
+        const abiStaking = artifactStaking.abi; 
+        const abiEthUsd = artifactEthUsd.abi; 
+        let addressAyg, addressStaking, addressEthUsd, contractAyg, contractStaking, contractEthUsd;
         try {
           addressAyg = Erc20_Ayg.networks[networkID].address;
           addressStaking = Staking.networks[networkID].address;
@@ -26,9 +28,19 @@ function EthProvider({ children }) {
         } catch (err) {
           console.error(err);
         }
+        try {
+          addressEthUsd = EthUsdPriceFeed.networks[networkID].address;
+          contractEthUsd = new web3.eth.Contract(abiEthUsd, addressEthUsd);
+          } catch (err) {
+            console.error(err);
+          }
         dispatch({
           type: actions.init,
-          data: { artifactAyg, artifactStaking, web3, accounts, networkID, contractAyg, contractStaking, addressStaking }
+          data: { web3, accounts, networkID, 
+                  artifactAyg, artifactStaking, artifactEthUsd,
+                  contractAyg, contractStaking, contractEthUsd,
+                  addressStaking
+                }
         });
       }
     }, []);
@@ -38,7 +50,8 @@ function EthProvider({ children }) {
       try {
         const artifactAyg = require("../../contracts/Erc20_Ayg.json");
         const artifactStaking = require("../../contracts/Staking.json");
-        init(artifactAyg, artifactStaking);
+        const artifactEthUsd = require("../../contracts/EthUsdPriceFeed.json");
+        init(artifactAyg, artifactStaking, artifactEthUsd);
       } catch (err) {
         console.error(err);
       }

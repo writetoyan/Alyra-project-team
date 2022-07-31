@@ -46,7 +46,8 @@ function StakeManage() {
 
   const [alignment, setAlignment] = React.useState('stake');
   const [inputValue, setInputValue] = React.useState("");
-  const { state: { contractAyg, contractStaking, accounts, addressStaking } } = useEth();
+  const [ethPrice, setEthPrice ] = React.useState(2);
+  const { state: { contractAyg, contractStaking, contractEthUsd, accounts, addressStaking } } = useEth();
 
 
   const handleChange = (event, newAlignment) => {
@@ -65,7 +66,7 @@ function StakeManage() {
       await contractStaking.methods.stakeAyg(inputValue).send({from: accounts[0]});
     
     } catch(err) {
-        console.error(err)
+        console.log(err)
     }
   }
 
@@ -80,13 +81,23 @@ function StakeManage() {
   }
 
   // Calling the approve function on the Erc20_Ayg contract
-  // The amount to approve is set up to a high amount to improve user experiencebut less secure in case of a smart contract flaw
+  // The amount to approve is set up to a high amount to improve user experience but less secure in case of a smart contract flaw
   const handleApprove = async event => { 
     event.preventDefault();
     try {
       await contractAyg.methods.approve(addressStaking, "1000000").send({from: accounts[0]});
     } catch(err) {
-        console.error(err)
+        console.log(err)
+    }
+  }
+
+  const handlePriceFeed = async event => {
+    event.preventDefault();
+    try {
+      const ethPrice = await contractEthUsd.methods.getLatestPrice().call({from: accounts[0]});
+      setEthPrice(ethPrice);
+    } catch(err) {
+      console.log(err)
     }
   }
 
@@ -168,6 +179,8 @@ function StakeManage() {
                   <ToggleButton value="stake" onClick={handleStake}>STAKE</ToggleButton>
                   <ToggleButton value="unstake" onClick={handleUnstake}>UNSTAKE</ToggleButton>
                 </ToggleButtonGroup>
+                <Button onClick={handlePriceFeed}>pricefeed</Button>
+                <Typography>{ethPrice}</Typography>
                 <br />
                 <br />
                 <DrawIcoToken alt="eth" code="eth" />
