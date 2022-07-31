@@ -3,13 +3,14 @@
 pragma solidity 0.8.15;
  
 import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
- 
+import "@openzeppelin/contracts/access/Ownable.sol";
+
 /**
 * @title Staking Token (AYG)
 * @author Alex YE, Yannick JEN, Gregory BADET
 * @notice Implements a basic ERC20 staking token with incentive distribution.
 */
-contract Erc20_Ayg is ERC20 {
+contract Erc20_Ayg is ERC20, Ownable {
 	constructor() ERC20('AYG token', 'AYG') {
         _mint(msg.sender, 10000 * 10**18);
     } 
