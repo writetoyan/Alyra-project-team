@@ -19,7 +19,7 @@ contract Staking is ReentrancyGuard, Pausable {
 
     /* ========== STATE VARIABLES ========== */
 
-    Iayg public rewardsToken;
+    Iayg private rewardsToken;
     Iayg private stakingToken;
     uint256 private periodFinish = type(uint256).max;
     uint256 private rewardRate = 1;
@@ -30,7 +30,7 @@ contract Staking is ReentrancyGuard, Pausable {
     mapping(address => uint256) private userRewardPerTokenPaid;
     mapping(address => uint256) private rewards;
 
-    uint256 private _totalSupply;
+    uint256 public _totalSupply;
     mapping(address => uint256) private _balances;
 
     /* ========== EVENTS ========== */
