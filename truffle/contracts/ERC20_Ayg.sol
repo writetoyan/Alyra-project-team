@@ -26,6 +26,7 @@ contract Erc20_Ayg is ERC20, Ownable {
     }
 
     mapping(address => Receiver) public receiver;
+    mapping(address => bool) private mintAdmin;
     uint maxTokenFaucet;
 
    /**@dev The faucet is limited to bootstrap users and give value to our token
@@ -56,4 +57,20 @@ contract Erc20_Ayg is ERC20, Ownable {
         maxTokenFaucet += _amout * 10**18;
 		_mint(_receiver, _amout * 10**18);
 	}
+
+    function addMinter(address _mintAdmin) external onlyOwner{
+        mintAdmin[_mintAdmin] = true;
+    }
+
+    function vaultMint(address _minter, uint _amount) external {
+        require(mintAdmin[msg.sender], "You cannot mint");
+        _mint(_minter, _amount);
+    }
+
+    function vaultBurn(address _burner, uint _amount) external {
+        require(mintAdmin[msg.sender], "You cannot burn");
+        _burn(_burner, _amount);
+    }
+
+
 }

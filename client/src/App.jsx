@@ -45,7 +45,7 @@ import { publicProvider } from 'wagmi/providers/public';
 
 //Connect Button
 const { chains, provider } = configureChains(
-  [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum, chain.kovan, chain.localhost],
+  [chain.mainnet, chain.kovan, chain.localhost, chain.polygon, chain.optimism, chain.arbitrum],
   [
     alchemyProvider({ alchemyId: process.env.ALCHEMY_ID }),
     publicProvider()
