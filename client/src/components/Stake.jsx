@@ -1,17 +1,14 @@
 import * as React from 'react';
-import {Routes, Route, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import IconAdd from '@mui/icons-material/Add';
-import IconMore from '@mui/icons-material/MoreHoriz';
+import IconGraph from '@mui/icons-material/Analytics';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -23,14 +20,8 @@ import TableRow from '@mui/material/TableRow';
 
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
 
 import Typography from '@mui/material/Typography';
-
-
-//import PoolAdd from "./../components/PoolAdd";
-//import PoolManage from "./../components/PoolManage";
-
 
 function createData(token1, token2, apy, totalStaked) {
   return { token1, token2, apy, totalStaked };
@@ -100,34 +91,34 @@ function Stake() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
                   <TableRow
-                    key={row.name}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     onClick={(e) => {
-                      console.log("Detected Row Click");
-                      console.log(e.currentTarget.dataset.buttonKey);
-                      navigate('/StakeManage');
+                      navigate('/StakeManage/AYG');
                     }}
-        
                   >
                     <TableCell component="th" scope="row">
-                      <DrawIcoToken alt={row.token1} code={row.token1} />
+                      <DrawIcoToken alt="ayg" code="ayg" />
                     </TableCell>
                     <TableCell>2.84</TableCell>
                     <TableCell component="th" scope="row">
-                      <DrawIcoToken alt={row.token2} code={row.token2} />
+                      <DrawIcoToken alt="ayg" code="ayg" />
                     </TableCell>
                     <TableCell>0.153</TableCell>
-                    <TableCell>{row.apy}</TableCell>
-                    <TableCell>{row.totalStaked}</TableCell>
+                    <TableCell>156 %</TableCell>
+                    <TableCell>875412</TableCell>
                     <TableCell>
-                      <IconButton aria-label="more" size="large">
-                        <IconMore fontSize="inherit" />
+                      <IconButton
+                        aria-label="more"
+                        size="large"
+                        onClick={(e) => {
+                          navigate('/StakeManage/AYG');
+                        }}
+                      >
+                        <IconGraph fontSize="inherit" />
                       </IconButton>
                     </TableCell>
                   </TableRow>
-                ))}
               </TableBody>
             </Table>
           </TableContainer>

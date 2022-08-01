@@ -36,14 +36,6 @@ const footers = [
 function Footer() {
   return (
     <footer>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
       {/* Footer */}
       <Container
         maxWidth="md"

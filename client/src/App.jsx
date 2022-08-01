@@ -1,6 +1,8 @@
 // Import NPM
 import React from 'react';
+import {Routes, Route} from 'react-router-dom';
 
+// Import SC & Web3
 import { EthProvider } from "./contexts/EthContext";
 
 // Import ASSETS
@@ -9,7 +11,20 @@ import './App.css';
 // Import UI
 import CssBaseline from '@mui/material/CssBaseline';
 
+// Import COMPONENTS
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
+
+import Home from "./components/Home";
+import Dashboard from "./components/Dashboard";
+import Token from "./components/Token";
+import TokenManageAYG from "./components/TokenManageAYG";
+import Swap from "./components/Swap";
+import Stake from "./components/Stake";
+import StakeManageAYG from "./components/StakeManageAYG";
+import Pool from "./components/Pool";
+import PoolAdd from "./components/PoolAdd";
+import PoolManage from "./components/PoolManage";
+import NFT from "./components/NFT";
 import Footer from "./components/Footer";
 
 //Connect Button import
@@ -26,10 +41,6 @@ import {
 } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
-
-function Link({ uri, text }) {
-  return <a href={uri} target="_blank" rel="noreferrer">{text}</a>;
-}
 
 
 //Connect Button
@@ -53,21 +64,44 @@ const wagmiClient = createClient({
 });
 
 function App() {
+//  const [state, setState] = useState({ isOwner: false, web3: null, accounts: null, contract_dapp: null, contract_erc20ayg: null });
+
   return (
     <EthProvider>
       <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={chains}>  
+        <RainbowKitProvider chains={chains}>
           <React.Fragment>
+          <div className="App">
             <CssBaseline />
-            <ResponsiveAppBar></ResponsiveAppBar> 
+            <ResponsiveAppBar></ResponsiveAppBar>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/Dashboard" element={<Dashboard />} />
+              <Route path="/Token" element={<Token /> }/>
+              <Route path="/TokenManage/AYG" element={<TokenManageAYG />} />
+              <Route path="/Swap" element={<Swap />} />
+              <Route path="/Stake" element={<Stake />} />
+              <Route path="/StakeManage/AYG" element={<StakeManageAYG />} />
+              <Route path="/Pool" element={<Pool />} />
+              <Route path="/PoolAdd" element={<PoolAdd />} />
+              <Route path="/PoolManage" element={<PoolManage />} />
+              <Route path="/NFT" element={<NFT />} />
+            </Routes>
             <Footer> </Footer>
-            <Link uri={"https://soliditylang.org"} text={"Link"} />
+            </div>
           </React.Fragment>
         </RainbowKitProvider>
       </WagmiConfig>
-    </EthProvider>
 
+
+
+
+
+    </EthProvider>
   );
+
+//  }
+
 }
 
 export default App;

@@ -6,7 +6,6 @@ import Erc20_Ayg from "../../contracts/Erc20_Ayg.json";
 import Staking from "../../contracts/Staking.json";
 import EthVaultMintAyg from "../../contracts/EthVaultMintAyg.json";
 
-
 function EthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -31,6 +30,7 @@ function EthProvider({ children }) {
         try {
           addressVault = EthVaultMintAyg.networks[networkID].address;
           contractVault = new web3.eth.Contract(abiVault, addressVault);
+
           } catch (err) {
             console.error(err);
           }

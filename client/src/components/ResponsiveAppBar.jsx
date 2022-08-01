@@ -1,5 +1,5 @@
-import * as React from 'react';
-import {Routes, Route, useNavigate} from 'react-router-dom';
+import React from 'react';
+import {useNavigate} from 'react-router-dom';
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -13,28 +13,15 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+import Logo from "./../assets/logoH.png";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 
-import Logo from "./../assets/logoH.png";
-
-import Home from "./../components/Home";
-import Dashboard from "./../components/Dashboard";
-import Token from "./../components/Token";
-import Uniswap from './../components/Uniswap';
-import Stake from "./../components/Stake";
-import StakeManage from "./../components/StakeManage";
-import Pool from "./../components/Pool";
-import PoolAdd from "./../components/PoolAdd";
-import PoolManage from "./../components/PoolManage";
-import NFT from "./../components/NFT";
-
-
 const pages = ['Dashboard', 'Token', 'Swap', 'Stake', 'Pool', 'NFT'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['My staking', 'My NFT'];
 
-const ResponsiveAppBar = () => {
+const ResponsiveAppBar = (props) => {
 
   const navigate = useNavigate();
 
@@ -55,6 +42,9 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+
+
 
   return (
     <React.Fragment>
@@ -119,11 +109,13 @@ const ResponsiveAppBar = () => {
             ))}
           </Box>
 
+          <ConnectButton />
+
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Account" src="/static/images/avatar/2.jpg" />
-              </IconButton>
+            <Tooltip title="Open settings" onClick={handleOpenUserMenu} sx={{ p: 2 }}>
+              <Avatar>
+                <AccountCircleIcon />
+              </Avatar>
             </Tooltip>
             <Menu
               sx={{ mt: '45px' }}
@@ -148,25 +140,11 @@ const ResponsiveAppBar = () => {
               ))}
             </Menu>
           </Box>
-         <ConnectButton />
         </Toolbar>
       </Container>
     </AppBar>
-
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/Dashboard" element={<Dashboard />} />
-      <Route path="/Token" element={<Token />} />
-      <Route path="/Swap" element={<Uniswap />} />
-      <Route path="/Stake" element={<Stake />} />
-      <Route path="/StakeManage" element={<StakeManage />} />
-      <Route path="/Pool" element={<Pool />} />
-      <Route path="/PoolAdd" element={<PoolAdd />} />
-      <Route path="/PoolManage" element={<PoolManage />} />
-      <Route path="/NFT" element={<NFT />} />
-    </Routes>
-
     </React.Fragment>
   );
 };
+
 export default ResponsiveAppBar;
