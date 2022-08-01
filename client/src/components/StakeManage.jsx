@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { styled } from '@mui/material/styles';
-
+import Web3 from "web3";
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -47,7 +47,9 @@ function StakeManage() {
   const [alignment, setAlignment] = React.useState('stake');
   const [inputValue, setInputValue] = React.useState("");
   const [ethPrice, setEthPrice ] = React.useState(2);
-  const { state: { contractAyg, contractStaking, contractEthUsd, accounts, addressStaking } } = useEth();
+  const [bnbPrice, setBnbPrice ] = React.useState(5);
+  const [allo, setAllo ] = React.useState(3);
+  const { state: { contractAyg, contractStaking, contractVault, accounts, addressStaking } } = useEth();
 
 
   const handleChange = (event, newAlignment) => {
@@ -63,8 +65,8 @@ function StakeManage() {
   const handleStake = async event => { 
     event.preventDefault();
     try {
+      await contractAyg.methods.approve(addressStaking, inputValue).send({from: accounts[0]});
       await contractStaking.methods.stakeAyg(inputValue).send({from: accounts[0]});
-    
     } catch(err) {
         console.log(err)
     }
@@ -74,7 +76,7 @@ function StakeManage() {
   const handleUnstake = async event => {
     event.preventDefault();
     try {
-    await contractStaking.methods.unstakeAyg(inputValue).send({from: accounts[0]})
+    await contractStaking.methods.unstakeAyg(Web3.utils.toWei(inputValue)).send({from: accounts[0]})
     } catch(err) {
       console.log(err)
     }
@@ -82,24 +84,45 @@ function StakeManage() {
 
   // Calling the approve function on the Erc20_Ayg contract
   // The amount to approve is set up to a high amount to improve user experience but less secure in case of a smart contract flaw
-  const handleApprove = async event => { 
-    event.preventDefault();
-    try {
-      await contractAyg.methods.approve(addressStaking, "1000000").send({from: accounts[0]});
-    } catch(err) {
-        console.log(err)
-    }
-  }
 
   const handlePriceFeed = async event => {
     event.preventDefault();
     try {
-      const ethPrice = await contractEthUsd.methods.getLatestPrice().call({from: accounts[0]});
-      setEthPrice(ethPrice);
+      const ethPrice = await contractVault.methods.getLatestPriceEth().call({from: accounts[0]});
+      setEthPrice(Web3.utils.fromWei(ethPrice));
+      const bnbPrice = await contractVault.methods.getLatestPriceBnbProxy().call({from: accounts[0]});
+      setBnbPrice(Web3.utils.fromWei(bnbPrice));
     } catch(err) {
       console.log(err)
     }
   }
+
+  const handleVault = async event => {
+    event.preventDefault();
+    try {
+      const amount = Web3.utils.toWei(inputValue);
+      const receipt = await contractVault.methods.vaultDeposit(amount.toString()).send({from: accounts[0], value: amount});
+      console.log(receipt);
+      const allo = await contractAyg.methods.totalSupply().call();
+      setAllo(allo);
+    } catch(err) {
+      console.log(err)
+    }
+  }
+
+  const handleVaultWithdraw = async event => {
+    event.preventDefault();
+    try {
+      const amount = Web3.utils.toWei(inputValue);
+      const receipt = await contractVault.methods.vaultWithdraw(amount.toString()).send({from: accounts[0]});
+      console.log(receipt);
+      const allo = await contractAyg.methods.totalSupply().call();
+      setAllo(allo);
+    } catch(err) {
+      console.log(err)
+    }
+    }
+  
 
   return (
     <React.Fragment>
@@ -161,7 +184,7 @@ function StakeManage() {
                 <Button
                   variant="contained"
                   startIcon={<IconApprove />}
-                  onClick={handleApprove}
+                  o
                 >
                   Approve contract
                 </Button>
@@ -179,8 +202,15 @@ function StakeManage() {
                   <ToggleButton value="stake" onClick={handleStake}>STAKE</ToggleButton>
                   <ToggleButton value="unstake" onClick={handleUnstake}>UNSTAKE</ToggleButton>
                 </ToggleButtonGroup>
-                <Button onClick={handlePriceFeed}>pricefeed</Button>
-                <Typography>{ethPrice}</Typography>
+                <Button variant="contained" onClick={handlePriceFeed}>pricefeed</Button>
+
+                <Button variant="contained" onClick={handleVault}>vault</Button>
+                <Button variant="contained" onClick={handleVaultWithdraw}>burn vault</Button>
+                
+                <Typography>Eth price: {ethPrice}$</Typography>
+                <Typography>Ayg price: {bnbPrice}$</Typography>
+                <Typography>{allo}</Typography>
+              
                 <br />
                 <br />
                 <DrawIcoToken alt="eth" code="eth" />
