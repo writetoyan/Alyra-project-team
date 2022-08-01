@@ -22,7 +22,7 @@ contract Staking is ReentrancyGuard, Pausable {
     Iayg private rewardsToken;
     Iayg private stakingToken;
     uint256 private periodFinish = type(uint256).max;
-    uint256 private rewardRate = 1;
+    uint256 private rewardRate = 100;
     uint256 private rewardsDuration = 365 days;
     uint256 private lastUpdateTime;
     uint256 private rewardPerTokenStored;
@@ -39,8 +39,6 @@ contract Staking is ReentrancyGuard, Pausable {
     event Staked(address indexed user, uint256 amount);
     event Withdrawn(address indexed user, uint256 amount);
     event RewardPaid(address indexed user, uint256 reward);
-    event Bonus(uint256 bonus);
-
 
     /* ========== CONSTRUCTOR ========== */
 
@@ -86,6 +84,7 @@ contract Staking is ReentrancyGuard, Pausable {
 
     function stake(uint256 amount) external nonReentrant notPaused updateReward(msg.sender) {
         require(amount > 0, "Cannot stake 0");
+        require(_balances[msg.sender] == 0, "Please withdraw before re-stake");
         _totalSupply = _totalSupply.add(amount);
         _balances[msg.sender] = _balances[msg.sender].add(amount);
         stakingTime[msg.sender] = block.timestamp;
@@ -95,6 +94,7 @@ contract Staking is ReentrancyGuard, Pausable {
 
     function withdraw(uint256 amount) public nonReentrant updateReward(msg.sender) {
         require(amount > 0, "Cannot withdraw 0");
+        require(block.timestamp - stakingTime[msg.sender] > 1 minutes);
         _totalSupply = _totalSupply.sub(amount);
         _balances[msg.sender] = _balances[msg.sender].sub(amount);
         stakingTime[msg.sender] = 0;
@@ -122,13 +122,8 @@ contract Staking is ReentrancyGuard, Pausable {
         rewardPerTokenStored = rewardPerToken();
         lastUpdateTime = lastTimeRewardApplicable();
         if (account != address(0)) {
-            uint256 bonus = 1;
-            if(stakingTime[msg.sender] > 0 && block.timestamp - stakingTime[msg.sender] > 1 minutes){
-                bonus = 2;
-            }
-            rewards[account] = earned(account) * bonus;
+            rewards[account] = earned(account);
             userRewardPerTokenPaid[account] = rewardPerTokenStored;
-            emit Bonus(bonus);
         }
         _;
     }
