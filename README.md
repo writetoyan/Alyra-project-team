@@ -55,20 +55,24 @@ __Auteurs :__
     - [1.2.2. Fichier .env](#122-fichier-env)
     - [1.2.3. Fichier .gitignore](#123-fichier-gitignore)
 - [2. SMARTS CONTRACTS](#2-smarts-contracts)
-  - [2.1. Ecriture des Smarts Contracts](#21-ecriture-des-smarts-contracts)
-    - [2.1.1. ayg_erc20.sol](#211-ayg_erc20sol)
-    - [2.1.2. ayg_app.sol](#212-ayg_appsol)
-    - [2.1.3. ayg_erc721.sol](#213-ayg_erc721sol)
-  - [2.2. Ecriture des fichiers de déployement](#22-ecriture-des-fichiers-de-déployement)
-  - [2.3. Tests unitaires des Smarts Contracts](#23-tests-unitaires-des-smarts-contracts)
-    - [2.3.1. Résultat du Coverage](#231-résultat-du-coverage)
-    - [2.3.2. Résultat de la consomation de gas](#232-résultat-de-la-consomation-de-gas)
-  - [2.4. Documentation des Smarts Contracts](#24-documentation-des-smarts-contracts)
-    - [2.4.1. Utilisation de NatSpec](#241-utilisation-de-natspec)
-    - [2.4.2. Mise en ligne de la documentation](#242-mise-en-ligne-de-la-documentation)
-  - [2.5. Utilisation d'un Oracle](#25-utilisation-dun-oracle)
-  - [2.6. Utilisation d'un noeud RPC](#26-utilisation-dun-noeud-rpc)
-  - [2.7. Utilisation d'un stockage décentralisé](#27-utilisation-dun-stockage-décentralisé)
+  - [2.1. Import de Smart Contract externe](#21-import-de-smart-contract-externe)
+    - [2.1.1. ERC20.sol](#211-erc20sol)
+    - [2.1.2. Ownable.sol](#212-ownablesol)
+    - [2.1.3. Chainlink Smart Contract](#213-chainlink-smart-contract)
+  - [2.2. Ecriture des Smarts Contracts](#22-ecriture-des-smarts-contracts)
+    - [2.2.1. ayg_erc20.sol](#221-ayg_erc20sol)
+    - [2.2.2. ayg_app.sol](#222-ayg_appsol)
+    - [2.2.3. ayg_erc721.sol](#223-ayg_erc721sol)
+  - [2.3. Ecriture des fichiers de déployement](#23-ecriture-des-fichiers-de-déployement)
+  - [2.4. Tests unitaires des Smarts Contracts](#24-tests-unitaires-des-smarts-contracts)
+    - [2.4.1. Résultat du Coverage](#241-résultat-du-coverage)
+    - [2.4.2. Résultat de la consomation de gas](#242-résultat-de-la-consomation-de-gas)
+  - [2.5. Documentation des Smarts Contracts](#25-documentation-des-smarts-contracts)
+    - [2.5.1. Utilisation de NatSpec](#251-utilisation-de-natspec)
+    - [2.5.2. Mise en ligne de la documentation](#252-mise-en-ligne-de-la-documentation)
+  - [2.6. Utilisation d'un Oracle](#26-utilisation-dun-oracle)
+  - [2.7. Utilisation d'un noeud RPC](#27-utilisation-dun-noeud-rpc)
+  - [2.8. Utilisation d'un stockage décentralisé](#28-utilisation-dun-stockage-décentralisé)
 - [3. DAPP](#3-dapp)
   - [3.1 Languages](#31-languages)
     - [3.1.1 Librairie UI](#311-librairie-ui)
@@ -314,34 +318,50 @@ yarn-error.log*
 # 2. SMARTS CONTRACTS
 
 <br />
+npm install @chainlink/contracts --save
 
-## 2.1. Ecriture des Smarts Contracts
-### 2.1.1. ayg_erc20.sol 
-### 2.1.2. ayg_app.sol 
-### 2.1.3. ayg_erc721.sol
+## 2.1. Import de Smart Contract externe
+### 2.1.1. ERC20.sol
+### 2.1.2. Ownable.sol
+
+### 2.1.3. Chainlink Smart Contract
+
+Installation
+```sh
+$ npm install --save @chainlink/contracts
+```
+- Github https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol
+
 
 <br /><hr />
 
-## 2.2. Ecriture des fichiers de déployement
+## 2.2. Ecriture des Smarts Contracts
+### 2.2.1. ayg_erc20.sol 
+### 2.2.2. ayg_app.sol 
+### 2.2.3. ayg_erc721.sol
 
 <br /><hr />
 
-## 2.3. Tests unitaires des Smarts Contracts
-### 2.3.1. Résultat du Coverage
-### 2.3.2. Résultat de la consomation de gas
+## 2.3. Ecriture des fichiers de déployement
 
 <br /><hr />
 
-## 2.4. Documentation des Smarts Contracts
-### 2.4.1. Utilisation de NatSpec
+## 2.4. Tests unitaires des Smarts Contracts
+### 2.4.1. Résultat du Coverage
+### 2.4.2. Résultat de la consomation de gas
+
+<br /><hr />
+
+## 2.5. Documentation des Smarts Contracts
+### 2.5.1. Utilisation de NatSpec
 
 - Doc https://solidity-fr.readthedocs.io/fr/latest/natspec-format.html
 
-### 2.4.2. Mise en ligne de la documentation
+### 2.5.2. Mise en ligne de la documentation
 
 <br /><hr />
 
-## 2.5. Utilisation d'un Oracle
+## 2.6. Utilisation d'un Oracle
 
 Pour pouvoir obtenir le cours en temps réel des token ERC20 utilisé dans notre DApp nous avons choisi [ChainLink](https://chain.link/).   
 - Doc https://docs.chain.link/?_ga=2.199118056.612825648.1658574247-2034576199.1654020323   
@@ -349,7 +369,7 @@ Pour pouvoir obtenir le cours en temps réel des token ERC20 utilisé dans notre
 
 <br /><hr />
 
-## 2.6. Utilisation d'un noeud RPC
+## 2.7. Utilisation d'un noeud RPC
 
 Pour nous connecter à la blockchain Kovan nous avons utilisé la solution [INFURA](https://infura.io/).   
 - Doc https://docs.infura.io/infura/networks/ethereum   
@@ -358,7 +378,7 @@ Pour nous connecter à la blockchain Kovan nous avons utilisé la solution [INFU
 
 <br /><hr />
 
-## 2.7. Utilisation d'un stockage décentralisé
+## 2.8. Utilisation d'un stockage décentralisé
 
 Pour le stockage des NFT nous avons utilisé la solution [IPFS](https://ipfs.io/).
 - Doc https://docs.ipfs.io/

@@ -127,7 +127,12 @@ function PricingContent() {
                 </ul>
               </CardContent>
               <CardActions>
-                <Button fullWidth variant="contained">
+                <Button
+                  fullWidth variant="contained"
+                  onClick={(e) => {
+                    alert('Coming Soon !');
+                  }}
+                >
                   Mint
                 </Button>
               </CardActions>
@@ -187,7 +192,12 @@ function PricingContent() {
                 </ul>
               </CardContent>
               <CardActions>
-                <Button fullWidth variant="contained">
+                <Button
+                  fullWidth variant="contained"
+                  onClick={(e) => {
+                    alert('Coming Soon !');
+                  }}
+                >
                   Mint
                 </Button>
               </CardActions>
@@ -247,7 +257,12 @@ function PricingContent() {
                 </ul>
               </CardContent>
               <CardActions>
-                <Button fullWidth variant="contained">
+                <Button
+                  fullWidth variant="contained"
+                  onClick={(e) => {
+                    alert('Coming Soon !');
+                  }}
+                >
                   Mint
                 </Button>
               </CardActions>

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import {Routes, Route, useNavigate} from 'react-router-dom';
+import React from 'react';
+import {useNavigate} from 'react-router-dom';
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -13,29 +13,13 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+import Logo from "./../assets/logoH.png";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 
-import Logo from "./../assets/logoH.png";
-
-import Home from "./../components/Home";
-import Dashboard from "./../components/Dashboard";
-import Token from "./../components/Token";
-import Uniswap from './../components/Uniswap';
-import Stake from "./../components/Stake";
-import StakeManage from "./../components/StakeManage";
-import Pool from "./../components/Pool";
-import PoolAdd from "./../components/PoolAdd";
-import PoolManage from "./../components/PoolManage";
-import NFT from "./../components/NFT";
-import Chip from '@mui/material/Chip';
-
-
-
-
 const pages = ['Dashboard', 'Token', 'Swap', 'Stake', 'Pool', 'NFT'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['My staking', 'My NFT'];
 
 const ResponsiveAppBar = (props) => {
 
@@ -125,13 +109,13 @@ const ResponsiveAppBar = (props) => {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <LogStatut addrUser={props.addrUser} />
+          <ConnectButton />
 
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Account" src="/static/images/avatar/2.jpg" />
-              </IconButton>
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings" onClick={handleOpenUserMenu} sx={{ p: 2 }}>
+              <Avatar>
+                <AccountCircleIcon />
+              </Avatar>
             </Tooltip>
             <Menu
               sx={{ mt: '45px' }}
@@ -156,36 +140,11 @@ const ResponsiveAppBar = (props) => {
               ))}
             </Menu>
           </Box>
-         <ConnectButton />
         </Toolbar>
       </Container>
     </AppBar>
     </React.Fragment>
   );
 };
-
-
-function LogStatut(props) {
-
-  const addrUser = props.addrUser;
-
-  console.log("addrUser = "+addrUser)
-
-  if(props.addrUser!=="0x0000000000000000000000000000000000000000"){
-      return (
-        <Chip label={props.addrUser} />
-      );
-  } else {
-      return (
-          <div className="LogWallet">
-                  Vous n'êtes pas connecté<br /> 
-                  <Button variant="primary">
-                      Connecter un wallet
-                  </Button>
-          </div>
-      );
-  }
-
-}
 
 export default ResponsiveAppBar;

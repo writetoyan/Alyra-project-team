@@ -25,7 +25,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
 
-// Graph
+// Import Recharts UI
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 
@@ -40,27 +40,6 @@ function DrawIcoToken({ alt, code }) {
   />
 }
 
-const data = [
-  {
-    name: 'bloc 40',
-    supply: 4000,
-    faucet: 2400,
-    reward: 2400
-  },
-  {
-    name: 'bloc 41',
-    supply: 3000,
-    faucet: 2100,
-    reward: 1400
-  },
-  {
-    name: 'bloc 42',
-    supply: 2000,
-    faucet: 6400,
-    reward: 400
-  }
-];
-
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -72,7 +51,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 function TokenManageAYG() {
 
-  const { state: { contract_Erc20_AYG, accounts, address_Dapp } } = useEth();
+  const { state: { contractAyg, accounts, address_Dapp } } = useEth();
 
   const [name_AYG, setName_AYG] = useState(0);
   const [decimals_AYG, setDecimals_AYG] = useState(0);
@@ -82,11 +61,11 @@ function TokenManageAYG() {
   const [moveTokenAYG, setDataMoveAYG] = useState([]);
   const [graphTokenAYG, setDataGraphAYG] = useState([]);
 
-  const [nbMoveAYG, setNbMoveAYG] = useState([]);
+  const [nbMoveAYG, setNbMoveAYG] = useState(0);
 
 
   useEffect(() => {
-    if(contract_Erc20_AYG){
+    if(contractAyg){
     async function fetchData(){
         try {
           updateAYG();
@@ -99,7 +78,7 @@ function TokenManageAYG() {
   }, []);
 
   const faucetAYG = async () => {
-    contract_Erc20_AYG.methods.getFaucet(accounts[0]).send({from: accounts[0]})
+    contractAyg.methods.faucet(accounts[0]).send({from: accounts[0]})
       .then((results) => {
         console.log(results);
         console.log(results.events.MintSupply.returnValues.amount);
@@ -113,7 +92,7 @@ function TokenManageAYG() {
   const setFaucetAYG = async () => {
     let amount = 2000; // ETH (test)
     amount = eval(amount*1000000000000000000);
-    contract_Erc20_AYG.methods.setFaucet(amount).send({from: accounts[0]})
+    contractAyg.methods.setFaucet(amount).send({from: accounts[0]})
       .then((results) => {
         console.log(results);
         updateAYG();
@@ -124,7 +103,7 @@ function TokenManageAYG() {
   }
   
   const updateAYG = async () => {
-    contract_Erc20_AYG.methods.totalSupply().call({ from: accounts[0] })
+    contractAyg.methods.totalSupply().call({ from: accounts[0] })
       .then((totalsupply_AYG) => {
         setTotalSupply_AYG(totalsupply_AYG/1000000000000000000);
         console.log("totalsupply_AYG = "+totalsupply_AYG);
@@ -133,7 +112,7 @@ function TokenManageAYG() {
         console.log(err);
       });
 
-    contract_Erc20_AYG.methods.name().call({ from: accounts[0] })
+    contractAyg.methods.name().call({ from: accounts[0] })
       .then((name_AYG) => {
         setName_AYG(name_AYG);
         console.log("name_AYG = "+name_AYG);
@@ -142,7 +121,7 @@ function TokenManageAYG() {
         console.log(err);
       });
 
-    contract_Erc20_AYG.methods.decimals().call({ from: accounts[0] })
+    contractAyg.methods.decimals().call({ from: accounts[0] })
       .then((decimals_AYG) => {
         setDecimals_AYG(decimals_AYG);
         console.log("decimals_AYG = "+decimals_AYG);
@@ -151,7 +130,7 @@ function TokenManageAYG() {
         console.log(err);
       });
 
-    contract_Erc20_AYG.methods.symbol().call({ from: accounts[0] })
+    contractAyg.methods.symbol().call({ from: accounts[0] })
       .then((symbol_AYG) => {
         setSymbol_AYG(symbol_AYG);
         console.log("symbol_AYG = "+symbol_AYG);
@@ -160,7 +139,7 @@ function TokenManageAYG() {
         console.log(err);
       });
 
-    contract_Erc20_AYG.methods.amountFaucet().call({ from: accounts[0] })
+    contractAyg.methods.amountFaucet().call({ from: accounts[0] })
       .then((amountFaucet_AYG) => {
         setAmountFaucet_AYG(amountFaucet_AYG/1000000000000000000);
         console.log("amountFaucet_AYG = "+amountFaucet_AYG);
@@ -169,7 +148,7 @@ function TokenManageAYG() {
         console.log(err);
       });
 
-    contract_Erc20_AYG.getPastEvents('MintSupply', { fromBlock: 0, toBlock: 'latest' })
+    contractAyg.getPastEvents('MintSupply', { fromBlock: 0, toBlock: 'latest' })
       .then((results) => {
         let supplyTotal = 0;
         let moveTokenAYG = [];
@@ -183,11 +162,12 @@ function TokenManageAYG() {
             return blockData.timestamp
           }
 */
+/*
           contract_Erc20_AYG.getBlock(result.blockNumber)
           .then((blockData) => {
             console.log(blockData.timestamp);
           }
-
+*/
 
 
           moveTokenAYG.push({ methode: result.returnValues.methode, blockNumber: result.blockNumber, amount: result.returnValues.amount/1000000000000000000, addr: result.returnValues.addr, transactionHash: result.transactionHash });
@@ -284,8 +264,6 @@ function TokenManageAYG() {
               <Item>
                 <h3>GRAPH SUPPLY</h3>
                 <ResponsiveContainer width='100%' aspect={4.0/1.0}>
-
-
                   <BarChart data={graphTokenAYG}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />

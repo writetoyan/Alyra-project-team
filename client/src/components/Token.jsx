@@ -4,19 +4,15 @@ import {useNavigate} from 'react-router-dom';
 
 // Import SC & Web3
 import useEth from "./../contexts/EthContext/useEth";
-//import Dapp_Contract from './../contracts/Dapp_Greg.json';
-//import Erc20AYG_Contract from './../contracts/Erc20_AYG.json';
-//import getWeb3 from './../getWeb3';
 
 // Import UI
+import { styled } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -24,8 +20,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import IconButton from '@mui/material/IconButton';
-import IconAdd from '@mui/icons-material/Add';
-import IconMore from '@mui/icons-material/MoreHoriz';
 import IconFaucet from '@mui/icons-material/CleanHands';
 import IconGraph from '@mui/icons-material/Analytics';
 
@@ -42,44 +36,20 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 
-  const handleChange = (event, newAlignment) => {
-    setAlignment(newAlignment);
-  };  
 function Token() {
 
-  const { state: { contract_Erc20_AYG, contract_Dapp, accounts, address_Dapp } } = useEth();
-
+  const { state: { contractAyg, contract_Dapp, accounts, address_Dapp } } = useEth();
 
   const [name_AYG, setName_AYG] = useState(0);
   const [decimals_AYG, setDecimals_AYG] = useState(0);
   const [symbol_AYG, setSymbol_AYG] = useState(0);
   const [totalsupply_AYG, setTotalSupply_AYG] = useState(0);
 
-/*
-  const supply2 = async () => { 
-//    event.preventDefault();
-    try {
-      const supply = await contract_Erc20_AYG.methods.totalSupply().call({from: accounts[0]});
-      setDisplaySupply(supply/1000000000000000000);
-      console.log(supply)
-    } catch(err) {
-        console.error(err)
-    }
-  }  
-
   useEffect(() => {
-    supply2(); // this will fire only on first render
-  }, [""]);
-
-  */
-
-
-  useEffect(() => {
-    if(contract_Erc20_AYG){
+    if(contractAyg){
     async function fetchData(){
         try {
           updateAYG();
-          graphAYG();
         } catch(err) {
             console.error(err)
         }
@@ -89,114 +59,9 @@ function Token() {
   }, []);
 
 
-
-/*
-useEffect(() => {
-  fetchData();
-  async function fetchData() {
-    try {
-      const proposalData = await contract_Erc20_AYG.methods.name().call({from: accounts[0]});
-      console.log(proposalData)
-
-    } catch (error) {
-      // Catch any errors for any of the above operations.
-      alert(
-        `Failed to load web3, accounts, or contract. Check console for details.`,
-      );
-      console.error(error);
-    }
-  }
-},[]);
-*/
-
-
-
-/*
-  componentDidMount = async () => {
-    try {
-
-      // Methode3
-      let options3 = {
-        fromBlock: 0,     // "number" || "earliest" || "pending" || "latest"
-        toBlock: 'latest'
-      }
-      let listAddress3 = await contract_Erc20_AYG.getPastEvents('MintSupply', options3);
-//      const response = await contract_Erc20_AYG.methods.get().call();
-      console.log(listAddress3);
-
-    } catch (error) {
-      // Catch any errors for any of the above operations.
-      alert(
-        `Failed to load web3, accounts, or contract. Check console for details.`,
-      );
-      console.error(error);
-    }
-  };
-*/
-
-/*
-useEffect(() => {
-    contract_Erc20_AYG.getPastEvents('MintSupply', {
-        fromBlock: 0, 
-        toBlock: 'latest'
-    }, function(error, events){console.log(events)})
-    .then(function(events){
-      console.log(events)
-    })
-  }, [])
-*/
-
-
-/*
-useEffect(() => {
-  (async () => {
-    const supply = await contract_Erc20_AYG.methods.totalSupply().call({from: accounts[0]});
-    console.log(supply)
-    setDisplaySupply(supply/1000000000000000000);
-  })()
-}, [""])
-*/
-/*
-useEffect(() => {
-  const fetchSupply = async () => {
-    const supply = await contract_Erc20_AYG.methods.totalSupply().call({from: accounts[0]});
-    setDisplaySupply(supply/1000000000000000000);
-    console.log(supply)
-  }
-  fetchSupply()
-}, [""])
-*/
-
-
-
-
-  // Calling the stakeAyg function on the Staking smart contract
-    const handleSubmit2ok = async event => { 
-      event.preventDefault();
-      try {
-        const proposalData = await contract_Erc20_AYG.methods.name().call({from: accounts[0]});
-        console.log(proposalData)
-      } catch(err) {
-          console.error(err)
-      }
-    }
-
-
-    // Calling the stakeAyg function on the Staking smart contract
-    const callFaucet0 = async event => { 
-      event.preventDefault();
-      try {
-        const faucetValue = "100000000000000000000";
-//        const faucetValue = web3.utils.toWei('30', 'ether')
-        const proposalData = await contract_Erc20_AYG.methods.faucet(accounts[0], faucetValue).send({from: accounts[0]});
-        console.log(proposalData)
-      } catch(err) {
-          console.error(err)
-      }
-    }
-
     const faucetAYG = async () => {
-      contract_Erc20_AYG.methods.getFaucet(accounts[0]).send({from: accounts[0]})
+//      contract_Erc20_AYG.methods.getFaucet(accounts[0]).send({from: accounts[0]})
+      contractAyg.methods.faucet(accounts[0]).send({from: accounts[0]})
         .then((results) => {
           console.log(results);
           console.log(results.events.MintSupply.returnValues.amount);
@@ -207,39 +72,8 @@ useEffect(() => {
         });
     }
 
-    const getSupply = async () => {
-      contract_Erc20_AYG.methods.totalSupply().call({ from: accounts[0] })
-        .then((results) => {
-          console.log(results);
-          setTotalSupply_AYG(results/1000000000000000000);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-
-
-    const graphAYG = async () => {
-      contract_Erc20_AYG.getPastEvents('MintSupply', { fromBlock: 0, toBlock: 'latest' })
-        .then((results) => {
-//          let proposals = [];
-//          results.forEach(async (result) => {
-//            let proposalInfo = await contract_Erc20_AYG.methods.getOneProposal(result.returnValues.amount).call({ from: accounts[0] });
-//            proposals.push({ proposalId: result.returnValues.proposalId, info: proposalInfo });
-//            console.log(proposalInfo);
-//            this.setState({ proposals: proposals });
-//          })
-    //      this.setState({ nbProposal: results.length });
-          console.log(results)
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    
-    }
-      
     const updateAYG = async () => {
-      contract_Erc20_AYG.methods.totalSupply().call({ from: accounts[0] })
+      contractAyg.methods.totalSupply().call({ from: accounts[0] })
         .then((totalsupply_AYG) => {
           setTotalSupply_AYG(totalsupply_AYG/1000000000000000000);
           console.log("totalsupply_AYG = "+totalsupply_AYG);
@@ -248,7 +82,7 @@ useEffect(() => {
           console.log(err);
         });
 
-      contract_Erc20_AYG.methods.name().call({ from: accounts[0] })
+      contractAyg.methods.name().call({ from: accounts[0] })
         .then((name_AYG) => {
           setName_AYG(name_AYG);
           console.log("name_AYG = "+name_AYG);
@@ -257,7 +91,7 @@ useEffect(() => {
           console.log(err);
         });
 
-      contract_Erc20_AYG.methods.decimals().call({ from: accounts[0] })
+      contractAyg.methods.decimals().call({ from: accounts[0] })
         .then((decimals_AYG) => {
           setDecimals_AYG(decimals_AYG);
           console.log("decimals_AYG = "+decimals_AYG);
@@ -266,7 +100,7 @@ useEffect(() => {
           console.log(err);
         });
 
-      contract_Erc20_AYG.methods.symbol().call({ from: accounts[0] })
+      contractAyg.methods.symbol().call({ from: accounts[0] })
         .then((symbol_AYG) => {
           setSymbol_AYG(symbol_AYG);
           console.log("symbol_AYG = "+symbol_AYG);
