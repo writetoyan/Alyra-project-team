@@ -27,7 +27,7 @@ contract EthVaultMintAyg {
 
     function vaultDeposit(uint _depositAmount) external payable {
         uint aygToMint;
-        aygToMint = (_depositAmount * getLatestPriceEth() / getLatestPriceBnbProxy()) ;
+        aygToMint = (_depositAmount * getLatestPriceEth() / getLatestPriceBnbProxy()) / 2;
         vaultDepositAmount[msg.sender] += _depositAmount;
         IErc20_Ayg(aygAddress).vaultMint(msg.sender, aygToMint);
         emit vaultDeposited(msg.sender, _depositAmount);
@@ -36,7 +36,7 @@ contract EthVaultMintAyg {
     function vaultWithdraw(uint _burnAmount) external payable {
         IErc20_Ayg(aygAddress).vaultBurn(msg.sender, _burnAmount);
         uint ethRedeem;
-        ethRedeem = (_burnAmount * getLatestPriceBnbProxy() / getLatestPriceEth());
+        ethRedeem = (_burnAmount * getLatestPriceBnbProxy() / getLatestPriceEth()) * 2;
         vaultDepositAmount[msg.sender] -= ethRedeem;
         (bool success, ) = msg.sender.call{value: ethRedeem}("");
         require(success, "failed to send Ether");   

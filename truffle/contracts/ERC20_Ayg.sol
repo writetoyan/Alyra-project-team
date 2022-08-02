@@ -18,7 +18,7 @@ contract Erc20_Ayg is ERC20, Ownable {
 
 
 	constructor() ERC20('AYG token', 'AYG') {
-        _mint(msg.sender, 10000 * 10**18);
+        _mint(msg.sender, 20000 * 10**18);
     } 
 
     struct Receiver {
@@ -71,6 +71,5 @@ contract Erc20_Ayg is ERC20, Ownable {
         require(mintAdmin[msg.sender], "You cannot burn");
         _burn(_burner, _amount);
     }
-
 
 }
