@@ -81,7 +81,7 @@ function App() {
               <Route path="/TokenManage/AYG" element={<TokenManageAYG />} />
               <Route path="/Swap" element={<Swap />} />
               <Route path="/Stake" element={<Stake />} />
-              <Route path="/StakeManage/AYG" element={<StakeManageAYG />} />
+              <Route path="/StakeManage/AYG" element={<StakeManageAYG/>} />
               <Route path="/Pool" element={<Pool />} />
               <Route path="/PoolAdd" element={<PoolAdd />} />
               <Route path="/PoolManage" element={<PoolManage />} />

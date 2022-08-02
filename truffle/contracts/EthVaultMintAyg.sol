@@ -3,7 +3,7 @@
 pragma solidity 0.8.15; 
 
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol"; 
-import "./Erc20_Ayg.sol";
+import "./ERC20_Ayg.sol";
 
 interface IErc20_Ayg {
     function vaultMint(address _minter, uint _amount) external;

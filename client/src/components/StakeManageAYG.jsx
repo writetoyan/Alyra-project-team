@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 
 import { styled } from '@mui/material/styles';
-
+import Web3 from "web3";
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -105,11 +105,13 @@ function a11yProps(index) {
 function StakeManage() {
   const navigate = useNavigate();
 
-  const { state: { contractAyg, contractStaking, contractEthUsd, accounts, addressStaking } } = useEth();
+  const { state: { contractAyg, contractStaking, contractVault, accounts, addressStaking } } = useEth();
 
   const [alignment, setAlignment] = React.useState('stake');
   const [inputValue, setInputValue] = React.useState("");
-  const [ethPrice, setEthPrice ] = React.useState(2);
+  const [ethPrice, setEthPrice ] = React.useState();
+  const [aygPrice, setAygPrice ] = React.useState();
+  const [inputVault, setInputVault ] = useState();
 
   const [totalSupplyAYG, setTotalSupplyAYG] = useState(0);
   const [yourSupplyAYG, setYourSupplyAYG] = useState(0);
@@ -161,6 +163,11 @@ function StakeManage() {
   }, [])
 
 
+// =================================== STAKING SC CALL =======================================
+
+// const updateAYG = () => {
+//   console.log("hello")
+// }
 
 
   // staking/unstaking amount enterered by the user
@@ -168,75 +175,86 @@ function StakeManage() {
     setInputValue(event.target.value);
   }
 
-
-  
   // Calling the stakeAyg function on the Staking smart contract
-  const handleStake = async () => {
-    contractStaking.methods.stake(inputValue).send({from: accounts[0]})
-      .then((handleStake) => {
-        updateAYG();
-        console.log("handleStake = "+handleStake);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+    const handleStake = async () => {
+      await contractAyg.methods.approve(addressStaking, Web3.utils.toWei(inputValue)).send({from: accounts[0]});
+      await contractStaking.methods.stake(Web3.utils.toWei(inputValue)).send({from: accounts[0]})
+        try{
+          updateAYG()   
+        } catch(err) {
+          console.log(err);
+        };
+    }
 
   
   // Calling the unstakingAyg function to unstake the token on the Staking contract
   const handleUnstake = async () => {
-    contractStaking.methods.withdraw(inputValue).send({from: accounts[0]})
-      .then((withdraw) => {
-        updateAYG();
-        console.log("withdraw = "+withdraw);
-      })
-      .catch((err) => {
+    try {
+    await contractStaking.methods.withdraw(Web3.utils.toWei(inputValue)).send({from: accounts[0]});
+    updateAYG();
+    } catch(err) {
         console.log(err);
-      });
-  }
-  
-  // Calling the approve function on the Erc20_Ayg contract
-  // The amount to approve is set up to a high amount to improve user experience but less secure in case of a smart contract flaw
-  const handleApprove = async event => { 
-    event.preventDefault();
-    try {
-      await contractAyg.methods.approve(addressStaking, "100000000000000000000000000000000000").send({from: accounts[0]});
-    } catch(err) {
-        console.log(err)
-    }
-  }
-
-  const handlePriceFeed = async event => {
-    event.preventDefault();
-    try {
-      const ethPrice = await contractEthUsd.methods.getLatestPrice().call({from: accounts[0]});
-      setEthPrice(ethPrice);
-    } catch(err) {
-      console.log(err)
-    }
+    };
   }
 
   const getRewardAYG = async () => {
-    contractStaking.methods.getReward().send({ from: accounts[0] })
-      .then((getRewardAYG) => {
-//        setTotalSupplyAYG(totalSupplyAYG);
-        console.log("getRewardAYG = "+getRewardAYG);
-      })
-      .catch((err) => {
+    try {
+    await contractStaking.methods.getReward().send({ from: accounts[0] });
+    } catch(err) {
         console.log(err);
-      });
+    };
   }
 
   const exit = async () => {
-    contractStaking.methods.exit().send({ from: accounts[0] })
-      .then((exit) => {
-        console.log("exit ?");
-      })
-      .catch((err) => {
+    try {
+    await contractStaking.methods.exit().send({ from: accounts[0] })
+    } catch(err) {
         console.log(err);
-      });
+    };
   }
 
+
+// =================================== VAULT SC CALL =======================================
+
+
+const handleInputVault = event => {
+  setInputVault(event.target.value);
+}
+
+const handleVaultMint = async event => {
+  event.preventDefault();
+  try {
+    const amount = Web3.utils.toWei(inputVault);
+    await contractVault.methods.vaultDeposit(amount.toString()).send({from: accounts[0], value: amount});
+  } catch(err) {
+    console.log(err)
+  }
+}
+
+const handleVaultBurn = async event => {
+  event.preventDefault();
+  try {
+    const amount = Web3.utils.toWei(inputVault);
+    const receipt = await contractVault.methods.vaultWithdraw(amount.toString()).send({from: accounts[0]});
+    console.log(receipt);
+  } catch(err) {
+    console.log(err)
+  }
+  }
+
+const handlePriceFeed = async event => {
+  event.preventDefault();
+  try {
+    const ethPrice = await contractVault.methods.getLatestPriceEth().call({from: accounts[0]});
+    setEthPrice(Web3.utils.fromWei(ethPrice));
+    const aygPrice = await contractVault.methods.getLatestPriceBnbProxy().call({from: accounts[0]});
+    setAygPrice(Web3.utils.fromWei(aygPrice));
+  } catch(err) {
+    console.log(err)
+  }
+}
+
+//============================= UPDATE STATE ====================================
   const updateAYG = async () => {
     contractStaking.methods.totalSupply().call({ from: accounts[0] })
       .then((totalSupplyAYG) => {
@@ -375,18 +393,11 @@ function StakeManage() {
               </Item>
             </Grid>
 
+ {/*============================================= SC FRONT INTERACTION ========================================================= */}
+           
             <Grid item xs={3}>
               <Item>
-                <br />
-                <Button
-                  variant="contained"
-                  startIcon={<IconApprove />}
-                  onClick={handleApprove}
-                >
-                  Approve contract
-                </Button>
-                <br />
-                <br />
+                <h3>STAKE YOUR AYG</h3> 
                 <TextField id="filled-basic" label="Amount" variant="filled" value={inputValue} onChange={handleInputChange}/>
                 <br />
                 <br />
@@ -398,6 +409,7 @@ function StakeManage() {
                 >
                   <ToggleButton value="stake" onClick={handleStake}>STAKE</ToggleButton>
                   <ToggleButton value="unstake" onClick={handleUnstake}>UNSTAKE</ToggleButton>
+
                 </ToggleButtonGroup>
                 <br />
                 <br />
@@ -422,8 +434,22 @@ function StakeManage() {
               </Item>
               <br />
               <Item>
-                <Button onClick={handlePriceFeed}>pricefeed</Button>
-                <Typography>{ethPrice}</Typography>
+                <h3>ETH VAULT</h3>
+                <h4>Mint AYG by providing ETH AS collateral</h4>
+                <TextField id="filled-basic" label="Amount" variant="filled" value={inputVault} onChange={handleInputVault}/>
+                <br />
+                <br />
+                <Button variant="contained" onClick={handleVaultMint}>Mint AYG</Button>
+                <span> </span>
+                <Button variant="contained" onClick={handleVaultBurn}>Burn AYG</Button>
+                <br />
+                <br />
+                <Typography>Collateral needed to mint AYG: 200%</Typography>
+                <Typography>Price of ETH: {ethPrice} $</Typography>
+                <Typography>Price of AYG: {aygPrice} $</Typography>
+                <Typography>For 1 ETH, you will get: {ethPrice / aygPrice /2} AYG</Typography>
+                <br />
+                <Button variant="contained" onClick={handlePriceFeed}>Get mint rate</Button>
                 <br />
                 <br />
               </Item>
@@ -441,6 +467,8 @@ function StakeManage() {
                 <br />
               </Item>
             </Grid>
+
+ {/*============================================= GRAPH ========================================================= */}
 
             <Grid item xs={7}>
               <Item>
