@@ -36,6 +36,7 @@ import useEth from "../contexts/EthContext/useEth";
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 
+
 function DrawIcoToken({ alt, code }) {
   const href= `../ico_${code}.png`;
   const CODE = code.toUpperCase();
@@ -116,14 +117,13 @@ function StakeManage() {
   const [totalSupplyAYG, setTotalSupplyAYG] = useState(0);
   const [yourSupplyAYG, setYourSupplyAYG] = useState(0);
   const [yourEarnedAYG, setYourEarnedAYG] = useState(0);
-
+  const [poolUsdValue, setPoolUsdValue] = useState(0);
   const [moveStakingAYG, setDataStakingAYG] = useState([]);
   const [nbStakAYG, setNbStakAYG] = useState(0);
   const [moveUnstakingAYG, setDataUnstakingAYG] = useState([]);
   const [nbUnstakAYG, setNbUnstakAYG] = useState(0);
   const [graphStakingAYG, setDataGraphAYG] = useState([]);
-
-
+ 
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -134,7 +134,7 @@ function StakeManage() {
     if(contractAyg){
     async function fetchData(){
         try {
-          updateAYG();
+          updateAYG(); 
         } catch(err) {
             console.error(err)
         }
@@ -142,8 +142,6 @@ function StakeManage() {
     fetchData();
     }
   }, []);
-
-
 
 
 //  const [counter, setCounter] = useState(0)
@@ -162,12 +160,12 @@ function StakeManage() {
     }
   }, [])
 
+  function web2(x) {
+    return Number.parseFloat(x).toFixed(2);
+  }
+
 
 // =================================== STAKING SC CALL =======================================
-
-// const updateAYG = () => {
-//   console.log("hello")
-// }
 
 
   // staking/unstaking amount enterered by the user
@@ -180,18 +178,17 @@ function StakeManage() {
       await contractAyg.methods.approve(addressStaking, Web3.utils.toWei(inputValue)).send({from: accounts[0]});
       await contractStaking.methods.stake(Web3.utils.toWei(inputValue)).send({from: accounts[0]})
         try{
-          updateAYG()   
+          updateAYG();   
         } catch(err) {
           console.log(err);
         };
     }
 
-  
   // Calling the unstakingAyg function to unstake the token on the Staking contract
   const handleUnstake = async () => {
-    try {
     await contractStaking.methods.withdraw(Web3.utils.toWei(inputValue)).send({from: accounts[0]});
-    updateAYG();
+    try {
+    await updateAYG();    
     } catch(err) {
         console.log(err);
     };
@@ -246,68 +243,62 @@ const handlePriceFeed = async event => {
   event.preventDefault();
   try {
     const ethPrice = await contractVault.methods.getLatestPriceEth().call({from: accounts[0]});
-    setEthPrice(Web3.utils.fromWei(ethPrice));
+    setEthPrice(web2(Web3.utils.fromWei(ethPrice)));
     const aygPrice = await contractVault.methods.getLatestPriceBnbProxy().call({from: accounts[0]});
-    setAygPrice(Web3.utils.fromWei(aygPrice));
+    setAygPrice(web2(Web3.utils.fromWei(aygPrice)));
   } catch(err) {
     console.log(err)
   }
 }
 
 //============================= UPDATE STATE ====================================
+
   const updateAYG = async () => {
-    contractStaking.methods.totalSupply().call({ from: accounts[0] })
-      .then((totalSupplyAYG) => {
-        setTotalSupplyAYG(totalSupplyAYG);
-        console.log("totalSupplyAYG = "+totalSupplyAYG);
-      })
-      .catch((err) => {
+    try {
+    const totalSupplyAYG = await contractStaking.methods.totalSupply().call({ from: accounts[0] });
+    const yourSupplyAYG = await contractStaking.methods.balanceOf(accounts[0]).call({from: accounts[0]});
+    const yourEarnedAYG = await contractStaking.methods.earned(accounts[0]).call({from: accounts[0]});
+    const aygPrice = await contractVault.methods.getLatestPriceBnbProxy().call({from: accounts[0]});
+    const ethPrice = await contractVault.methods.getLatestPriceEth().call({from: accounts[0]});
+    setTotalSupplyAYG(web2(Web3.utils.fromWei(totalSupplyAYG)));
+    setYourSupplyAYG(web2(Web3.utils.fromWei(yourSupplyAYG)));
+    setYourEarnedAYG(Web3.utils.fromWei(yourEarnedAYG));
+    setAygPrice(web2((Web3.utils.fromWei(aygPrice))));
+    setEthPrice(web2(Web3.utils.fromWei(ethPrice)));
+    const poolUsdValue = web2(aygPrice * totalSupplyAYG / 10**36);
+    setPoolUsdValue(poolUsdValue);
+    } catch(err) {
         console.log(err);
-      });
-
-    contractStaking.methods.balanceOf(accounts[0]).call({from: accounts[0]})
-      .then((yourSupplyAYG) => {
-        setYourSupplyAYG(yourSupplyAYG);
-        console.log("yourSupplyAYG = "+yourSupplyAYG);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    contractStaking.methods.earned(accounts[0]).call({from: accounts[0]})
-      .then((yourEarnedAYG) => {
-        setYourEarnedAYG(yourEarnedAYG);
-        console.log("yourEarnedAYG = "+yourEarnedAYG);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-
+    };
+    try {
     contractStaking.getPastEvents('Staked', { fromBlock: 0, toBlock: 'latest' })
-      .then((results) => {
-        let supplyTotal = 0;
-        let moveStakingAYG = [];
+    .then((results) => {
+      let supplyTotal = 0;
+      let moveStakingAYG = [];
 //        let graphTokenAYG = [];
-        results.forEach(async (result) => {
+      results.forEach(async (result) => {
 
-          moveStakingAYG.push({ blockNumber: result.blockNumber, amount: result.returnValues.amount, addr: result.returnValues.user });
+        moveStakingAYG.push({ blockNumber: result.blockNumber, amount: result.returnValues.amount, addr: result.returnValues.user });
 
-          supplyTotal = result.returnValues.amount + supplyTotal;
-          graphStakingAYG.push({ name: result.blockNumber, supply: supplyTotal, faucet: result.returnValues.amount, reward: 0  });
-          setDataGraphAYG(graphStakingAYG);
+        supplyTotal = result.returnValues.amount + supplyTotal;
+        graphStakingAYG.push({ name: result.blockNumber, supply: supplyTotal, faucet: result.returnValues.amount, reward: 0  });
+        setDataGraphAYG(graphStakingAYG);
 
-        })
-        setDataStakingAYG(moveStakingAYG);
+      })
+      setDataStakingAYG(moveStakingAYG);
 //        setNbStakAYG(results.length);
 
-        console.log(moveStakingAYG)
-        console.log(graphStakingAYG)
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
+      console.log(moveStakingAYG)
+      console.log(graphStakingAYG)
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+    } catch(err) {
+      console.log(err)
+    }
+  
+  try {
       contractStaking.getPastEvents('Withdrawn', { fromBlock: 0, toBlock: 'latest' })
       .then((results) => {
         let moveUnstakingAYG = [];
@@ -337,10 +328,11 @@ const handlePriceFeed = async event => {
       .catch((err) => {
         console.log(err);
       });
-
-      
-  }  
-
+  
+  } catch(err) {
+    console.log(err);
+  }
+}
   return (
     <React.Fragment>
       {/* Head */}
@@ -360,7 +352,8 @@ const handlePriceFeed = async event => {
       </Container>
       {/* End Head */}
 
-     
+{/*================================================= STAKING DATA ============================================================ */}    
+
       <Container maxWidth="xl">
         <Box sx={{ width: '100%' }}>
           <Grid container spacing={2}>
@@ -383,7 +376,7 @@ const handlePriceFeed = async event => {
             <Grid item xs={3}>
               <Item>
                 Total STAKING Supply
-                <h2>{totalSupplyAYG} $AYG</h2>
+                <h2>{totalSupplyAYG}$AYG or {poolUsdValue} USD</h2>
               </Item>
             </Grid>
             <Grid item xs={3}>
@@ -444,12 +437,16 @@ const handlePriceFeed = async event => {
                 <Button variant="contained" onClick={handleVaultBurn}>Burn AYG</Button>
                 <br />
                 <br />
-                <Typography>Collateral needed to mint AYG: 200%</Typography>
                 <Typography>Price of ETH: {ethPrice} $</Typography>
                 <Typography>Price of AYG: {aygPrice} $</Typography>
-                <Typography>For 1 ETH, you will get: {ethPrice / aygPrice /2} AYG</Typography>
                 <br />
-                <Button variant="contained" onClick={handlePriceFeed}>Get mint rate</Button>
+                <Typography>Collateral needed to mint AYG: <strong>200%</strong></Typography>
+                <br />
+                <Typography>For 1 ETH, you will get: {web2(ethPrice / aygPrice /2)} AYG</Typography>
+                <br />
+                <Typography>For 1 AYG, you will get back: {web2(aygPrice / ethPrice *2)} ETH</Typography>
+                <br />
+                <Button variant="contained" onClick={handlePriceFeed}>Get latest mint / burn rate</Button>
                 <br />
                 <br />
               </Item>
@@ -459,7 +456,7 @@ const handlePriceFeed = async event => {
                 <Button
                   variant="contained"
                   startIcon={<IconApprove />}
-                  onClick={updateAYG}
+                  onClick={updateAYG}  
                 >
                   update_AYG
                 </Button>
