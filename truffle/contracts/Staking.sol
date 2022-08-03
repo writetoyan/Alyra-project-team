@@ -22,7 +22,7 @@ contract Staking is ReentrancyGuard, Pausable {
     Iayg private rewardsToken;
     Iayg private stakingToken;
     uint256 private periodFinish = type(uint256).max;
-    uint256 private rewardRate = 1;
+    uint256 public rewardRate = 1;
     uint256 private rewardsDuration = 365 days;
     uint256 private lastUpdateTime;
     uint256 private rewardPerTokenStored;
@@ -139,4 +139,11 @@ contract Staking is ReentrancyGuard, Pausable {
         return (block.timestamp - _firstStakingTime);
     }
 
+    function getAPROfAmountToStake(uint256 _stakingAmount) external view returns(uint256 apr){
+        return ((rewardRate * 3600 * 24 * 365 * (_stakingAmount * 1000000 / (_totalSupply + _stakingAmount)) / 1000000) / _stakingAmount) ;
+    }
+
+    function getMyStakingApr() external view returns(uint256 apr){
+        return (rewardRate * 3600 * 24 * 365 * (_balances[msg.sender] * 1000000 / _totalSupply / 1000000)) / _balances[msg.sender] ;
+    }
 }

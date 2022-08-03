@@ -136,4 +136,13 @@ contract Staking is ReentrancyGuard, Pausable {
         _;
     }
 
+
+    function getAPROfAmountToStake(uint256 _stakingAmount) external view returns(uint256 apr){
+        return ((rewardRate * 3600 * 24 * 365 * (_stakingAmount * 1000000 / (_totalSupply + _stakingAmount)) / 1000000) / _stakingAmount) ;
+    }
+
+    function getMyStakingApr() external view returns(uint256 apr){
+        return (rewardRate * 3600 * 24 * 365 * (_balances[msg.sender] * 1000000 / _totalSupply / 1000000)) / _balances[msg.sender] ;
+    }
+
 }
