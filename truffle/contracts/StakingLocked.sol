@@ -22,7 +22,7 @@ contract Staking is ReentrancyGuard, Pausable {
     Iayg private rewardsToken;
     Iayg private stakingToken;
     uint256 private periodFinish = type(uint256).max;
-    uint256 private rewardRate = 200;
+    uint256 private rewardRate = 100;
     uint256 private rewardsDuration = 365 days;
     uint256 private lastUpdateTime;
     uint256 private rewardPerTokenStored;
@@ -30,6 +30,7 @@ contract Staking is ReentrancyGuard, Pausable {
     mapping(address => uint256) private userRewardPerTokenPaid;
     mapping(address => uint256) public rewards;
     mapping(address => uint256) public stakingTime;
+    mapping(address => uint256) public firstStakingTime;
 
     uint256 public _totalSupply;
     mapping(address => uint256) private _balances;
@@ -89,6 +90,10 @@ contract Staking is ReentrancyGuard, Pausable {
         _balances[msg.sender] = _balances[msg.sender].add(amount);
         stakingTime[msg.sender] = block.timestamp;
 
+        if(firstStakingTime[msg.sender] == 0){
+            firstStakingTime[msg.sender] = block.timestamp;
+        }
+
         stakingToken.transferFrom(msg.sender, address(this), amount);
         emit Staked(msg.sender, amount);
     }
@@ -100,6 +105,7 @@ contract Staking is ReentrancyGuard, Pausable {
         _totalSupply = _totalSupply.sub(amount);
         _balances[msg.sender] = _balances[msg.sender].sub(amount);
         stakingTime[msg.sender] = 0;
+        firstStakingTime[msg.sender] = 0;
         stakingToken.transfer(msg.sender, amount);
         emit Withdrawn(msg.sender, amount);
     }
