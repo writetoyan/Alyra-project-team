@@ -30,6 +30,7 @@ contract Staking is ReentrancyGuard, Pausable {
     mapping(address => uint256) private userRewardPerTokenPaid;
     mapping(address => uint256) public rewards;
     mapping(address => uint256) public stakingTime;
+    mapping(address => uint256) public firstStakingTime;
 
     uint256 public _totalSupply;
     mapping(address => uint256) private _balances;
@@ -89,6 +90,11 @@ contract Staking is ReentrancyGuard, Pausable {
         _totalSupply = _totalSupply.add(amount);
         _balances[msg.sender] = _balances[msg.sender].add(amount);
         stakingTime[msg.sender] = block.timestamp;
+
+        if(firstStakingTime[msg.sender] == 0){
+            firstStakingTime[msg.sender] = block.timestamp;
+        }
+
         stakingToken.transferFrom(msg.sender, address(this), amount);
         emit Staked(msg.sender, amount);
     }
@@ -97,7 +103,10 @@ contract Staking is ReentrancyGuard, Pausable {
         require(amount > 0, "Cannot withdraw 0");
         _totalSupply = _totalSupply.sub(amount);
         _balances[msg.sender] = _balances[msg.sender].sub(amount);
-        stakingTime[msg.sender] = 0;
+        if(_balances[msg.sender] == 0){
+            stakingTime[msg.sender] = 0;
+            firstStakingTime[msg.sender] = 0;
+        }
         stakingToken.transfer(msg.sender, amount);
         emit Withdrawn(msg.sender, amount);
     }
@@ -131,6 +140,10 @@ contract Staking is ReentrancyGuard, Pausable {
             emit Bonus(bonus);
         }
         _;
+    }
+
+    function getStakingDuration(uint256 _firstStakingTime) external view returns(uint256 duration){
+        return (block.timestamp - _firstStakingTime);
     }
 
 }
