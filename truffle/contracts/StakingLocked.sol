@@ -22,7 +22,7 @@ contract Staking is ReentrancyGuard, Pausable {
     Iayg private rewardsToken;
     Iayg private stakingToken;
     uint256 private periodFinish = type(uint256).max;
-    uint256 private rewardRate = 100;
+    uint256 private rewardRate = 200;
     uint256 private rewardsDuration = 365 days;
     uint256 private lastUpdateTime;
     uint256 private rewardPerTokenStored;
@@ -84,15 +84,17 @@ contract Staking is ReentrancyGuard, Pausable {
 
     function stake(uint256 amount) external nonReentrant notPaused updateReward(msg.sender) {
         require(amount > 0, "Cannot stake 0");
-        require(_balances[msg.sender] == 0, "Please withdraw before re-stake");
+        //require(_balances[msg.sender] == 0, "Please withdraw before re-stake");
         _totalSupply = _totalSupply.add(amount);
         _balances[msg.sender] = _balances[msg.sender].add(amount);
         stakingTime[msg.sender] = block.timestamp;
+
         stakingToken.transferFrom(msg.sender, address(this), amount);
         emit Staked(msg.sender, amount);
     }
 
-    function withdraw(uint256 amount) public nonReentrant updateReward(msg.sender) {
+    function withdraw() public nonReentrant updateReward(msg.sender) {
+        uint256 _amount = _balances[msg.sender];
         require(amount > 0, "Cannot withdraw 0");
         require(block.timestamp - stakingTime[msg.sender] > 1 minutes);
         _totalSupply = _totalSupply.sub(amount);
