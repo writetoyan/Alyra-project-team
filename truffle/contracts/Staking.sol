@@ -40,8 +40,6 @@ contract Staking is ReentrancyGuard, Pausable {
     event Staked(address indexed user, uint256 amount);
     event Withdrawn(address indexed user, uint256 amount);
     event RewardPaid(address indexed user, uint256 reward);
-    event Bonus(uint256 bonus);
-
 
     /* ========== CONSTRUCTOR ========== */
 
@@ -131,13 +129,8 @@ contract Staking is ReentrancyGuard, Pausable {
         rewardPerTokenStored = rewardPerToken();
         lastUpdateTime = lastTimeRewardApplicable();
         if (account != address(0)) {
-            uint256 bonus = 1;
-            if(stakingTime[msg.sender] > 0 && block.timestamp - stakingTime[msg.sender] > 1 minutes){
-                bonus = 2;
-            }
-            rewards[account] = earned(account) * bonus;
+            rewards[account] = earned(account);
             userRewardPerTokenPaid[account] = rewardPerTokenStored;
-            emit Bonus(bonus);
         }
         _;
     }
