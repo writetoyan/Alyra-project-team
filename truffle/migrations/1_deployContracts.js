@@ -45,8 +45,7 @@ module.exports = async function (deployer, network) {
   network == "mainnet_fork" ? 
     ethAddress = mainnet_fork :
     ethAddress = kovan;
-  await deployer.deploy(EthUsdPriceFeed, ethAddress);
-
+    
   await nftayg.setApprovalForAll(stakingnft.address, true);
   await nayg.addAdmin(stakingnft.address);
 };

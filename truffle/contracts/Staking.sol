@@ -61,26 +61,26 @@ contract Staking is ReentrancyGuard, Pausable {
     /* ========== VIEWS ========== */
 
     /// @notice Total supply staked in the Vault
-    /// @return _totalSupply the total supply
+    /// return _totalSupply the total supply
     function totalSupply() external view returns (uint256) {
         return _totalSupply;
     }
 
     /// @notice Get the balance staked of an account
     /// @param account the address of the account that you want the balance of
-    /// @return _balances the balance of the account 
+    /// return _balances the balance of the account 
     function balanceOf(address account) external view returns (uint256) {
         return _balances[account];
     }
 
     /// @notice Get the timestamp of the last calculated rewards 
-    /// @return timestamp the timestamp
+    /// return timestamp the timestamp
     function lastTimeRewardApplicable() public view returns (uint256) {
         return block.timestamp < periodFinish ? block.timestamp : periodFinish;
     }
 
     /// @notice Get the reward for all the total supply currently staked
-    /// @return rewardPerTokenStored the reward currently staked
+    /// return rewardPerTokenStored the reward currently staked
     function rewardPerToken() public view returns (uint256) {
         if (_totalSupply == 0) {
             return rewardPerTokenStored;
@@ -92,7 +92,7 @@ contract Staking is ReentrancyGuard, Pausable {
     }
 
     /// @notice Get the reward earning for an account for all his staked tokens
-    /// @return earning The earning of an account
+    /// return earning The earning of an account
     function earned(address account) public view returns (uint256) {
         return ( 
             _balances[account] * (rewardPerToken() - userRewardPerTokenPaid[account]) / 1e18 
@@ -100,7 +100,7 @@ contract Staking is ReentrancyGuard, Pausable {
     }
 
     /// @notice Get the total reward given by the staking smart contract for the duration set
-    /// @return totalReward The total reward given
+    /// return totalReward The total reward given
     function getRewardForDuration() external view returns (uint256) {
         return rewardRate * rewardsDuration;
     }
@@ -108,7 +108,7 @@ contract Staking is ReentrancyGuard, Pausable {
     /* ========== MUTATIVE FUNCTIONS ========== */
 
     /// @notice Stake tokens in the Smart contract
-    /// @return amount The amount of tokens to stake
+    /// return amount The amount of tokens to stake
     function stake(uint256 amount) external nonReentrant notPaused updateReward(msg.sender) {
         require(amount > 0, "Cannot stake 0");
         _totalSupply = _totalSupply + amount;
@@ -124,7 +124,7 @@ contract Staking is ReentrancyGuard, Pausable {
     }
 
     /// @notice Withdraw the staked token
-    /// @return amount The amount of tokens to withdraw
+    /// return amount The amount of tokens to withdraw
     function withdraw(uint256 amount) public nonReentrant updateReward(msg.sender) {
         require(amount > 0, "Cannot withdraw 0");
         _totalSupply = _totalSupply - amount;
@@ -138,7 +138,7 @@ contract Staking is ReentrancyGuard, Pausable {
     }
 
     /// @notice Withdraw the rewards earned with the staked tokens
-    /// @return reward The rewards earned
+    /// return reward The rewards earned
     function getReward() public nonReentrant updateReward(msg.sender) {
         uint256 reward = rewards[msg.sender];
         if (reward > 0) {
@@ -157,20 +157,20 @@ contract Staking is ReentrancyGuard, Pausable {
     /// @notice Get the staking duration from a staking time
     /// @dev this function is used to calculate the current staking time of an account
     /// @param _firstStakingTime a time
-    /// @return stakingTime The staking time
+    /// return stakingTime The staking time
     function getStakingDuration(uint256 _firstStakingTime) external view returns(uint256 duration){
         return (block.timestamp - _firstStakingTime);
     }
 
     /// @notice Get the APR for a staking amount that user want to stake
     /// @param _stakingAmount the staking amount
-    /// @return APR The APR
+    /// return APR The APR
     function getAPROfAmountToStake(uint256 _stakingAmount) external view returns(uint256 apr){
         return ((rewardRate * 3600 * 24 * 365 * (_stakingAmount * 1000000 / (_totalSupply + _stakingAmount)) / 1000000) / _stakingAmount) ;
     }
 
     /// @notice Get the APR for a staking amount currently staked in the Smart contract for the current user
-    /// @return APR The APR
+    /// return APR The APR
     function getMyStakingApr() external view returns(uint256 apr){
         return (rewardRate * 3600 * 24 * 365 * (_balances[msg.sender] * 1000000 / _totalSupply / 1000000)) / _balances[msg.sender] ;
     }
@@ -189,7 +189,7 @@ contract Staking is ReentrancyGuard, Pausable {
 
     /// @notice Set the end of the reward distribution of the SC
     /// @dev used only for calculating the total amount of reward distribution
-    /// @param _rewardsDuration the reward distribution time
+    /// param _rewardsDuration the reward distribution time
     function setRewardsDuration(uint256 _rewardsDuration) external onlyOwner{
         rewardsDuration = _rewardsDuration;
     }
