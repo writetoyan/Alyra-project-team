@@ -49,27 +49,27 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 
-function TokenManageAYG() {
+function TokenManageNAYG() {
 
   const { state: { contractAyg, contractNayg, contractNftayg, contractStaking, contractStakingNFT, accounts, addressStaking, addressStakingNFT } } = useEth();
 
-  const [addr_AYG, setAddr_AYG] = useState(contractAyg._address);
-  const [name_AYG, setName_AYG] = useState(0);
-  const [decimals_AYG, setDecimals_AYG] = useState(0);
-  const [symbol_AYG, setSymbol_AYG] = useState(0);
-  const [totalsupply_AYG, setTotalSupply_AYG] = useState(0);
-  const [amountFaucet_AYG, setAmountFaucet_AYG] = useState(0);
-  const [moveTokenAYG, setDataMoveAYG] = useState([]);
-  const [graphTokenAYG, setDataGraphAYG] = useState([]);
+  const [addr_NAYG, setAddr_NAYG] = useState(contractNayg._address);
+  const [name_NAYG, setName_NAYG] = useState(0);
+  const [decimals_NAYG, setDecimals_NAYG] = useState(0);
+  const [symbol_NAYG, setSymbol_NAYG] = useState(0);
+  const [totalsupply_NAYG, setTotalSupply_NAYG] = useState(0);
+  const [amountFaucet_NAYG, setAmountFaucet_NAYG] = useState(0);
+  const [moveTokenNAYG, setDataMoveNAYG] = useState([]);
+  const [graphTokenNAYG, setDataGraphNAYG] = useState([]);
 
-  const [nbMoveAYG, setNbMoveAYG] = useState(0);
+  const [nbMoveNAYG, setNbMoveNAYG] = useState(0);
 
 
   useEffect(() => {
-    if(contractAyg){
+    if(contractNayg){
     async function fetchData(){
         try {
-          updateAYG();
+          updateNAYG();
         } catch(err) {
             console.error(err)
         }
@@ -78,82 +78,82 @@ function TokenManageAYG() {
     }
   }, []);
 
-  const faucetAYG = async () => {
-    contractAyg.methods.faucet(accounts[0]).send({from: accounts[0]})
+  const faucetNAYG = async () => {
+    contractNayg.methods.getFaucet(accounts[0]).send({from: accounts[0]})
       .then((results) => {
         console.log(results);
         console.log(results.events.MintSupply.returnValues.amount);
-        updateAYG();
+        updateNAYG();
       })
       .catch((err) => {
         console.log(err);
       });
   }
  
-  const setFaucetAYG = async () => {
+  const setFaucetNAYG = async () => {
     let amount = 2000; // ETH (test)
-    amount = eval(amount*1000000000000000000);
-    contractAyg.methods.setFaucet(amount).send({from: accounts[0]})
+    amount = eval(amount*10**18);
+    contractNayg.methods.setFaucet(amount).send({from: accounts[0]})
       .then((results) => {
         console.log(results);
-        updateAYG();
+        updateNAYG();
       })
       .catch((err) => {
         console.log(err);
       });    
   }
   
-  const updateAYG = async () => {
-    contractAyg.methods.totalSupply().call({ from: accounts[0] })
-      .then((totalsupply_AYG) => {
-        setTotalSupply_AYG(totalsupply_AYG/1000000000000000000);
-        console.log("totalsupply_AYG = "+totalsupply_AYG);
+  const updateNAYG = async () => {
+    contractNayg.methods.totalSupply().call({ from: accounts[0] })
+      .then((totalsupply_NAYG) => {
+        setTotalSupply_NAYG(totalsupply_NAYG/1000000000000000000);
+        console.log("totalsupply_NAYG = "+totalsupply_NAYG);
       })
       .catch((err) => {
         console.log(err);
       });
 
-    contractAyg.methods.name().call({ from: accounts[0] })
-      .then((name_AYG) => {
-        setName_AYG(name_AYG);
-        console.log("name_AYG = "+name_AYG);
+    contractNayg.methods.name().call({ from: accounts[0] })
+      .then((name_NAYG) => {
+        setName_NAYG(name_NAYG);
+        console.log("name_NAYG = "+name_NAYG);
       })
       .catch((err) => {
         console.log(err);
       });
 
-    contractAyg.methods.decimals().call({ from: accounts[0] })
-      .then((decimals_AYG) => {
-        setDecimals_AYG(decimals_AYG);
-        console.log("decimals_AYG = "+decimals_AYG);
+    contractNayg.methods.decimals().call({ from: accounts[0] })
+      .then((decimals_NAYG) => {
+        setDecimals_NAYG(decimals_NAYG);
+        console.log("decimals_NAYG = "+decimals_NAYG);
       })
       .catch((err) => {
         console.log(err);
       });
 
-    contractAyg.methods.symbol().call({ from: accounts[0] })
-      .then((symbol_AYG) => {
-        setSymbol_AYG(symbol_AYG);
-        console.log("symbol_AYG = "+symbol_AYG);
+    contractNayg.methods.symbol().call({ from: accounts[0] })
+      .then((symbol_NAYG) => {
+        setSymbol_NAYG(symbol_NAYG);
+        console.log("symbol_NAYG = "+symbol_NAYG);
       })
       .catch((err) => {
         console.log(err);
       });
 
-    contractAyg.methods.amountFaucet().call({ from: accounts[0] })
-      .then((amountFaucet_AYG) => {
-        setAmountFaucet_AYG(amountFaucet_AYG/1000000000000000000);
-        console.log("amountFaucet_AYG = "+amountFaucet_AYG);
+    contractNayg.methods.amountFaucet().call({ from: accounts[0] })
+      .then((amountFaucet_NAYG) => {
+        setAmountFaucet_NAYG(amountFaucet_NAYG/1000000000000000000);
+        console.log("amountFaucet_NAYG = "+amountFaucet_NAYG);
       })
       .catch((err) => {
         console.log(err);
       });
 
-    contractAyg.getPastEvents('MintSupply', { fromBlock: 0, toBlock: 'latest' })
+    contractNayg.getPastEvents('MintSupply', { fromBlock: 0, toBlock: 'latest' })
       .then((results) => {
         let supplyTotal = 0;
-        let moveTokenAYG = [];
-        let graphTokenAYG = [];
+        let moveTokenNAYG = [];
+        let graphTokenNAYG = [];
         results.forEach(async (result) => {
 /*
           const getTimeByBlock = async(txHash) => {
@@ -164,32 +164,32 @@ function TokenManageAYG() {
           }
 */
 /*
-          contract_Erc20_AYG.getBlock(result.blockNumber)
+          contract_Erc20_NAYG.getBlock(result.blockNumber)
           .then((blockData) => {
             console.log(blockData.timestamp);
           }
 */
 
 
-          moveTokenAYG.push({ methode: result.returnValues.methode, blockNumber: result.blockNumber, amount: result.returnValues.amount/1000000000000000000, addr: result.returnValues.addr, transactionHash: result.transactionHash });
-          setDataMoveAYG(moveTokenAYG);
+          moveTokenNAYG.push({ methode: result.returnValues.methode, blockNumber: result.blockNumber, amount: result.returnValues.amount/1000000000000000000, addr: result.returnValues.addr, transactionHash: result.transactionHash });
+          setDataMoveNAYG(moveTokenNAYG);
           supplyTotal = result.returnValues.amount/1000000000000000000 + supplyTotal;
           switch (result.returnValues.methode) {
             case 'getFaucet':
-              graphTokenAYG.push({ name: result.blockNumber, supply: supplyTotal, faucet: result.returnValues.amount/1000000000000000000, reward: 0  });
+              graphTokenNAYG.push({ name: result.blockNumber, supply: supplyTotal, faucet: result.returnValues.amount/1000000000000000000, reward: 0  });
               break;
             case 'getReward':
-              graphTokenAYG.push({ name: result.blockNumber, supply: supplyTotal, faucet: 0, reward: result.returnValues.amount/1000000000000000000  });
+              graphTokenNAYG.push({ name: result.blockNumber, supply: supplyTotal, faucet: 0, reward: result.returnValues.amount/1000000000000000000  });
               break;
             default:
               console.log(`Sorry !`);
           }
-          setDataGraphAYG(graphTokenAYG);
+          setDataGraphNAYG(graphTokenNAYG);
         })
-        setNbMoveAYG(results.length);
+        setNbMoveNAYG(results.length);
 
-        console.log(moveTokenAYG)
-        console.log(graphTokenAYG)
+        console.log(moveTokenNAYG)
+        console.log(graphTokenNAYG)
       })
       .catch((err) => {
         console.log(err);
@@ -218,10 +218,10 @@ function TokenManageAYG() {
           TOKEN
         </Typography>
         <Typography variant="h5" align="center" color="text.secondary" component="p">
-        <DrawIcoToken alt="ayg" code="ayg" />&nbsp;AYG Token
+        <DrawIcoToken alt="nayg" code="nayg" />&nbsp;NAYG Token
         </Typography>
         <br />
-        ADDRESS : {addr_AYG}
+        ADDRESS : {addr_NAYG}
       </Container>
       {/* End Head */}
 
@@ -231,7 +231,7 @@ function TokenManageAYG() {
             <Grid item xs={3}>
               <Item>
                 <h3>TOTAL SUPPLY</h3>
-                <h1>{totalsupply_AYG}</h1>
+                <h1>{totalsupply_NAYG}</h1>
               </Item>
               <br />
               <Item>
@@ -239,9 +239,9 @@ function TokenManageAYG() {
                 <Button
                   variant="contained"
                   startIcon={<IconFaucet />}
-                  onClick={faucetAYG}
+                  onClick={faucetNAYG}
                 >
-                  {amountFaucet_AYG} AYG 
+                  {amountFaucet_NAYG} NAYG 
                 </Button>
                 <br />
                 <br />
@@ -249,12 +249,12 @@ function TokenManageAYG() {
               <br />
               <Item>
                 <h3>SET FAUCET (onlyOwner)</h3>
-                <TextField id="faucetAmount" label="amount" variant="outlined" value={amountFaucet_AYG} />
+                <TextField id="faucetAmount" label="amount" variant="outlined" value={amountFaucet_NAYG} />
                 <br />
                 <Button
                   variant="contained"
                   startIcon={<IconFaucet />}
-                  onClick={setFaucetAYG}
+                  onClick={setFaucetNAYG}
                 >
                   SET 
                 </Button>
@@ -267,7 +267,7 @@ function TokenManageAYG() {
               <Item>
                 <h3>GRAPH SUPPLY</h3>
                 <ResponsiveContainer width='100%' aspect={4.0/1.0}>
-                  <BarChart data={graphTokenAYG}>
+                  <BarChart data={graphTokenNAYG}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
                     <YAxis />
@@ -282,7 +282,7 @@ function TokenManageAYG() {
               </Item>
               <br />
               <Item>
-                <h3>LAST MOUVEMENT ({nbMoveAYG})</h3>
+                <h3>LAST MOUVEMENT ({nbMoveNAYG})</h3>
                 <TableContainer component={Paper}>
                   <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
@@ -294,7 +294,7 @@ function TokenManageAYG() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {moveTokenAYG.map((row) => (
+                      {moveTokenNAYG.map((row) => (
                         <TableRow
                           sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
@@ -318,4 +318,4 @@ function TokenManageAYG() {
   );
 }
 
-export default TokenManageAYG;
+export default TokenManageNAYG;

@@ -5,6 +5,8 @@ const Staking = artifacts.require("Staking");
 const EthVaultMintAyg = artifacts.require("EthVaultMintAyg");
 const PoolSwapStake = artifacts.require("PoolSwapStake");
 const Web3 = require("web3");
+const Erc721_Nftayg = artifacts.require("Erc721_Nftayg");
+const StakingNFT = artifacts.require("StakingNFT");
 
 const { mainnet_fork, kovan } = require("../helper-chainlink.js");
 
@@ -32,4 +34,19 @@ module.exports = async function (deployer, network) {
   await lptoken.addMinter(poolswap.address);
   await ayg.addMinter(poolswap.address);
   
+  await deployer.deploy(Erc721_Nftayg);
+
+  const nftayg = await Erc721_Nftayg.deployed();
+
+  await deployer.deploy(Staking, ayg.address,ayg.address);
+
+  const stakingnft = await deployer.deploy(StakingNFT, nayg.address,nftayg.address);
+
+  network == "mainnet_fork" ? 
+    ethAddress = mainnet_fork :
+    ethAddress = kovan;
+  await deployer.deploy(EthUsdPriceFeed, ethAddress);
+
+  await nftayg.setApprovalForAll(stakingnft.address, true);
+  await nayg.addAdmin(stakingnft.address);
 };

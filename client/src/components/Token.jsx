@@ -23,9 +23,6 @@ import IconButton from '@mui/material/IconButton';
 import IconFaucet from '@mui/icons-material/CleanHands';
 import IconGraph from '@mui/icons-material/Analytics';
 
-function createData(name, symbol, decimals, totalsupply, address) {
-  return { name, symbol, decimals, totalsupply, address };
-}
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -38,18 +35,29 @@ const Item = styled(Paper)(({ theme }) => ({
 
 function Token() {
 
-  const { state: { contractAyg, contract_Dapp, accounts, address_Dapp } } = useEth();
+  const { state: { contractAyg, contractNayg, contractNftayg, contractStaking, contractStakingNFT, accounts, addressStaking, addressStakingNFT } } = useEth();
 
+console.log(contractNayg._address);
+  // AYG
+  const [addr_AYG, setAddr_AYG] = useState(contractAyg._address);
   const [name_AYG, setName_AYG] = useState(0);
   const [decimals_AYG, setDecimals_AYG] = useState(0);
   const [symbol_AYG, setSymbol_AYG] = useState(0);
   const [totalsupply_AYG, setTotalSupply_AYG] = useState(0);
 
+  // NAYG
+  const [addr_NAYG, setAddr_NAYG] = useState(contractNayg._address);
+  const [name_NAYG, setName_NAYG] = useState(0);
+  const [decimals_NAYG, setDecimals_NAYG] = useState(0);
+  const [symbol_NAYG, setSymbol_NAYG] = useState(0);
+  const [totalsupply_NAYG, setTotalSupply_NAYG] = useState(0);
+
   useEffect(() => {
-    if(contractAyg){
+    if(contractAyg && contractNayg){
     async function fetchData(){
         try {
           updateAYG();
+          updateNAYG();
         } catch(err) {
             console.error(err)
         }
@@ -60,7 +68,6 @@ function Token() {
 
 
     const faucetAYG = async () => {
-//      contract_Erc20_AYG.methods.getFaucet(accounts[0]).send({from: accounts[0]})
       contractAyg.methods.faucet(accounts[0]).send({from: accounts[0]})
         .then((results) => {
           console.log(results);
@@ -71,7 +78,6 @@ function Token() {
           console.log(err);
         });
     }
-
     const updateAYG = async () => {
       contractAyg.methods.totalSupply().call({ from: accounts[0] })
         .then((totalsupply_AYG) => {
@@ -113,24 +119,59 @@ function Token() {
 
 
 
-/*
-  useEffect(() => {
-      getSupply();
-  },[""])
+    const faucetNAYG = async () => {
+      contractNayg.methods.getFaucet(accounts[0]).send({from: accounts[0]})
+        .then((results) => {
+          console.log(results);
+          console.log(results.events.MintSupply.returnValues.amount);
+          updateNAYG();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    const updateNAYG = async () => {
+      contractNayg.methods.totalSupply().call({ from: accounts[0] })
+        .then((totalsupply_NAYG) => {
+          setTotalSupply_NAYG(totalsupply_NAYG/1000000000000000000);
+          console.log("totalsupply_NAYG = "+totalsupply_NAYG);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
-*/
+      contractNayg.methods.name().call({ from: accounts[0] })
+        .then((name_NAYG) => {
+          setName_NAYG(name_NAYG);
+          console.log("name_NAYG = "+name_NAYG);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      contractNayg.methods.decimals().call({ from: accounts[0] })
+        .then((decimals_NAYG) => {
+          setDecimals_NAYG(decimals_NAYG);
+          console.log("decimals_NAYG = "+decimals_NAYG);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      contractNayg.methods.symbol().call({ from: accounts[0] })
+        .then((symbol_NAYG) => {
+          setSymbol_AYG(symbol_NAYG);
+          console.log("symbol_NAYG = "+symbol_NAYG);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+    }
+
+
+
   const navigate = useNavigate();
-
-
-  
-  function erc20GetInfo()
-  {
-    alert('ok');
-    let message = "0xCb7da6BcEbFB7314896eacf7cD532e56e7110F8d";
-//    getInfo(message);
-  }
-
-
 
 
   return (
@@ -168,6 +209,7 @@ function Token() {
                 </TableRow>
               </TableHead>
               <TableBody>
+
                   <TableRow>
                     <TableCell component="th" scope="row">
                       <Chip avatar={<Avatar alt="AYG" src="./ico_ayg.png" />} label="AYG" variant="outlined" />
@@ -175,7 +217,7 @@ function Token() {
                     <TableCell>{name_AYG}</TableCell>
                     <TableCell>{decimals_AYG}</TableCell>
                     <TableCell>{totalsupply_AYG}</TableCell>
-                    <TableCell><a href="https://kovan.etherscan.io/address/0x463669AE3079fE152c72F291A9821C47a6052767" target="_blank" rel="noreferrer">0x463669AE3079fE152c72F291A9821C47a6052767</a></TableCell>
+                    <TableCell><a href="https://kovan.etherscan.io/address/0x463669AE3079fE152c72F291A9821C47a6052767" target="_blank" rel="noreferrer">{addr_AYG}</a></TableCell>
                     <TableCell>
                       <IconButton
                         aria-label="more"
@@ -201,6 +243,41 @@ function Token() {
                       </IconButton>
                     </TableCell>
                   </TableRow>
+
+                  <TableRow>
+                    <TableCell component="th" scope="row">
+                      <Chip avatar={<Avatar alt="NAYG" src="./ico_nayg.png" />} label="NAYG" variant="outlined" />
+                    </TableCell>
+                    <TableCell>{name_NAYG}</TableCell>
+                    <TableCell>{decimals_NAYG}</TableCell>
+                    <TableCell>{totalsupply_NAYG}</TableCell>
+                    <TableCell><a href="https://kovan.etherscan.io/address/0x463669AE3079fE152c72F291A9821C47a6052767" target="_blank" rel="noreferrer">{addr_NAYG}</a></TableCell>
+                    <TableCell>
+                      <IconButton
+                        aria-label="more"
+                        size="large"
+                        onClick={(e) => {
+                          navigate('/TokenManage/nAYG');
+                        }}
+                      >
+                        <IconGraph
+                          fontSize="inherit"
+                        />
+                      </IconButton>
+                    </TableCell>
+                    <TableCell>
+                      <IconButton
+                        aria-label="more"
+                        size="large"
+                        onClick={faucetNAYG}
+                      >
+                        <IconFaucet
+                          fontSize="inherit"
+                        />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+
               </TableBody>
             </Table>
           </TableContainer>
