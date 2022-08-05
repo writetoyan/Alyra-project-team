@@ -23,16 +23,13 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 
 import Typography from '@mui/material/Typography';
 
-function createData(token1, token2, apy, totalStaked) {
-  return { token1, token2, apy, totalStaked };
+function createData(token1, token2, apy, totalStaked, link, click) {
+  return { token1, token2, apy, totalStaked, link, click };
 }
 
 const rows = [
-  createData('ayg', 'ayg', 156.2, 87458, 2.47),
-  createData('eth', 'ayg', 83.1, 54158, 1.25),
-  createData('dai', 'ayg', 0, 0, 0),
-  createData('usdt', 'ayg', 0, 0, 0),
-  createData('link', 'ayg', 0, 0, 0),
+  createData('ayg', 'ayg', 156.2, 87458, '/StakeManage/AYG', 'Stake AYG'),
+  createData('LP Token', 'ayg', 0, 0, '/StakeManage/LP', 'Stake LP token'),
 ];
 
 function DrawIcoToken({ alt, code }) {
@@ -63,7 +60,7 @@ function Stake() {
           STAKE
         </Typography>
         <Typography variant="h5" align="center" color="text.secondary" component="p">
-          Stake for earn token !
+          Stake to earn token !
         </Typography>
       </Container>
       {/* End Head */}
@@ -91,10 +88,11 @@ function Stake() {
                 </TableRow>
               </TableHead>
               <TableBody>
+              {rows.map((row) => (
                   <TableRow
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     onClick={(e) => {
-                      navigate('/StakeManage/AYG');
+                      navigate(`${row.link}`);
                     }}
                   >
                     <TableCell component="th" scope="row">
@@ -110,15 +108,17 @@ function Stake() {
                     <TableCell>
                       <IconButton
                         aria-label="more"
-                        size="large"
+                        size="small"
+                        color="primary"
                         onClick={(e) => {
-                          navigate('/StakeManage/AYG');
+                          navigate(`${row.link}`);
                         }}
                       >
-                        <IconGraph fontSize="inherit" />
+                        {row.click}
                       </IconButton>
                     </TableCell>
                   </TableRow>
+                ))}
               </TableBody>
             </Table>
           </TableContainer>

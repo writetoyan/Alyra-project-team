@@ -11,21 +11,17 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 * @notice Implements a basic ERC20 staking token with incentive distribution.
 */
 contract Erc20_Ayg is ERC20, Ownable {
-    uint public amountFaucet = 10 * 10**18;
+    
+    uint public amountFaucet = 10*10**18;
 
     event MintSupply(address addr, uint amount, string methode);
     event SetFaucet(uint amount);
-
 
 	constructor() ERC20('AYG token', 'AYG') {
         _mint(msg.sender, 20000 * 10**18);
     } 
 
-    struct Receiver {
-        bool hasClaimed;
-    }
-
-    mapping(address => Receiver) public receiver;
+    mapping(address => bool) public receiver;
     mapping(address => bool) private mintAdmin;
     uint maxTokenFaucet;
 
@@ -35,9 +31,9 @@ contract Erc20_Ayg is ERC20, Ownable {
     */
 	function faucet(address _receiver) external {
         require(msg.sender == _receiver, "You should own the account");
-        require(!receiver[_receiver].hasClaimed, "Already claimed");
+        require(receiver[_receiver] == false, "Already claimed");
         require(maxTokenFaucet < 10000 * 10**18, "Faucet is empty");
-        receiver[_receiver].hasClaimed = true;
+        receiver[_receiver] = true;
         maxTokenFaucet += amountFaucet;
 		_mint(_receiver, amountFaucet);
         emit MintSupply(_receiver, amountFaucet, "getFaucet");

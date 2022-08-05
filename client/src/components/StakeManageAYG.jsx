@@ -29,7 +29,6 @@ import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
-
 import useEth from "../contexts/EthContext/useEth";
 
 // Import Recharts UI
@@ -110,10 +109,6 @@ function StakeManage() {
 
   const [alignment, setAlignment] = React.useState('stake');
   const [inputValue, setInputValue] = React.useState("");
-  const [ethPrice, setEthPrice ] = React.useState();
-  const [aygPrice, setAygPrice ] = React.useState();
-  const [inputVault, setInputVault ] = useState();
-
   const [totalSupplyAYG, setTotalSupplyAYG] = useState(0);
   const [yourSupplyAYG, setYourSupplyAYG] = useState(0);
   const [yourEarnedAYG, setYourEarnedAYG] = useState(0);
@@ -123,6 +118,8 @@ function StakeManage() {
   const [moveUnstakingAYG, setDataUnstakingAYG] = useState([]);
   const [nbUnstakAYG, setNbUnstakAYG] = useState(0);
   const [graphStakingAYG, setDataGraphAYG] = useState([]);
+  const [aygPrice, setAygPrice] = useState();
+  const [ethPrice, setEthPrice] = useState();
  
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
@@ -209,47 +206,6 @@ function StakeManage() {
         console.log(err);
     };
   }
-
-
-// =================================== VAULT SC CALL =======================================
-
-
-const handleInputVault = event => {
-  setInputVault(event.target.value);
-}
-
-const handleVaultMint = async event => {
-  event.preventDefault();
-  try {
-    const amount = Web3.utils.toWei(inputVault);
-    await contractVault.methods.vaultDeposit(amount.toString()).send({from: accounts[0], value: amount});
-  } catch(err) {
-    console.log(err)
-  }
-}
-
-const handleVaultBurn = async event => {
-  event.preventDefault();
-  try {
-    const amount = Web3.utils.toWei(inputVault);
-    const receipt = await contractVault.methods.vaultWithdraw(amount.toString()).send({from: accounts[0]});
-    console.log(receipt);
-  } catch(err) {
-    console.log(err)
-  }
-  }
-
-const handlePriceFeed = async event => {
-  event.preventDefault();
-  try {
-    const ethPrice = await contractVault.methods.getLatestPriceEth().call({from: accounts[0]});
-    setEthPrice(web2(Web3.utils.fromWei(ethPrice)));
-    const aygPrice = await contractVault.methods.getLatestPriceBnbProxy().call({from: accounts[0]});
-    setAygPrice(web2(Web3.utils.fromWei(aygPrice)));
-  } catch(err) {
-    console.log(err)
-  }
-}
 
 //============================= UPDATE STATE ====================================
 
@@ -344,7 +300,7 @@ const handlePriceFeed = async event => {
           color="text.primary"
           gutterBottom
         >
-          STAKE
+          STAKE AYG
         </Typography>
         <Typography variant="h5" align="center" color="text.secondary" component="p">
           Informations
@@ -426,30 +382,6 @@ const handlePriceFeed = async event => {
                 <br />
               </Item>
               <br />
-              <Item>
-                <h3>ETH VAULT</h3>
-                <h4>Mint AYG by providing ETH AS collateral</h4>
-                <TextField id="filled-basic" label="Amount" variant="filled" value={inputVault} onChange={handleInputVault}/>
-                <br />
-                <br />
-                <Button variant="contained" onClick={handleVaultMint}>Mint AYG</Button>
-                <span> </span>
-                <Button variant="contained" onClick={handleVaultBurn}>Burn AYG</Button>
-                <br />
-                <br />
-                <Typography>Price of ETH: {ethPrice} $</Typography>
-                <Typography>Price of AYG: {aygPrice} $</Typography>
-                <br />
-                <Typography>Collateral needed to mint AYG: <strong>200%</strong></Typography>
-                <br />
-                <Typography>For 1 ETH, you will get: {web2(ethPrice / aygPrice /2)} AYG</Typography>
-                <br />
-                <Typography>For 1 AYG, you will get back: {web2(aygPrice / ethPrice *2)} ETH</Typography>
-                <br />
-                <Button variant="contained" onClick={handlePriceFeed}>Get latest mint / burn rate</Button>
-                <br />
-                <br />
-              </Item>
               <br />
               <Item>
                 <h3>TOOLS</h3>
