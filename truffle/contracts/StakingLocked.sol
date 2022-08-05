@@ -13,7 +13,7 @@ interface Iayg is IERC20{
     function faucet(address recipient, uint amount) external;
 }
 
-contract Staking is ReentrancyGuard, Pausable {
+contract StakingLocked is ReentrancyGuard, Pausable {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 

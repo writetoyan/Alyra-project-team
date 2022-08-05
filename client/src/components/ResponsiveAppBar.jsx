@@ -18,7 +18,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 
-const pages = ['Dashboard', 'Token', 'Swap', 'Stake', 'Pool', 'NFT'];
+const pages = ['Dashboard', 'Token', 'Vault&Swap', 'Stake', 'Pool', 'NFT'];
 const settings = ['My staking', 'My NFT'];
 
 const ResponsiveAppBar = (props) => {
@@ -108,9 +108,9 @@ const ResponsiveAppBar = (props) => {
               </Button>
             ))}
           </Box>
-
-          <ConnectButton />
-
+            <Button size="medium">
+              <ConnectButton />
+            </Button>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings" onClick={handleOpenUserMenu} sx={{ p: 2 }}>
               <Avatar>

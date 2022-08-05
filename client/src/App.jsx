@@ -21,6 +21,7 @@ import TokenManageAYG from "./components/TokenManageAYG";
 import Swap from "./components/Swap";
 import Stake from "./components/Stake";
 import StakeManageAYG from "./components/StakeManageAYG";
+import StakeManageLP from "./components/StakeManageLP";
 import Pool from "./components/Pool";
 import PoolAdd from "./components/PoolAdd";
 import PoolManage from "./components/PoolManage";
@@ -79,9 +80,10 @@ function App() {
               <Route path="/Dashboard" element={<Dashboard />} />
               <Route path="/Token" element={<Token /> }/>
               <Route path="/TokenManage/AYG" element={<TokenManageAYG />} />
-              <Route path="/Swap" element={<Swap />} />
+              <Route path="/Vault&Swap" element={<Swap />} />
               <Route path="/Stake" element={<Stake />} />
               <Route path="/StakeManage/AYG" element={<StakeManageAYG/>} />
+              <Route path="/StakeManage/LP" element={<StakeManageLP/>} />"
               <Route path="/Pool" element={<Pool />} />
               <Route path="/PoolAdd" element={<PoolAdd />} />
               <Route path="/PoolManage" element={<PoolManage />} />

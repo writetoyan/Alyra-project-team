@@ -27,10 +27,7 @@ function createData(token1, token2, poolValue, volume24, apr) {
 }
 
 const rows = [
-  createData('eth', 'dai', 100, 20, 1.25),
-  createData('eth', 'link', 0, 0, 0),
-  createData('eth', 'ayg', 0, 0, 0),
-  createData('eth', 'uni', 0, 0, 0),
+  createData('AYG', 'NAYG', 0, 0, 0),
 ];
 
 function DrawIcoToken({ alt, code }) {
@@ -115,8 +112,8 @@ function Pool() {
                     <TableCell align="right">{row.volume24}</TableCell>
                     <TableCell align="right">{row.apr}</TableCell>
                     <TableCell align="right">
-                      <IconButton aria-label="more" size="large">
-                        <IconMore fontSize="inherit" />
+                      <IconButton size="small" color="primary">
+                        Add liquidity
                       </IconButton>
                     </TableCell>
                   </TableRow>

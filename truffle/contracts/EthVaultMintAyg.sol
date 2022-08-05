@@ -18,6 +18,7 @@ contract EthVaultMintAyg {
     address aygAddress; 
 
     event vaultDeposited(address user, uint256 amount);
+    event vaultWithdrawn(address user, uint256 amount);
 
     constructor(address priceFeedEthAddress, address priceFeedBnbProxyAddress, address _aygAddress) { 
         priceFeedEth = AggregatorV3Interface(priceFeedEthAddress); 
@@ -40,6 +41,7 @@ contract EthVaultMintAyg {
         vaultDepositAmount[msg.sender] -= ethRedeem;
         (bool success, ) = msg.sender.call{value: ethRedeem}("");
         require(success, "failed to send Ether");   
+        emit vaultWithdrawn(msg.sender, _burnAmount);
     }
     
     /// @dev The right price feed contract address corresponding to the network used will be given at deployment by the helper-chainlink file

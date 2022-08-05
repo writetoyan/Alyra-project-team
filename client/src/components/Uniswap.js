@@ -42,8 +42,8 @@ export default function Uniswap() {
 
   return (
     <Container maxwidth="sx">
-      <Box marginTop={8} marginBottom={5}>
-        <Button variant="contained" onClick={connectWallet}>Activate Swap</Button>
+      <Box marginTop={4} marginBottom={5}>
+        <Button size="large" variant="contained" onClick={connectWallet}>Use Uniswap Liquidity</Button>
       </Box>
       <Box >
         <div className="Uniswap">
