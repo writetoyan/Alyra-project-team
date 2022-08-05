@@ -18,6 +18,7 @@ import Home from "./components/Home";
 import Dashboard from "./components/Dashboard";
 import Token from "./components/Token";
 import TokenManageAYG from "./components/TokenManageAYG";
+import TokenManageNAYG from "./components/TokenManageNAYG";
 import Swap from "./components/Swap";
 import Stake from "./components/Stake";
 import StakeManageAYG from "./components/StakeManageAYG";
@@ -25,6 +26,8 @@ import Pool from "./components/Pool";
 import PoolAdd from "./components/PoolAdd";
 import PoolManage from "./components/PoolManage";
 import NFT from "./components/NFT";
+import NFTmint from "./components/NFTmint";
+import NFTstaking from "./components/NFTstaking";
 import Footer from "./components/Footer";
 
 //Connect Button import
@@ -64,7 +67,6 @@ const wagmiClient = createClient({
 });
 
 function App() {
-//  const [state, setState] = useState({ isOwner: false, web3: null, accounts: null, contract_dapp: null, contract_erc20ayg: null });
 
   return (
     <EthProvider>
@@ -79,6 +81,7 @@ function App() {
               <Route path="/Dashboard" element={<Dashboard />} />
               <Route path="/Token" element={<Token /> }/>
               <Route path="/TokenManage/AYG" element={<TokenManageAYG />} />
+              <Route path="/TokenManage/nAYG" element={<TokenManageNAYG />} />
               <Route path="/Swap" element={<Swap />} />
               <Route path="/Stake" element={<Stake />} />
               <Route path="/StakeManage/AYG" element={<StakeManageAYG />} />
@@ -86,6 +89,8 @@ function App() {
               <Route path="/PoolAdd" element={<PoolAdd />} />
               <Route path="/PoolManage" element={<PoolManage />} />
               <Route path="/NFT" element={<NFT />} />
+              <Route path="/NFT/Mint" element={<NFTmint />} />
+              <Route path="/NFT/Staking" element={<NFTstaking />} />
             </Routes>
             <Footer> </Footer>
             </div>

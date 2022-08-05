@@ -1,4 +1,8 @@
 import * as React from 'react';
+import {useNavigate} from 'react-router-dom';
+
+import { styled } from '@mui/material/styles';
+
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -7,9 +11,11 @@ import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
+import LaunchIcon from '@mui/icons-material/Launch';
 
 const tiers = [
   {
@@ -44,12 +50,19 @@ const tiers = [
   },
 ];
 
-function PricingContent() {
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
+
+function NFTmint() {
+  const navigate = useNavigate();
+
   return (
     <React.Fragment>
-      <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
-      <CssBaseline />
-
       {/* Head */}
       <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 8, pb: 6 }}>
         <Typography
@@ -62,219 +75,76 @@ function PricingContent() {
           NFT
         </Typography>
         <Typography variant="h5" align="center" color="text.secondary" component="p">
-          Améliorez votre rendement grâce aux AYG NFT.
+          Are you ready ?
         </Typography>
       </Container>
       {/* End Head */}
 
-
-
-
-
-      <Container maxWidth="md" component="main">
-        <Grid container spacing={2} alignItems="flex-end">
-            <Grid
-            item
-            xs={12}
-            sm={6}
-            md={4}
-          >
-            <Card>
-              <CardContent
-                sx={{
-                  backgroundColor: (theme) =>
-                    theme.palette.mode === 'light'
-                      ? theme.palette.grey[200]
-                      : theme.palette.grey[700],
-                }}
-              >
+      <Container maxWidth="xl">
+        <Box>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Item>
+                <h2>Staking NFT</h2>
                 <Box
                   component="img"
                   sx={{
-                    height: 700,
-                    width: 500,
-                    maxHeight: { xs: 233, md: 350 },
-                    maxWidth: { xs: 166, md: 250 },
+                    height: 300,
+                    width: 400,
+                    maxHeight: { xs: 100, md: 300 },
+                    maxWidth: { xs: 133, md: 400 },
                   }}
-                  alt="Captain Alyra NFT"
-                  src="./ayg-nft_captain-alyra_ban.png"
+                  alt="Staking NFT"
+                  src="./../pic_staking.gif"
+                  onClick={(e) => {
+                    navigate('/NFT/Staking');
+                  }}
                 />
-              </CardContent>
-              <CardContent>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'baseline',
-                    mb: 2,
-                  }}
-                >
-                  <Typography component="h2" variant="h3" color="text.primary">
-                    1000
-                  </Typography>
-                  <Typography variant="h6" color="text.secondary">
-                    /$AYG
-                  </Typography>
-                </Box>
-                <ul>
-                    <Typography
-                      component="li"
-                      variant="subtitle1"
-                      align="center"
-                    >
-                      Avec ce NFT votre rendement<br />de staking AYG sera <br />boosté de <strong>+10%</strong>
-                    </Typography>
-                </ul>
-              </CardContent>
-              <CardActions>
                 <Button
                   fullWidth variant="contained"
+                  size="large"
                   onClick={(e) => {
-                    alert('Coming Soon !');
+                    navigate('/NFT/Staking');
                   }}
                 >
-                  Mint
+                  Go !
                 </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-            <Grid
-            item
-            xs={12}
-            sm={6}
-            md={4}
-          >
-            <Card>
-              <CardContent
-                sx={{
-                  backgroundColor: (theme) =>
-                    theme.palette.mode === 'light'
-                      ? theme.palette.grey[200]
-                      : theme.palette.grey[700],
-                }}
-              >
+              </Item>
+            </Grid>
+            <Grid item xs={6}>
+              <Item>
+                <h2>Minting NFT</h2>
                 <Box
                   component="img"
                   sx={{
-                    height: 700,
-                    width: 500,
-                    maxHeight: { xs: 233, md: 350 },
-                    maxWidth: { xs: 166, md: 250 },
+                    height: 300,
+                    width: 400,
+                    maxHeight: { xs: 100, md: 300 },
+                    maxWidth: { xs: 133, md: 400 },
                   }}
-                  alt="Super Alyra NFT"
-                  src="./ayg-nft_super-alyra_ban.png"
+                  alt="Minting NFT"
+                  src="./../pic_mint.gif"
+                  onClick={(e) => {
+                    navigate('/NFT/Mint');
+                  }}
                 />
-              </CardContent>
-              <CardContent>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'baseline',
-                    mb: 2,
-                  }}
-                >
-                  <Typography component="h2" variant="h3" color="text.primary">
-                    2500
-                  </Typography>
-                  <Typography variant="h6" color="text.secondary">
-                    /$AYG
-                  </Typography>
-                </Box>
-                <ul>
-                    <Typography
-                      component="li"
-                      variant="subtitle1"
-                      align="center"
-                    >
-                      Avec ce NFT votre rendement<br />de staking AYG sera <br />boosté de <strong>+30%</strong>
-                    </Typography>
-                </ul>
-              </CardContent>
-              <CardActions>
                 <Button
                   fullWidth variant="contained"
+                  size="large"
                   onClick={(e) => {
-                    alert('Coming Soon !');
+                    navigate('/NFT/Mint');
                   }}
                 >
-                  Mint
+                  Go !
                 </Button>
-              </CardActions>
-            </Card>
+              </Item>
+            </Grid>
           </Grid>
-            <Grid
-            item
-            xs={12}
-            sm={6}
-            md={4}
-          >
-            <Card>
-              <CardContent
-                sx={{
-                  backgroundColor: (theme) =>
-                    theme.palette.mode === 'light'
-                      ? theme.palette.grey[200]
-                      : theme.palette.grey[700],
-                }}
-              >
-                <Box
-                  component="img"
-                  sx={{
-                    height: 700,
-                    width: 500,
-                    maxHeight: { xs: 233, md: 350 },
-                    maxWidth: { xs: 166, md: 250 },
-                  }}
-                  alt="Wonder Alyra NFT"
-                  src="./ayg-nft_wonder-alyra_ban.png"
-                />
-              </CardContent>
-              <CardContent>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'baseline',
-                    mb: 2,
-                  }}
-                >
-                  <Typography component="h2" variant="h3" color="text.primary">
-                    4000
-                  </Typography>
-                  <Typography variant="h6" color="text.secondary">
-                    /$AYG
-                  </Typography>
-                </Box>
-                <ul>
-                    <Typography
-                      component="li"
-                      variant="subtitle1"
-                      align="center"
-                    >
-                      Avec ce NFT votre rendement<br />de staking AYG sera <br />boosté de <strong>+50%</strong>
-                    </Typography>
-                </ul>
-              </CardContent>
-              <CardActions>
-                <Button
-                  fullWidth variant="contained"
-                  onClick={(e) => {
-                    alert('Coming Soon !');
-                  }}
-                >
-                  Mint
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-        </Grid>
+        </Box>
       </Container>
-
-    </React.Fragment>
+    </React.Fragment>    
   );
 }
 
-export default function Pricing() {
-  return <PricingContent />;
-}
+export default NFTmint;
+

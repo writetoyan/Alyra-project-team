@@ -127,9 +127,6 @@ function Pool() {
 
         </Box>
       </Container>
-
-
-
     </React.Fragment>    
   );
 }
