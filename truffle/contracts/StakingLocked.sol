@@ -130,7 +130,7 @@ contract StakingLocked is ReentrancyGuard, Pausable {
         uint256 _amount = _balances[msg.sender];
         require(_amount > 0, "Cannot withdraw 0");
         //This require will lock the staked token
-        require(block.timestamp - stakingTime[msg.sender] > lockedTime);
+        require(block.timestamp - stakingTime[msg.sender] > lockedTime, "You have to wait the end of the locking period");
         _totalSupply = _totalSupply - _amount;
         _balances[msg.sender] = _balances[msg.sender] - _amount;
         stakingTime[msg.sender] = 0;
