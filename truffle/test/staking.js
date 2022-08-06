@@ -118,4 +118,59 @@ contract('Staking', function (accounts) {
       expect(new BN(_totalSupply)).to.be.bignumber.equal(new BN(0));
     });
   });
+
+  describe("Test of the function getReward", function () {
+    let amount = new BN(1000);
+  
+    before(async function () {
+      erc20_AygInstance = await ERC20_Ayg.new({ from: owner });
+      stakingInstance = await Staking.new(erc20_AygInstance.address,erc20_AygInstance.address,{ from: owner });
+      await erc20_AygInstance.approve(stakingInstance.address, amount, { from: owner });
+      await stakingInstance.stake(amount, { from: staker1 });
+      const timeDeposited = await time.latest();
+  
+      // Skip 20 seconds
+      await timeIncreaseTo(timeDeposited.add(time.duration.seconds(20)).subn(1));
+    });
+    
+    it('balanceOf of staker1 is equal to 1000 after staking', async() => {
+      let _balanceOf = await stakingInstance.balanceOf(staker1);
+      expect(new BN(_balanceOf)).to.be.bignumber.equal(new BN(1000));
+    });
+  
+    it("RewardPaid event is well sent", async function () {      
+      const _resultOfGetReward = await stakingInstance.getReward({ from: staker1 });
+      expectEvent(_resultOfGetReward, 'RewardPaid', { user: staker1, reward: new BN(20)});
+    });
+  });
+
+  describe("Test of the function exit", function () {
+    let amount = new BN(1000);
+  
+    before(async function () {
+      erc20_AygInstance = await ERC20_Ayg.new({ from: owner });
+      stakingInstance = await Staking.new(erc20_AygInstance.address,erc20_AygInstance.address,{ from: owner });
+      await erc20_AygInstance.faucetNoLimit(stakingInstance.address, amount, { from: owner });
+      await erc20_AygInstance.approve(stakingInstance.address, amount, { from: owner });
+      await stakingInstance.stake(amount, { from: staker1 });
+      const timeDeposited = await time.latest();
+  
+      // Skip 20 seconds
+      await timeIncreaseTo(timeDeposited.add(time.duration.seconds(20)).subn(1));
+
+      await stakingInstance.exit({ from: staker1 })
+    });
+    
+    it('no more token of the staker1 after exit', async() => {
+      const _balanceOf = await stakingInstance.balanceOf(staker1);
+      expect(new BN(_balanceOf)).to.be.bignumber.equal(new BN(0));
+    });
+
+    it('rewards are well earned', async() => {
+      const _balanceOf = await erc20_AygInstance.balanceOf(staker1);
+      expect(new BN(_balanceOf)).to.be.bignumber.above(new BN(20000 * 10^18));
+    });
+  });
 });
+
+
