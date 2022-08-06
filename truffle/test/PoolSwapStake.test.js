@@ -56,7 +56,7 @@ contract('PoolSwapStake', function (accounts) {
             expect(new BN(lptokenBalance)).to.be.bignumber.equal(new BN(80000));
         });
         it('should emit the DepositPool event', async () => {
-            expectEvent(deposit, 'DepositPool', {addr: pooler, aygDeposited: new BN(80000), naygDeposited: new BN(320000), lptokenMinted: new BN(80000)})
+            expectEvent(deposit, 'DepositPool', {_addr: pooler, _aygDeposited: new BN(80000), _naygDeposited: new BN(320000), _lptokenMinted: new BN(80000)})
         });
         it('should update the struct SLPToken', async () => {
             await poolInstance.depositPool(20000, 80000, {from: pooler});
@@ -82,7 +82,7 @@ contract('PoolSwapStake', function (accounts) {
             expect(new BN(naygBalanceAfter)).to.be.bignumber.equal(new BN(naygBalanceBefore + 40000));
         });
         it('should emit the WithdrawPool event', async () => {
-            expectEvent(withdraw, 'WithdrawPool', {addr: pooler, aygWithdrawn: new BN(10000), naygWithdrawn: new BN(40000), lptokenBurned: new BN(10000)})
+            expectEvent(withdraw, 'WithdrawPool', {_addr: pooler, _aygWithdrawn: new BN(10000), _naygWithdrawn: new BN(40000), _lptokenBurned: new BN(10000)})
         });
         it('should burn the lp token', async () => {
             totalLpTokenAfter = await lptokenInstance.totalSupply.call();
@@ -155,7 +155,7 @@ contract('PoolSwapStake', function (accounts) {
             expect(new BN(swaperNaygBalanceAfter)).to.be.bignumber.equal(new BN(swaperNaygBalanceBefore + 40000 - tradingFees));
         });
         it('should emit the SwapedAyg event', async () => {
-            expectEvent(swap, 'SwapedAyg', {swaperAddr: swaper, swapedAmount: new BN(10000), amountReceived: new BN(38800), tradingFees: new BN(tradingFees)});
+            expectEvent(swap, 'SwapedAyg', {_swaperAddr: swaper, _swapedAmount: new BN(10000), _amountReceived: new BN(38800), _tradingFees: new BN(tradingFees)});
         });
     });
 
@@ -215,7 +215,7 @@ contract('PoolSwapStake', function (accounts) {
             expect(new BN(swaperNaygBalanceAfter)).to.be.bignumber.equal(new BN(swaperNaygBalanceBefore - 40000));
         });
         it('should emit the SwapedNayg event', async () => {
-            expectEvent(swap, 'SwapedNayg', {swaperAddr: swaper, swapedAmount: new BN(40000), amountReceived: new BN(9700), tradingFees: new BN(tradingFees)});
+            expectEvent(swap, 'SwapedNayg', {_swaperAddr: swaper, _swapedAmount: new BN(40000), _amountReceived: new BN(9700), _tradingFees: new BN(tradingFees)});
         });
     });
 
@@ -253,7 +253,7 @@ contract('PoolSwapStake', function (accounts) {
             expect(new BN(stakerLpTokenBalanceAfter)).to.be.bignumber.equal(new BN(stakerLpTokenBalanceBefore - 10000));
         });
         it('should emit the NewStake event', async () => {
-            expectEvent(stake, 'NewStake', {addr: staker, amount: new BN(10000), stakeId: new BN(0)});
+            expectEvent(stake, 'NewStake', {_addr: staker, _amount: new BN(10000), _stakeId: new BN(0)});
         });
         it('Should transfer the staked amount and the reward in AYG', async () => {
             stakerLpTokenBalanceBefore = (await lptokenInstance.balanceOf(staker)).toNumber();
@@ -271,7 +271,7 @@ contract('PoolSwapStake', function (accounts) {
             expect(new BN(stakerAygBalanceAfter)).to.be.bignumber.greaterThan(new BN(stakerAygBalanceBefore));
         });
         it('should emit the Unstake event', async () => {
-            expectEvent(unstake, 'Unstake', {addr: staker, amount: new BN(10000), reward: new BN(reward)});
+            expectEvent(unstake, 'Unstake', {_addr: staker, _amount: new BN(10000), _reward: new BN(reward)});
         });
     })
 
