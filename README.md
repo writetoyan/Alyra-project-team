@@ -349,13 +349,13 @@ $ npm install --save @chainlink/contracts
 ## 2.4. Tests unitaires des Smarts Contracts
 Contrat Staking et StakingLocked
 
-![alt text](https://i.postimg.cc/287qQ0Nd/Capture-d-e-cran-2022-08-06-a-13-49-33.png)
+![N|Solid](assets/staking_staking_locked_UT.png)
 
 ### 2.4.1. Résultat du Coverage
 
 ### 2.4.2. Résultat de la consomation de gas
 
-![alt text](https://i.postimg.cc/wjW7P3v7/Capture-d-e-cran-2022-08-06-a-13-49-43.png)
+![N|Solid](assets/staking_staking_locked_gas_reporter.png)
 
 <br /><hr />
 
