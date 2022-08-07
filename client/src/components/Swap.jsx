@@ -149,81 +149,82 @@ const handleVaultBurn = async event => {
   return (
     
     <React.Fragment>
-      <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 8, pb: 6 }}>
+      <Container disableGutters maxWidth="xl" component="main" sx={{ pt: 8, pb: 6 }}>
         <Typography component="h1" variant="h2" align="center" color="text.primary" gutterBottom>
             VAULT & SWAP
         </Typography>
         <Typography variant="h5" align="center" color="text.secondary" component="p">Provide ETH as collateral to mint AYG </Typography>
         <Typography variant="h5" align="center" color="text.secondary" component="p">Swap on our protocol between AYG and NAYG</Typography>
+        <br />
+        <Grid item xs={12} container spacing={8} justifyContent="center">
+          <Grid item xs={4}>
+            <Card item xs={3} marginTop={5}>
+              <br />
+              <Typography variant="h4">ETH VAULT</Typography>
+              <Typography variant="h6" align="center" color="text.secondary" component="p">Mint AYG by providing ETH as collateral</Typography>
+              <br />
+              <TextField label="Amount" variant="filled" value={inputVault} onChange={handleInputVault}/>
+              <br />
+              <br />
+              <Button size="large" variant="contained" onClick={handleVaultMint}>Mint AYG</Button>
+              <span> </span>
+              <Button size="large" variant="contained" onClick={handleVaultBurn}>Burn AYG</Button>
+              <br />
+              <br />
+              <Typography>Price of ETH: {ethPrice} $</Typography>
+              <Typography>Price of AYG: {aygPrice} $</Typography>
+              <br />
+              <Typography>Collateral needed to mint AYG: <strong>200%</strong></Typography>
+              <br />
+              <Typography>For 1 ETH, you will get: {web2(ethPrice / aygPrice /2)} AYG</Typography>
+              <Typography>For 1 AYG, you will get back: {web2(aygPrice / ethPrice *2)} ETH</Typography>
+              <br />
+              <Button size="large" variant="contained" onClick={handlePriceFeed}>Get latest mint / burn rate</Button>
+              <br />
+              <br />
+            </Card>
+          </Grid>
+          <Grid item xs={4}>
+            <Card >
+              <br />
+                <Typography variant="h4">Swap AYG and NAYG</Typography>
+                <br />
+                <TextField label="Enter AYG amount" variant="filled" value={inputAygSwap} onChange={handleInputAyg}/>
+                <br />
+                <br />
+                <Typography >You will get {web2(estAygSwap - tradingFees)} NAYG</Typography>
+                <Typography >Trading fees {tradingFees} NAYG</Typography>
+                <br />
+                <Button size="large" variant="contained"onClick={handlePriceFeed}> Estimation </Button>
+                <span> </span>
+                <Button size="large" variant="contained"onClick={handleSwapAYG}> SWAP AYG </Button>
+                <br />
+                <br />
+                <TextField label="Enter NAYG amount" variant="filled" value={inputNaygSwap} onChange={handleInputNayg}/>
+                <br />
+                <br />
+                <Typography >You will get {web2(estNaygSwap - tradingFeesN)} AYG</Typography>
+                <Typography >Trading fees {tradingFeesN} AYG</Typography>
+                <br />
+                <Button size="large" variant="contained"onClick={handlePriceFeed}> Estimation </Button>
+                <span> </span>
+                <Button size="large" variant="contained" onClick={handleSwapNAYG}> SWAP NAYG </Button>
+                <br />
+                <br />         
+            </Card >
+          </Grid>
+          <Grid item xs={4}>
+            <Card item xs={3} marginTop={5}>
+              <br />
+              <Typography variant="h4">Swap ETH for AYG</Typography>
+              <Uniswap />
+              <br />
+            </Card>
+            <br />
+          </Grid>
+        </Grid>      
       </Container>
-      <Grid item xs={12} container spacing={8} justifyContent="center">
-        <Grid item xs={3}>
-          <Card item xs={3} marginTop={5}>
-            <br />
-            <Typography variant="h4">ETH VAULT</Typography>
-            <Typography variant="h6" align="center" color="text.secondary" component="p">Mint AYG by providing ETH as collateral</Typography>
-            <br />
-            <TextField label="Amount" variant="filled" value={inputVault} onChange={handleInputVault}/>
-            <br />
-            <br />
-            <Button size="large" variant="contained" onClick={handleVaultMint}>Mint AYG</Button>
-            <span> </span>
-            <Button size="large" variant="contained" onClick={handleVaultBurn}>Burn AYG</Button>
-            <br />
-            <br />
-            <Typography>Price of ETH: {ethPrice} $</Typography>
-            <Typography>Price of AYG: {aygPrice} $</Typography>
-            <br />
-            <Typography>Collateral needed to mint AYG: <strong>200%</strong></Typography>
-            <br />
-            <Typography>For 1 ETH, you will get: {web2(ethPrice / aygPrice /2)} AYG</Typography>
-            <Typography>For 1 AYG, you will get back: {web2(aygPrice / ethPrice *2)} ETH</Typography>
-            <br />
-            <Button size="large" variant="contained" onClick={handlePriceFeed}>Get latest mint / burn rate</Button>
-            <br />
-            <br />
-          </Card>
-        </Grid>
-        <Grid item xs={3}>
-          <Card >
-            <br />
-              <Typography variant="h4">Swap AYG and NAYG</Typography>
-              <br />
-              <TextField label="Enter AYG amount" variant="filled" value={inputAygSwap} onChange={handleInputAyg}/>
-              <br />
-              <br />
-              <Typography >You will get {web2(estAygSwap - tradingFees)} NAYG</Typography>
-              <Typography >Trading fees {tradingFees} NAYG</Typography>
-              <br />
-              <Button size="large" variant="contained"onClick={handlePriceFeed}> Estimation </Button>
-              <span> </span>
-              <Button size="large" variant="contained"onClick={handleSwapAYG}> SWAP AYG </Button>
-              <br />
-              <br />
-              <TextField label="Enter NAYG amount" variant="filled" value={inputNaygSwap} onChange={handleInputNayg}/>
-              <br />
-              <br />
-              <Typography >You will get {web2(estNaygSwap - tradingFeesN)} AYG</Typography>
-              <Typography >Trading fees {tradingFeesN} AYG</Typography>
-              <br />
-              <Button size="large" variant="contained"onClick={handlePriceFeed}> Estimation </Button>
-              <span> </span>
-              <Button size="large" variant="contained" onClick={handleSwapNAYG}> SWAP NAYG </Button>
-              <br />
-              <br />         
-          </Card >
-        </Grid>
-        <Grid item xs={3}>
-          <Card item xs={3} marginTop={5}>
-            <br />
-            <Typography variant="h4">Swap ETH for AYG</Typography>
-            <Uniswap />
-            <br />
-          </Card>
-          <br />
-        </Grid>
-      </Grid>      
-      
+
     </React.Fragment>
 
 );}

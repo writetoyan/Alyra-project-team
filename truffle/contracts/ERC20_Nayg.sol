@@ -12,23 +12,33 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 */
 contract Erc20_Nayg is ERC20, Ownable {
 
+    // VARIABLES
     mapping(address => bool) admins;
 
     uint maxTokenFaucet;
-    uint public amountFaucet = 100*10**18;
+    uint public amountFaucet = 1000*10**18;
 
+
+    // EVENTS
     event MintSupply(address addr, uint amount, string methode);
     event SetFaucet(uint amount);
 
+
+    // CONSTRUCTORS
     constructor() ERC20("nAYG Token", "nAYG") {
         _mint(msg.sender, 20000 * 10**18);
-    } 
+        emit MintSupply(msg.sender, 20000 * 10**18, "getFaucet");
+    }
+
+
+    // MODIFIERS
     modifier onlyAdmin() {
         require(admins[msg.sender], "You're not an admin");
         _;
     }
 
-   /**@dev Reward for token ERC20 nAYG
+
+   /**@dev The reward for token ERC20 nAYG
     * @notice Claim reward from staking on our protocol.
     * @param _to is the address that is claiming in the reward
     * @param _amount is the amount of reward claim
@@ -39,18 +49,8 @@ contract Erc20_Nayg is ERC20, Ownable {
         emit MintSupply(_to, _amount, "getReward");
     } 
 
-   /**
-    * @notice The faucet for the Staking Token AYG.
-    * @param recipient The address to receive all tokens on construction.
-    * @param amount The amount of tokens to mint on construction.
-    */
-	function faucet(address recipient, uint amount) external {
-		_mint(recipient, amount);
-        emit MintSupply(recipient, amount, "faucet");
-	}
 
-
-   /**@dev Faucet for token ERC20 nAYG
+   /**@dev The faucet for token ERC20 nAYG
     * @notice Be quick to claim and test our protocol. The faucet is unlimited
     * @param _receiver is the address that is claiming in the faucet
     */
@@ -64,8 +64,19 @@ contract Erc20_Nayg is ERC20, Ownable {
 
 
    /**
-    * @notice The faucet for the Token nAYG.
-    * @param amount The amount to setup for claim faucet.
+    * @notice The faucet for the Staking Token AYG.
+    * @param recipient is thee address to receive all tokens on construction.
+    * @param amount is the amount of tokens to mint on construction.
+    */
+	function faucet(address recipient, uint amount) external {
+		_mint(recipient, amount);
+        emit MintSupply(recipient, amount, "getFaucet");
+	}
+
+
+   /**
+    * @notice Setter amount for faucet of Token nAYG.
+    * @param amount is the amount to setup for claim faucet.
     */
 	function setFaucet(uint amount) external onlyOwner {
         amountFaucet = amount;
@@ -73,11 +84,19 @@ contract Erc20_Nayg is ERC20, Ownable {
 	}
 
 
+   /**
+    * @notice Add user to approuve contract
+    * @param _addr is the address to set approve contract
+    */
     function addAdmin(address _addr) external onlyOwner {
         admins[_addr] = true;
     }
 
 
+   /**
+    * @notice Remove user to approuve contract
+    * @param _addr is the address to unset approve contract
+    */
     function delAdmin(address _addr) external onlyOwner {
         admins[_addr] = false;
     }

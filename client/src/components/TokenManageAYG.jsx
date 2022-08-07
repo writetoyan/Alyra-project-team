@@ -40,6 +40,11 @@ function DrawIcoToken({ alt, code }) {
   />
 }
 
+function DrawLinkAHrefExplorer(props) {
+  const url = `https://kovan.etherscan.io/address/${props.addr}`;
+  return <a href={url} target='_blank'>{props.addr}</a>
+}
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -220,8 +225,10 @@ function TokenManageAYG() {
         <Typography variant="h5" align="center" color="text.secondary" component="p">
         <DrawIcoToken alt="ayg" code="ayg" />&nbsp;AYG Token
         </Typography>
-        <br />
-        ADDRESS : {addr_AYG}
+        <br />CONTRACT&nbsp;ERC20&nbsp;:&nbsp;
+        <DrawLinkAHrefExplorer
+          addr={addr_AYG}
+        />
       </Container>
       {/* End Head */}
 
@@ -231,7 +238,7 @@ function TokenManageAYG() {
             <Grid item xs={3}>
               <Item>
                 <h3>TOTAL SUPPLY</h3>
-                <h1>{totalsupply_AYG}</h1>
+                <h1>{totalsupply_AYG} $AYG</h1>
               </Item>
               <br />
               <Item>
@@ -243,7 +250,7 @@ function TokenManageAYG() {
                 >
                   {amountFaucet_AYG} AYG 
                 </Button>
-                <br />
+                <br />claim limited x1
                 <br />
               </Item>
               <br />

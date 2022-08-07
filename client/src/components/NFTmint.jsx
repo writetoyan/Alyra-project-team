@@ -6,7 +6,6 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import CardHeader from '@mui/material/CardHeader';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -15,12 +14,18 @@ import Container from '@mui/material/Container';
 
 import useEth from "../contexts/EthContext/useEth";
 
+function DrawLinkAHrefExplorer(props) {
+  const url = `https://kovan.etherscan.io/address/${props.addr}`;
+  return <a href={url} target="_blank" rel="noreferrer">{props.addr}</a>
+}
+
 
 function NFTmint() {
   const navigate = useNavigate();
 
-  const { state: { contractAyg, contractNayg, contractNftayg, contractStaking, contractStakingNFT, accounts, addressStaking } } = useEth();
+  const { state: { contractAyg, contractNftayg, accounts } } = useEth();
 
+  const [addr_NFTAYG, setAddr_NFTAYG] = useState(contractNftayg._address);
   const [totalSupply, setTotalSupply] = useState(0);
   const [mintButton, setMintButton] = useState(false);
   const [mintStatus, setMintStatus] = useState("MINT");
@@ -107,6 +112,15 @@ function NFTmint() {
         >
           NFT Mint
         </Typography>
+
+        <Typography>
+          CONTRACT ERC721&nbsp;:&nbsp;
+          <DrawLinkAHrefExplorer
+            addr={addr_NFTAYG}
+          />
+        </Typography>
+        <br />
+
         <Typography variant="h5" align="center" color="text.secondary" component="p">
           Grace au staking de NFTs<br />vous obtenez du <strong>$nAYG</strong> en récompense.<br />
           La supply totale est de <strong>5</strong> NFTs tout type confondu.<br />

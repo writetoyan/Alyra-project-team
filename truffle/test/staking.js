@@ -173,4 +173,3 @@ contract('Staking', function (accounts) {
   });
 });
 
-

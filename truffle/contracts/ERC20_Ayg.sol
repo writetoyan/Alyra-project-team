@@ -17,8 +17,9 @@ contract Erc20_Ayg is ERC20, Ownable {
     event MintSupply(address addr, uint amount, string methode);
     event SetFaucet(uint amount);
 
-	constructor() ERC20('AYG token', 'AYG') {
+	constructor() ERC20('AYG Token', 'AYG') {
         _mint(msg.sender, 20000 * 10**18);
+        emit MintSupply(msg.sender, 20000 * 10**18, "getFaucet");
     } 
 
     mapping(address => bool) public receiver;

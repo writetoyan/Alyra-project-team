@@ -8,8 +8,8 @@ import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
 import useEth from "../contexts/EthContext/useEth";
 
-function StakeManageLP() {
 
+function StakeManageLP() {
 
   const { state: { contractLPToken, contractPoolSwap, addressPoolSwap, accounts } } = useEth();
   const [inputStake, setInputStake] = useState("");

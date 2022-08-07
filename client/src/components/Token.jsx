@@ -32,10 +32,14 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+function DrawLinkAHrefExplorer(props) {
+  const url = `https://kovan.etherscan.io/address/${props.addr}`;
+  return <a href={url} target="_blank" rel="noreferrer">{props.addr}</a>
+}
 
 function Token() {
 
-  const { state: { contractAyg, contractNayg, contractNftayg, contractStaking, contractStakingNFT, accounts, addressStaking, addressStakingNFT } } = useEth();
+  const { state: { contractAyg, contractNayg, accounts } } = useEth();
 
 console.log(contractNayg._address);
   // AYG
@@ -81,7 +85,9 @@ console.log(contractNayg._address);
     const updateAYG = async () => {
       contractAyg.methods.totalSupply().call({ from: accounts[0] })
         .then((totalsupply_AYG) => {
-          setTotalSupply_AYG(totalsupply_AYG/1000000000000000000);
+          totalsupply_AYG = totalsupply_AYG/10**18;
+          totalsupply_AYG = Math.round(totalsupply_AYG * 100) / 100;
+          setTotalSupply_AYG(totalsupply_AYG);
           console.log("totalsupply_AYG = "+totalsupply_AYG);
         })
         .catch((err) => {
@@ -133,7 +139,9 @@ console.log(contractNayg._address);
     const updateNAYG = async () => {
       contractNayg.methods.totalSupply().call({ from: accounts[0] })
         .then((totalsupply_NAYG) => {
-          setTotalSupply_NAYG(totalsupply_NAYG/1000000000000000000);
+          totalsupply_NAYG = totalsupply_NAYG/10**18;
+          totalsupply_NAYG = Math.round(totalsupply_NAYG * 100) / 100;
+          setTotalSupply_NAYG(totalsupply_NAYG);
           console.log("totalsupply_NAYG = "+totalsupply_NAYG);
         })
         .catch((err) => {
@@ -172,7 +180,6 @@ console.log(contractNayg._address);
 
 
   const navigate = useNavigate();
-
 
   return (
     <div className="Token">
@@ -217,7 +224,11 @@ console.log(contractNayg._address);
                     <TableCell>{name_AYG}</TableCell>
                     <TableCell>{decimals_AYG}</TableCell>
                     <TableCell>{totalsupply_AYG}</TableCell>
-                    <TableCell><a href="https://kovan.etherscan.io/address/0x463669AE3079fE152c72F291A9821C47a6052767" target="_blank" rel="noreferrer">{addr_AYG}</a></TableCell>
+                    <TableCell>
+                      <DrawLinkAHrefExplorer
+                        addr={addr_AYG}
+                      />
+                    </TableCell>
                     <TableCell>
                       <IconButton
                         aria-label="more"
@@ -251,7 +262,11 @@ console.log(contractNayg._address);
                     <TableCell>{name_NAYG}</TableCell>
                     <TableCell>{decimals_NAYG}</TableCell>
                     <TableCell>{totalsupply_NAYG}</TableCell>
-                    <TableCell><a href="https://kovan.etherscan.io/address/0x463669AE3079fE152c72F291A9821C47a6052767" target="_blank" rel="noreferrer">{addr_NAYG}</a></TableCell>
+                    <TableCell>
+                      <DrawLinkAHrefExplorer
+                        addr={addr_NAYG}
+                      />
+                    </TableCell>
                     <TableCell>
                       <IconButton
                         aria-label="more"

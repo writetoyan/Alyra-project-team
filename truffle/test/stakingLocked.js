@@ -180,4 +180,3 @@ contract('StakingLocked', function (accounts) {
   });
 });
 
-

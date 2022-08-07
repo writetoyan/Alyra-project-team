@@ -40,6 +40,11 @@ function DrawIcoToken({ alt, code }) {
   />
 }
 
+function DrawLinkAHrefExplorer(props) {
+  const url = `https://kovan.etherscan.io/address/${props.addr}`;
+  return <a href={url} target='_blank'>{props.addr}</a>
+}
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -106,7 +111,9 @@ function TokenManageNAYG() {
   const updateNAYG = async () => {
     contractNayg.methods.totalSupply().call({ from: accounts[0] })
       .then((totalsupply_NAYG) => {
-        setTotalSupply_NAYG(totalsupply_NAYG/1000000000000000000);
+        totalsupply_NAYG = totalsupply_NAYG/10**18;
+        totalsupply_NAYG = Math.round(totalsupply_NAYG * 100) / 100;
+        setTotalSupply_NAYG(totalsupply_NAYG);
         console.log("totalsupply_NAYG = "+totalsupply_NAYG);
       })
       .catch((err) => {
@@ -142,7 +149,7 @@ function TokenManageNAYG() {
 
     contractNayg.methods.amountFaucet().call({ from: accounts[0] })
       .then((amountFaucet_NAYG) => {
-        setAmountFaucet_NAYG(amountFaucet_NAYG/1000000000000000000);
+        setAmountFaucet_NAYG(amountFaucet_NAYG/10**18);
         console.log("amountFaucet_NAYG = "+amountFaucet_NAYG);
       })
       .catch((err) => {
@@ -171,15 +178,15 @@ function TokenManageNAYG() {
 */
 
 
-          moveTokenNAYG.push({ methode: result.returnValues.methode, blockNumber: result.blockNumber, amount: result.returnValues.amount/1000000000000000000, addr: result.returnValues.addr, transactionHash: result.transactionHash });
+          moveTokenNAYG.push({ methode: result.returnValues.methode, blockNumber: result.blockNumber, amount: result.returnValues.amount/10**18, addr: result.returnValues.addr, transactionHash: result.transactionHash });
           setDataMoveNAYG(moveTokenNAYG);
-          supplyTotal = result.returnValues.amount/1000000000000000000 + supplyTotal;
+          supplyTotal = result.returnValues.amount/10**18 + supplyTotal;
           switch (result.returnValues.methode) {
             case 'getFaucet':
-              graphTokenNAYG.push({ name: result.blockNumber, supply: supplyTotal, faucet: result.returnValues.amount/1000000000000000000, reward: 0  });
+              graphTokenNAYG.push({ name: result.blockNumber, supply: supplyTotal, faucet: result.returnValues.amount/10**18, reward: 0  });
               break;
             case 'getReward':
-              graphTokenNAYG.push({ name: result.blockNumber, supply: supplyTotal, faucet: 0, reward: result.returnValues.amount/1000000000000000000  });
+              graphTokenNAYG.push({ name: result.blockNumber, supply: supplyTotal, faucet: 0, reward: result.returnValues.amount/10**18  });
               break;
             default:
               console.log(`Sorry !`);
@@ -220,8 +227,12 @@ function TokenManageNAYG() {
         <Typography variant="h5" align="center" color="text.secondary" component="p">
         <DrawIcoToken alt="nayg" code="nayg" />&nbsp;NAYG Token
         </Typography>
-        <br />
-        ADDRESS : {addr_NAYG}
+        <Typography variant="h7" align="center" color="text.secondary" component="p">
+        <br />CONTRACT&nbsp;ERC20&nbsp;:&nbsp;
+        <DrawLinkAHrefExplorer
+          addr={addr_NAYG}
+        />
+        </Typography>
       </Container>
       {/* End Head */}
 
@@ -231,7 +242,7 @@ function TokenManageNAYG() {
             <Grid item xs={3}>
               <Item>
                 <h3>TOTAL SUPPLY</h3>
-                <h1>{totalsupply_NAYG}</h1>
+                <h1>{totalsupply_NAYG} $nAYG</h1>
               </Item>
               <br />
               <Item>
@@ -243,7 +254,7 @@ function TokenManageNAYG() {
                 >
                   {amountFaucet_NAYG} NAYG 
                 </Button>
-                <br />
+                <br />claim unlimited
                 <br />
               </Item>
               <br />
@@ -274,8 +285,8 @@ function TokenManageNAYG() {
                     <Tooltip />
                     <Legend />
                     <Bar dataKey="supply" stackId="a" fill="#8884d8" />
-                    <Bar dataKey="faucet" stackId="a" fill="#82ca9d" />
-                    <Bar dataKey="reward" stackId="a" fill="#df99a1" />
+                    <Bar dataKey="faucet" stackId="b" fill="#82ca9d" />
+                    <Bar dataKey="reward" stackId="c" fill="#df99a1" />
                   </BarChart>
                 </ResponsiveContainer>
                 <br />

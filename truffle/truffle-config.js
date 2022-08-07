@@ -31,15 +31,18 @@ module.exports = {
 
   },
 
+  plugins: ["solidity-coverage"],
+
   // Set default mocha options here, use special reporters, etc.
   mocha: {
     // timeout: 100000
-    //   reporter: 'eth-gas-reporter',
-    //   reporterOptions : { 
-    //     gasPrice:1,
-    //     token:'ETH',
-    //     showTimeSpent: true,
-    //  }
+     reporter: 'eth-gas-reporter',
+     reporterOptions : { 
+       gasPrice:1,
+       token:'ETH',
+       showTimeSpent: true,
+       coinmarketcap: 'be6197c7-1c94-4f24-b4c5-ec1fb6351898',
+    }
   },
 
   // Configure your compilers
