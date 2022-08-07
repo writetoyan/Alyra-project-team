@@ -40,17 +40,28 @@ __Auteurs :__
 
 1. Présentation de la Dapp du projet staking
 
+<br />
 
 
 2. Présentation du contrat de staking
 
 https://youtu.be/3WialhsSXkU
 
+<br />
 
 3. Vidéo du POOL, du staking du LP, du SWAP et du VAULT
 
 https://www.loom.com/share/3279657767cd42c79f790880d00a74ba
 
+<br />
+
+4. Vidéo du Staking NFT, mint, stake, claim et unstaske.
+
+https://www.loom.com/share/d63955c6bdc64caead3c1e7f4a8e6940
+
+https://www.loom.com/share/33e2b2817f13455cab2c000fdb391c41
+
+<br />
 
 ![N|Solid](assets/ban_hr.png)
 
