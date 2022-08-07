@@ -37,8 +37,6 @@ __Auteurs :__
 <br />
 <br />
 <br />
-<br />
-<br />
 
 1. Présentation de la Dapp du projet staking
 
@@ -48,12 +46,21 @@ __Auteurs :__
 
 https://youtu.be/3WialhsSXkU
 
+<br />
 
 3. Vidéo du POOL, du staking du LP, du SWAP et du VAULT
 
 https://www.loom.com/share/3279657767cd42c79f790880d00a74ba
 
+<br />
 
+4. Vidéo du Staking NFT, mint, stake, claim et unstaske.
+
+https://www.loom.com/share/d63955c6bdc64caead3c1e7f4a8e6940
+
+https://www.loom.com/share/33e2b2817f13455cab2c000fdb391c41
+
+<br />
 ![N|Solid](assets/ban_hr.png)
 
 # Table des matières  
@@ -69,6 +76,7 @@ https://www.loom.com/share/3279657767cd42c79f790880d00a74ba
     - [1.1.6. ChaiJS](#116-chaijs)
     - [1.1.7. Solidity Coverage](#117-solidity-coverage)
     - [1.1.8. Eth-Gas-Reporter](#118-eth-gas-reporter)
+    - [1.1.9. Rainbowkit et Uniswap widget](#119-rainbowkit-et-uniswap-widget)
   - [1.2. Paramétrage des fichiers de configurations](#12-paramétrage-des-fichiers-de-configurations)
     - [1.2.1. Fichier truffle-config.js](#121-fichier-truffle-configjs)
     - [1.2.2. Fichier .env](#122-fichier-env)
