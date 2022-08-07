@@ -40,8 +40,16 @@ __Auteurs :__
 <br />
 <br />
 
+1. Présentation de la Dapp du projet staking
 
-Vidéo du POOL, du staking du LP, du SWAP et du VAULT
+
+
+2. Présentation du contrat de staking
+
+https://youtu.be/3WialhsSXkU
+
+
+3. Vidéo du POOL, du staking du LP, du SWAP et du VAULT
 
 https://www.loom.com/share/3279657767cd42c79f790880d00a74ba
 
