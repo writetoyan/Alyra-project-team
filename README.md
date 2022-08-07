@@ -1,6 +1,9 @@
 ![N|Solid](assets/ban_logo.png)
 
 Ce projet DeFi consiste à mettre en place une solution de stacking ERC20 utilisant une méthode de récompense proportionnelle au montant stacké.
+Le staking principal se fait sur le token du protocol AYG qui permet de générer du token AYG. Nous avons en plus introduit un staking de LP token lorsque l'utilisateur fournit de la liquidité dans la pool maison du protocol. Il permet également d'être récompensé avec des tokens AYG. Enfin, l'utilisateur peut minter des NFT pour obtenir des bonus de staking en étant récompensé par des tokens spécifique les nAYG. Ceux-ci constituent avec le token principal, le AYG, une pool qui permet de swap entre eux ces deux tokens. générant ainsi des trading fees et staking rewards pour ces derniers. 
+Le protocol permet également d'obtenir des tokens AYG en fournissant en collatéral de l'ETH dans un VAULT. Grâce à Chainlink, nous avons défini que ces derniers, peuvent minter la moitié de la valeur d'un ETH en token AYG, soit un collatéral de 200%.
+Nous avons également rajouté en bonus le widget d'Uniswap qui lorsque nous aurons déployé la dapp sur le tesnet Kovan, permettra de réaliser des swap entre l'ETH et le AYG.
 
 __Auteurs :__
 - Alex YE
@@ -24,6 +27,12 @@ __Auteurs :__
 - Créer son propre token de récompense ou utiliser l’ETH ou un autre token ERC20 
 - Respecter un ratio entre la quantité de la récompense et la valeur bloquées sur le smart contract
 - Utiliser l’oracle Chainlink
+- Stake un token ERC20 avec vérouillage pendant un temps donnée pour obtenir des récompenses supplémentaires
+- Calculer l'APR
+- Connexion à Chainlink pour récupérer les pairs de valeurs
+- Fonction de vault
+- Swap de notre token AYG avec du nAYG
+- Récompense par NFT
 
 <br />
 <br />
@@ -32,7 +41,9 @@ __Auteurs :__
 <br />
 
 
+Vidéo du POOL, du staking du LP, du SWAP et du VAULT
 
+https://www.loom.com/share/3279657767cd42c79f790880d00a74ba
 
 
 ![N|Solid](assets/ban_hr.png)
@@ -207,6 +218,15 @@ $ npm install --save-dev --prefixe . eth-gas-reporter
 
 <br /><hr />
 
+### 1.1.9. Rainbowkit et Uniswap widget
+
+```sh
+$ npm install @rainbow-me/rainbowkit
+
+$ npm install @uniswap/widgets
+```
+
+
 ## 1.2. Paramétrage des fichiers de configurations
 
 <br />
@@ -355,7 +375,92 @@ Contrat Staking et StakingLocked
 
 ### 2.4.2. Résultat de la consomation de gas
 
+**Staking et StakingLocked Smart Contract Test**
+
 ![N|Solid](assets/staking_staking_locked_gas_reporter.png)
+
+**PoolSwapStake Smart Contract Test**
+
+```
+
+Compiling your contracts...
+===========================
+> Everything is up to date, there is nothing to compile.
+
+  Contract: PoolSwapStake
+    Pool testing
+      ✓ should transfert the pooling tokens to the pool contract (558ms, 234341 gas)
+      ✓ should mint the right amount of lp token to the pooler (25ms)
+      ✓ should emit the DepositPool event (5ms)
+      ✓ should update the struct SLPToken (526ms, 95441 gas)
+      ✓ should update the total amount of lp token minted (81ms)
+      ✓ Should revert if the amount to withdraw is too small (308ms)
+      ✓ should withdraw the amount of ayg and nayg proportionaly of what is in the pool in exchange of the lp token (481ms, 134804 gas)
+      ✓ should emit the WithdrawPool event (1ms)
+      ✓ should burn the lp token (10ms)
+      ✓ should update the variable totalLpToken (35ms)
+      ✓ should update the struct LPToken (12ms)
+    Swap AYG testing
+      ✓ Should revert if the amount to swap is too small (46ms)
+      ✓ should update the balance of the pool (286ms, 72577 gas)
+      ✓ should update the struct SLPToken (19ms)
+      ✓ Should transfer the result of the swap to the swaper (27ms)
+      ✓ should emit the SwapedAyg event (1ms)
+    Swap NAYG testing
+      ✓ Should revert if the amount to swap is too small (44ms)
+      ✓ should update the balance of the pool (354ms, 72687 gas)
+      ✓ should update the struct SLPToken (56ms)
+      ✓ Should transfer the result of the swap to the swaper (18ms)
+      ✓ should emit the SwapedNayg event (1ms)
+    Staking testing
+      ✓ Should stake the right amount (253ms, 178872 gas)
+      ✓ should emit the NewStake event (0ms)
+      ✓ Should transfer the staked amount and the reward in AYG (872ms, 84282 gas)
+      ✓ should emit the Unstake event (1ms)
+
+·----------------------------------------|----------------------------|-------------|----------------------------·
+|  Solc version: 0.8.15+commit.e14f2714  ·  Optimizer enabled: false  ·  Runs: 200  ·  Block limit: 6718946 gas  │
+·········································|····························|·············|·····························
+|  Methods                                                                                                       │
+·····················|···················|·············|··············|·············|··············|··············
+|  Contract          ·  Method           ·  Min        ·  Max         ·  Avg        ·  # calls     ·  eur (avg)  │
+·····················|···················|·············|··············|·············|··············|··············
+|  Erc20_Nayg        ·  transfer         ·          -  ·           -  ·      52307  ·           1  ·          -  │
+·····················|···················|·············|··············|·············|··············|··············
+|  PoolSwapStake     ·  depositPool      ·      95441  ·      234353  ·     191605  ·          13  ·          -  │
+·····················|···················|·············|··············|·············|··············|··············
+|  PoolSwapStake     ·  stake            ·          -  ·           -  ·     178872  ·           3  ·          -  │
+·····················|···················|·············|··············|·············|··············|··············
+|  PoolSwapStake     ·  swapPoolAyg      ·          -  ·           -  ·      72577  ·           4  ·          -  │
+·····················|···················|·············|··············|·············|··············|··············
+|  PoolSwapStake     ·  swapPoolNayg     ·          -  ·           -  ·      72687  ·           4  ·          -  │
+·····················|···················|·············|··············|·············|··············|··············
+|  PoolSwapStake     ·  unstake          ·          -  ·           -  ·      84282  ·           2  ·          -  │
+·····················|···················|·············|··············|·············|··············|··············
+|  PoolSwapStake     ·  withdrawPool     ·          -  ·           -  ·     134804  ·           5  ·          -  │
+·····················|···················|·············|··············|·············|··············|··············
+|  Deployments                           ·                                          ·  % of limit  ·             │
+·········································|·············|··············|·············|··············|··············
+|  Erc20_Ayg                             ·          -  ·           -  ·    2211704  ·      32.9 %  ·          -  │
+·········································|·············|··············|·············|··············|··············
+|  Erc20_Nayg                            ·          -  ·           -  ·    1941205  ·      28.9 %  ·          -  │
+·········································|·············|··············|·············|··············|··············
+|  Erc721_Nftayg                         ·          -  ·           -  ·    3799376  ·      56.5 %  ·          -  │
+·········································|·············|··············|·············|··············|··············
+|  EthVaultMintAyg                       ·          -  ·           -  ·     750565  ·      11.2 %  ·          -  │
+·········································|·············|··············|·············|··············|··············
+|  LPToken                               ·          -  ·           -  ·    1786703  ·      26.6 %  ·          -  │
+·········································|·············|··············|·············|··············|··············
+|  PoolSwapStake                         ·          -  ·           -  ·    1669311  ·      24.8 %  ·          -  │
+·········································|·············|··············|·············|··············|··············
+|  Staking                               ·          -  ·           -  ·    1878150  ·        28 %  ·          -  │
+·········································|·············|··············|·············|··············|··············
+|  StakingNFT                            ·          -  ·           -  ·    1476829  ·        22 %  ·          -  │
+·----------------------------------------|-------------|--------------|-------------|--------------|-------------·
+
+  25 passing (48s)
+
+```
 
 <br /><hr />
 
@@ -460,9 +565,18 @@ $ npm install recharts
 ### 3.2.1.1 Création d'un ERC20
 ### 3.2.1.2 Paramètres de stacking
 ### 3.2.1.3 Paramètre de pool
+
+La Dapp permet aux utlisateurs de participer à la pool AYG / NAYG en poolant 50 - 50 de la valeur en dollar des 2 tokens.
+L'utilisation de l'oracle Chainlink a permis de donner une valeur initial artificielle à nos tokens. L'AYG suivant le prix du BNB et le NAYG suivant le prix du LINK.
+L'utilisateur récupère un LP token calé sur le nombre de token AYG mis dans le pool. Mais au fur et à mesure des trades, il y aura une décorelation.
+Les frais de trading se rajoutant automatiquement à la pool et l'impermanent loss jouant sur ce que représente un LP token.
+
 ### 3.2.1.4 Création de NFT Reward / NFT Boost
 ## 3.2.2 Fonctionnalité pour l'utilisateur
-### 3.2.2.1 Stacking de Token ERC20
+### 3.2.2.1 Stacking de Token ERC20 
+
+La dapp permet en plus du stacking du AYG, le staking du LP Token qui est minté en fournissant de la liquidité dans la pool maison de la dapp. APR de 150000%.
+
 ### 3.2.2.2 Apport de liquidité dans une POOL
 ### 3.2.2.3 Swap entre token ERC20
 
