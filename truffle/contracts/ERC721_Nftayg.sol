@@ -6,6 +6,11 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
+/**
+* @title ERC721 Token (NFTAYG)
+* @author Alex YE, Yannick JEN, Gregory BADET
+* @notice Implements a basic ERC721 token for create NFT
+*/
 contract Erc721_Nftayg is ERC721Enumerable, Ownable {
 
     using SafeMath for uint256;
@@ -22,15 +27,19 @@ contract Erc721_Nftayg is ERC721Enumerable, Ownable {
     struct rateBonus {
         uint rateBonus;
     }
-    mapping(uint => rateBonus) ratesBonus;
+    mapping(uint => rateBonus) ratesBonus;  // Stock rateBonus of each NFT and can get it without 
 
 
+    // CONSTRUCTORS
     constructor() ERC721("AYG NFT", "NFTAYG") {}
 
-    function mint1(address owner)
-        payable
-        public
-        returns (uint256)
+
+   /**@dev The function for mint NFT n°1 : CAPTAIN ALYRA
+    * @notice Mint this NFT and staking it on our protocol for reward token $nAYG
+    * @notice With this NFT you get can get bonus reward of +10% $nAYG
+    * @param owner is the address that is mint the NFT
+    */
+    function mint1(address owner) payable public returns (uint256)
     {
         uint256 newItemId = _tokenIds.current();
 
@@ -50,10 +59,13 @@ contract Erc721_Nftayg is ERC721Enumerable, Ownable {
         return newItemId;
     }
 
-    function mint2(address owner)
-        payable
-        public
-        returns (uint256)
+
+   /**@dev The function for mint NFT n°2 : SUPER ALYRA
+    * @notice Mint this NFT and staking it on our protocol for reward token $nAYG
+    * @notice With this NFT you get can get bonus reward of +30% $nAYG
+    * @param owner is the address that is mint the NFT
+    */
+    function mint2(address owner) payable public returns (uint256)
     {
         uint256 newItemId = _tokenIds.current();
 
@@ -74,10 +86,12 @@ contract Erc721_Nftayg is ERC721Enumerable, Ownable {
     }
 
 
-    function mint3(address owner)
-        payable
-        public
-        returns (uint256)
+   /**@dev The function for mint NFT n°3 : WONDER ALYRA
+    * @notice Mint this NFT and staking it on our protocol for reward token $nAYG
+    * @notice With this NFT you get can get bonus reward of +30% $nAYG
+    * @param owner is the address that is mint the NFT
+    */
+    function mint3(address owner) payable public returns (uint256)
     {
         uint256 newItemId = _tokenIds.current();
 
@@ -97,8 +111,12 @@ contract Erc721_Nftayg is ERC721Enumerable, Ownable {
         return newItemId;
     }
 
+
+   /**@dev Return the rateBonus of one NFT
+    * @notice Get rateBonus on-chain without requete tokenURI (IPFS/PINATA)
+    * @param tokenId is the id of NFT
+    */
     function getBoosterById(uint tokenId) external view returns(uint) {
-//        uint rateBonus = ratesBonus[tokenId].rateBonus;
         return ratesBonus[tokenId].rateBonus;
     }
 
@@ -155,16 +173,25 @@ contract Erc721_Nftayg is ERC721Enumerable, Ownable {
 //    }
 
 
-    // smartcontract on/off statuts
+   /**@dev The function for change smartcontract on/off statuts
+    * @notice flip status one click
+    */
     function flipStatus() public onlyOwner {
         isActive = !isActive;
     }
 
-   
+
+   /**@dev The function for return maxSupply defined
+    * @notice get maxSupply
+    */
     function maxSupply() public view returns (uint256){
         return _maxSupply;
     }
-    
+
+
+   /**@dev The function for withdraw ETH to address
+    * @notice withdraw token ETH to address
+    */
     function withdraw(address payable recipient) public onlyOwner {
         uint256 balance = address(this).balance;
         recipient.transfer(balance);

@@ -1,12 +1,13 @@
 const Erc20_Ayg = artifacts.require("Erc20_Ayg");
 const Erc20_Nayg = artifacts.require("Erc20_Nayg");
+const Erc721_Nftayg = artifacts.require("Erc721_Nftayg");
 const LPToken = artifacts.require("LPToken")
 const Staking = artifacts.require("Staking");
+const StakingNFT = artifacts.require("StakingNFT");
 const EthVaultMintAyg = artifacts.require("EthVaultMintAyg");
 const PoolSwapStake = artifacts.require("PoolSwapStake");
+
 const Web3 = require("web3");
-const Erc721_Nftayg = artifacts.require("Erc721_Nftayg");
-const StakingNFT = artifacts.require("StakingNFT");
 
 const { mainnet_fork, kovan } = require("../helper-chainlink.js");
 

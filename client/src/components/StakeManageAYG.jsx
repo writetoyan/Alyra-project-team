@@ -32,7 +32,7 @@ import Tab from '@mui/material/Tab';
 import useEth from "../contexts/EthContext/useEth";
 
 // Import Recharts UI
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 
 
@@ -54,15 +54,6 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
-
-const Item2 = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#00128C' : '#00128C',
-  ...theme.typography.body2,
-  padding: theme.spacing(2),
-  textAlign: 'center',
-  color: theme.palette.text.primary,
-}));
-
 
 
 function TabPanel(props) {
@@ -109,18 +100,21 @@ function StakeManage() {
 
   const [alignment, setAlignment] = React.useState('stake');
   const [inputValue, setInputValue] = React.useState("");
+  const [inputValue2, setInputValue2] = useState(0);
   const [totalSupplyAYG, setTotalSupplyAYG] = useState(0);
   const [yourSupplyAYG, setYourSupplyAYG] = useState(0);
   const [yourEarnedAYG, setYourEarnedAYG] = useState(0);
   const [poolUsdValue, setPoolUsdValue] = useState(0);
   const [moveStakingAYG, setDataStakingAYG] = useState([]);
-  const [nbStakAYG, setNbStakAYG] = useState(0);
+//  const [nbStakAYG, setNbStakAYG] = useState(0);
   const [moveUnstakingAYG, setDataUnstakingAYG] = useState([]);
-  const [nbUnstakAYG, setNbUnstakAYG] = useState(0);
+//  const [nbUnstakAYG, setNbUnstakAYG] = useState(0);
   const [graphStakingAYG, setDataGraphAYG] = useState([]);
   const [aygPrice, setAygPrice] = useState();
   const [ethPrice, setEthPrice] = useState();
- 
+
+  const [yourAprAYG, setYourAprAyg] = useState(0);
+  
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -170,6 +164,10 @@ function StakeManage() {
     setInputValue(event.target.value);
   }
 
+  const handleInputChange2 = event => {
+    setInputValue2(event.target.value);
+  }
+
   // Calling the stakeAyg function on the Staking smart contract
     const handleStake = async () => {
       await contractAyg.methods.approve(addressStaking, Web3.utils.toWei(inputValue)).send({from: accounts[0]});
@@ -211,18 +209,27 @@ function StakeManage() {
 
   const updateAYG = async () => {
     try {
-    const totalSupplyAYG = await contractStaking.methods.totalSupply().call({ from: accounts[0] });
-    const yourSupplyAYG = await contractStaking.methods.balanceOf(accounts[0]).call({from: accounts[0]});
-    const yourEarnedAYG = await contractStaking.methods.earned(accounts[0]).call({from: accounts[0]});
-    const aygPrice = await contractVault.methods.getLatestPriceBnbProxy().call({from: accounts[0]});
-    const ethPrice = await contractVault.methods.getLatestPriceEth().call({from: accounts[0]});
-    setTotalSupplyAYG(web2(Web3.utils.fromWei(totalSupplyAYG)));
-    setYourSupplyAYG(web2(Web3.utils.fromWei(yourSupplyAYG)));
-    setYourEarnedAYG(Web3.utils.fromWei(yourEarnedAYG));
-    setAygPrice(web2((Web3.utils.fromWei(aygPrice))));
-    setEthPrice(web2(Web3.utils.fromWei(ethPrice)));
-    const poolUsdValue = web2(aygPrice * totalSupplyAYG / 10**36);
-    setPoolUsdValue(poolUsdValue);
+      const totalSupplyAYG = await contractStaking.methods.totalSupply().call({ from: accounts[0] });
+      setTotalSupplyAYG(Web3.utils.fromWei(totalSupplyAYG));
+
+      const yourSupplyAYG = await contractStaking.methods.balanceOf(accounts[0]).call({from: accounts[0]});
+      setYourSupplyAYG(Web3.utils.fromWei(yourSupplyAYG));
+
+      const yourEarnedAYG = await contractStaking.methods.earned(accounts[0]).call({from: accounts[0]});
+      setYourEarnedAYG(Web3.utils.fromWei(yourEarnedAYG));
+
+      const aygPrice = await contractVault.methods.getLatestPriceBnbProxy().call({from: accounts[0]});
+      setAygPrice(web2((Web3.utils.fromWei(aygPrice))));
+
+      const ethPrice = await contractVault.methods.getLatestPriceEth().call({from: accounts[0]});
+      setEthPrice(web2(Web3.utils.fromWei(ethPrice)));
+
+      const poolUsdValue = web2(aygPrice * totalSupplyAYG / 10**36);
+      setPoolUsdValue(poolUsdValue);
+
+      const yourAprAgy = await contractVault.methods.getMyStakingApr().call({from: accounts[0]});
+      setYourAprAyg(Web3.utils.fromWei(yourAprAgy));
+
     } catch(err) {
         console.log(err);
     };
@@ -338,7 +345,7 @@ function StakeManage() {
             <Grid item xs={3}>
               <Item>
                 APR
-                <h2>0.00 %</h2>
+                <h2>{yourAprAYG} %</h2>
               </Item>
             </Grid>
 
@@ -399,7 +406,7 @@ function StakeManage() {
 
  {/*============================================= GRAPH ========================================================= */}
 
-            <Grid item xs={7}>
+            <Grid item xs={6}>
               <Item>
                 <h3>GRAPH STAKING</h3>
                 <ResponsiveContainer width='100%' aspect={4.0/1.0}>
@@ -479,20 +486,12 @@ function StakeManage() {
               </Item>
             </Grid>
 
-            <Grid item xs={2}>
+ {/*============================================= GRAPH ========================================================= */}
+
+            <Grid item xs={3}>
               <Item>
-                <h3>BOOST REWARD !</h3>
-                <Box
-                  component="img"
-                  sx={{
-                    height: 400,
-                    width: 300,
-                    maxHeight: { xs: 200, md: 200 },
-                    maxWidth: { xs: 150, md: 150 },
-                  }}
-                  alt="AYG NFT Collection"
-                  src="./../ayg-nft_ban-mini.png"
-                />
+                <h3>STACKING SIMULATION</h3>
+                <TextField id="filled-basic" label="Amount" variant="filled" value={inputValue2} onChange={handleInputChange2}/>
                 <br />
                 <Button
                   variant="contained"

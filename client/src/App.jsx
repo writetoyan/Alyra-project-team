@@ -14,7 +14,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 // Import COMPONENTS
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
 
-import Home from "./components/Home";
 import Dashboard from "./components/Dashboard";
 import Token from "./components/Token";
 import TokenManageAYG from "./components/TokenManageAYG";
@@ -30,6 +29,10 @@ import NFT from "./components/NFT";
 import NFTmint from "./components/NFTmint";
 import NFTstaking from "./components/NFTstaking";
 import Footer from "./components/Footer";
+
+import SmartsContracts from "./components/SmartsContracts";
+import About from "./components/About";
+import Team from "./components/Team";
 
 //Connect Button import
 import '@rainbow-me/rainbowkit/dist/index.css';
@@ -78,7 +81,7 @@ function App() {
             <CssBaseline />
             <ResponsiveAppBar></ResponsiveAppBar>
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Dashboard />} />
               <Route path="/Dashboard" element={<Dashboard />} />
               <Route path="/Token" element={<Token /> }/>
               <Route path="/TokenManage/AYG" element={<TokenManageAYG />} />
@@ -94,16 +97,15 @@ function App() {
               <Route path="/NFT" element={<NFT />} />
               <Route path="/NFT/Mint" element={<NFTmint />} />
               <Route path="/NFT/Staking" element={<NFTstaking />} />
+              <Route path="/Team" element={<Team />} />
+              <Route path="/About" element={<About />} />
+              <Route path="/SmartsContracts" element={<SmartsContracts />} />
             </Routes>
             <Footer> </Footer>
             </div>
           </React.Fragment>
         </RainbowKitProvider>
       </WagmiConfig>
-
-
-
-
 
     </EthProvider>
   );

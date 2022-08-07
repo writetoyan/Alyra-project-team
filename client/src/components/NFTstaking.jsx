@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
-import Web3 from "web3";
 
-import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
 
 import Box from '@mui/material/Box';
@@ -24,7 +21,6 @@ import UploadIcon from '@mui/icons-material/Upload';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 import useEth from "../contexts/EthContext/useEth";
-import { id } from 'ethers/lib/utils';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -36,21 +32,37 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 
+
 function NFTstaking() {
-  const theme = useTheme();
 
-  const { state: { contractAyg, contractNayg, contractNftayg, contractStaking, contractStakingNFT, accounts, addressStaking, addressStakingNFT } } = useEth();
+  const { state: { contractNftayg, contractStakingNFT, accounts } } = useEth();
 
+  const [rewardsPerHour, setRewardsPerHour] = useState(0);
   const [totalSupply, setTotalSupply] = useState(0);
   const [tokenUnstakedByOwner, setTokenUnstakedByOwner] = useState([]);
   const [rowUnstakedNFT, setRowUnstakedNFT] = useState([]);
   const [rowStakedNFT, setRowStakedNFT] = useState([]);
+
+  
+  const getData = async () => {
+    contractStakingNFT.methods.rewardsPerHour().call({from: accounts[0]})
+    .then((rewardsPerHour) => {
+      rewardsPerHour = rewardsPerHour/10**18;
+      rewardsPerHour = Math.round(rewardsPerHour * 100) / 100;
+      setRewardsPerHour(rewardsPerHour);
+      console.log("rewardsPerHour="+rewardsPerHour);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }  
 
   const getUnstakedNFT = async () => {
 
     contractNftayg.methods.totalSupply().call({from: accounts[0]})
     .then((totalSupply) => {
       setTotalSupply(totalSupply);
+      console.log("totalSupply="+totalSupply);
     
       for(let i=0; i<totalSupply; i++) {
         console.log("i="+i);
@@ -68,7 +80,6 @@ function NFTstaking() {
           .catch((err) => {
             console.log(err);
           });
-
           
         })
         .catch((err) => {
@@ -140,6 +151,7 @@ function NFTstaking() {
  
   const updateData = async () => {
     try {
+      await getData();
       await getUnstakedNFT();
       await getStakedNFT();
 
@@ -179,7 +191,7 @@ function NFTstaking() {
           NFT Staking
         </Typography>
         <Typography variant="h5" align="center" color="text.secondary" component="p">
-          A vous de jouer !
+          Les reward de staking sont de : {rewardsPerHour} $nAYG / heure.
         </Typography>
       </Container>
       {/* End Head */}
@@ -239,7 +251,7 @@ function NFTstaking() {
 
 
 function DrawBoxUnstakedNFT(props) {
-  const { state: { contractAyg, contractNayg, contractNftayg, contractStaking, contractStakingNFT, accounts, addressStaking, addressStakingNFT } } = useEth();
+  const { state: { contractNftayg, contractStakingNFT, accounts, addressStakingNFT } } = useEth();
 
   const [tokenIds, setTokenIds] = useState([]);
     
@@ -257,7 +269,6 @@ function DrawBoxUnstakedNFT(props) {
       .then((Stake) => {
         console.log("Stake = "+Stake);
 
-        const id = e.target.getAttribute("data-id")
         props.setRowStakedNFT([]);
         props.setRowUnstakedNFT([]);
         props.updateData();
@@ -309,7 +320,7 @@ function DrawBoxUnstakedNFT(props) {
 }
 
 function DrawBoxStakedNFT(props) {
-  const { state: { contractAyg, contractNayg, contractNftayg, contractStaking, contractStakingNFT, accounts, addressStaking } } = useEth();
+  const { state: { contractStakingNFT, accounts } } = useEth();
 
   const [earnedReward, setEarnedReward] = useState(0);
   const [earnedBonus, setEarnedBonus] = useState(0);

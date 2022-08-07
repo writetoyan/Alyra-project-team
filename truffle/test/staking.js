@@ -2,7 +2,7 @@ const { BN, expectEvent, expectRevert, time } = require('@openzeppelin/test-help
 const { expect } = require('chai');
 
 const Staking = artifacts.require("Staking");
-const ERC20_Ayg = artifacts.require("ERC20_Ayg");
+const ERC20_Ayg = artifacts.require("Erc20_Ayg");
 
 async function timeIncreaseTo (seconds) {
   const delay = 1000 - new Date().getMilliseconds();
@@ -172,5 +172,4 @@ contract('Staking', function (accounts) {
     });
   });
 });
-
 

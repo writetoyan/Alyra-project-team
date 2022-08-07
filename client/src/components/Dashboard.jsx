@@ -22,82 +22,39 @@ function Dashboard() {
 
   return (
     <Container maxWidth="xl">
-      <Box>
-        <h2>Dashboard</h2>
-        <Grid container spacing={2}>
-          <Grid item xs={8}>
-            <Item>xs=8
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            </Item>
-          </Grid>
-          <Grid item xs={4}>
-            <Item>xs=4
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            </Item>
-          </Grid>
-        </Grid>
-        <br />
-        <Grid item xs={2}>
-          <Box
-            component="img"
-            sx={{
-              height: 200,
-              width: 800,
-              maxHeight: { xs: 100, md: 200 },
-              maxWidth: { xs: 400, md: 800 },
-            }}
-            alt="AYG NFT Collection"
-            src="./../ayg-nft_ban800x200.png"
-            onClick={(e) => {
-              navigate('/NFT');
-            }}
-          />
-        </Grid>
-      </Box>
+      <br />
+      <Box
+        component="img"
+        sx={{
+          height: 600,
+          width: 1500,
+          maxHeight: { xs: 200, md: 600 },
+          maxWidth: { xs: 500, md: 1500 },
+        }}
+        alt="Staking NFT"
+        src="./../dashboard.jpg"
+        onClick={(e) => {
+          navigate('/NFT/Staking');
+        }}
+      />
+
+      <br />
+      <Grid item xs={2}>
+        <Box
+          component="img"
+          sx={{
+            height: 200,
+            width: 800,
+            maxHeight: { xs: 100, md: 200 },
+            maxWidth: { xs: 400, md: 800 },
+          }}
+          alt="AYG NFT Collection"
+          src="./../ayg-nft_ban800x200.png"
+          onClick={(e) => {
+            navigate('/NFT');
+          }}
+        />
+      </Grid>
     </Container>
   );
 }

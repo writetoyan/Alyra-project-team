@@ -11,7 +11,6 @@ import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import IconAdd from '@mui/icons-material/Add';
-import IconMore from '@mui/icons-material/MoreHoriz';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -66,13 +65,13 @@ function Pool() {
         <Box>
           <Button
             variant="contained"
-            endIcon={<IconAdd />}
             onClick={(e) => {
               console.log(e.currentTarget.dataset.buttonKey);
-              navigate('/PoolAdd');
+              alert("Coming Soon !");
+//              navigate('/PoolAdd');
             }}
           >
-            Ajouter une POOL
+            Créer une POOL
           </Button>
           <br />
           <br />
@@ -112,9 +111,15 @@ function Pool() {
                     <TableCell align="right">{row.volume24}</TableCell>
                     <TableCell align="right">{row.apr}</TableCell>
                     <TableCell align="right">
-                      <IconButton size="small" color="primary">
-                        Add liquidity
-                      </IconButton>
+                    <Button
+                      variant="contained"
+                      startIcon={<IconAdd />}
+                      onClick={(e) => {
+                        navigate('/PoolManage');
+                      }}
+                    >
+                      Add liquidity
+                    </Button>
                     </TableCell>
                   </TableRow>
                 ))}

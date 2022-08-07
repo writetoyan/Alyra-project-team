@@ -18,7 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-function NFTmint() {
+function Team() {
   const navigate = useNavigate();
 
   return (
@@ -32,10 +32,10 @@ function NFTmint() {
           color="text.primary"
           gutterBottom
         >
-          NFT
+          TEAM
         </Typography>
         <Typography variant="h5" align="center" color="text.secondary" component="p">
-          Are you ready ?
+        i am what i am !
         </Typography>
       </Container>
       {/* End Head */}
@@ -43,19 +43,19 @@ function NFTmint() {
       <Container maxWidth="xl">
         <Box>
           <Grid container spacing={2}>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <Item>
-                <h2>Staking NFT</h2>
+                <h2>Alex</h2>
                 <Box
                   component="img"
                   sx={{
-                    height: 300,
-                    width: 400,
-                    maxHeight: { xs: 100, md: 300 },
-                    maxWidth: { xs: 133, md: 400 },
+                    height: 200,
+                    width: 200,
+                    maxHeight: { xs: 100, md: 150 },
+                    maxWidth: { xs: 100, md: 150 },
                   }}
-                  alt="Staking NFT"
-                  src="./../pic_staking.gif"
+                  alt="Alex"
+                  src="./../team_user1.png"
                   onClick={(e) => {
                     navigate('/NFT/Staking');
                   }}
@@ -64,38 +64,60 @@ function NFTmint() {
                   fullWidth variant="contained"
                   size="large"
                   onClick={(e) => {
-                    navigate('/NFT/Staking');
+                    alert('Github !');
                   }}
                 >
-                  Go !
+                  view Github
                 </Button>
               </Item>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <Item>
-                <h2>Minting NFT</h2>
+                <h2>Yannick</h2>
                 <Box
                   component="img"
                   sx={{
-                    height: 300,
-                    width: 400,
-                    maxHeight: { xs: 100, md: 300 },
-                    maxWidth: { xs: 133, md: 400 },
+                    height: 200,
+                    width: 200,
+                    maxHeight: { xs: 100, md: 150 },
+                    maxWidth: { xs: 100, md: 150 },
                   }}
-                  alt="Minting NFT"
-                  src="./../pic_mint.gif"
-                  onClick={(e) => {
-                    navigate('/NFT/Mint');
-                  }}
+                  alt="Yannick"
+                  src="./../team_user2.png"
                 />
                 <Button
                   fullWidth variant="contained"
                   size="large"
                   onClick={(e) => {
-                    navigate('/NFT/Mint');
+                    alert('Github !');
                   }}
                 >
-                  Go !
+                  view Github
+                </Button>
+              </Item>
+            </Grid>
+            <Grid item xs={4}>
+              <Item>
+                <h2>Greg</h2>
+                <Box
+                  component="img"
+                  sx={{
+                    height: 200,
+                    width: 200,
+                    maxHeight: { xs: 100, md: 150 },
+                    maxWidth: { xs: 100, md: 150 },
+                  }}
+                  alt="Greg"
+                  src="./../team_user3.png"
+                />
+                <Button
+                  fullWidth variant="contained"
+                  size="large"
+                  onClick={(e) => {
+                    alert('Github !');
+                  }}
+                >
+                  view Github
                 </Button>
               </Item>
             </Grid>
@@ -106,5 +128,4 @@ function NFTmint() {
   );
 }
 
-export default NFTmint;
-
+export default Team;

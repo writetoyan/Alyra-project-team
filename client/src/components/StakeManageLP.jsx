@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Web3 from 'web3';
 import {useNavigate} from 'react-router-dom';
 import { styled } from '@mui/material/styles';
@@ -13,15 +13,6 @@ import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
 import useEth from "../contexts/EthContext/useEth";
 
-function DrawIcoToken({ alt, code }) {
-  const href= `ico_${code}.png`;
-  const CODE = code.toUpperCase()+" (50%)";
-  return <Chip
-    avatar={<Avatar alt={alt} src={href} />}
-    label={CODE}
-    variant="outlined"
-  />
-}
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -34,9 +25,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 function StakeManageLP() {
 
-  const navigate = useNavigate();
-
-  const { state: { contractAyg, contractNayg, contractLPToken, contractPoolSwap, addressPoolSwap, accounts } } = useEth();
+  const { state: { contractLPToken, contractPoolSwap, addressPoolSwap, accounts } } = useEth();
   const [inputStake, setInputStake] = useState("");
   const [inputStakeId, setInputStakeId] = useState("");
 

@@ -7,8 +7,7 @@ import Paper from '@mui/material/Paper';
 import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 
-import IconButton from '@mui/material/IconButton';
-import IconGraph from '@mui/icons-material/Analytics';
+import Button from '@mui/material/Button';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -28,7 +27,7 @@ function createData(token1, token2, apy, totalStaked, link, click) {
 }
 
 const rows = [
-  createData('ayg', 'ayg', 156.2, 87458, '/StakeManage/AYG', 'Stake AYG'),
+  createData('ayg', 'ayg', 0, 0, '/StakeManage/AYG', 'Stake AYG'),
   createData('LP Token', 'ayg', 0, 0, '/StakeManage/LP', 'Stake LP token'),
 ];
 
@@ -91,31 +90,26 @@ function Stake() {
               {rows.map((row) => (
                   <TableRow
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    onClick={(e) => {
-                      navigate(`${row.link}`);
-                    }}
                   >
                     <TableCell component="th" scope="row">
-                      <DrawIcoToken alt="ayg" code="ayg" />
+                      <DrawIcoToken alt={row.token1} code={row.token1} />
                     </TableCell>
-                    <TableCell>2.84</TableCell>
+                    <TableCell>0</TableCell>
                     <TableCell component="th" scope="row">
-                      <DrawIcoToken alt="ayg" code="ayg" />
+                      <DrawIcoToken alt={row.token2} code={row.token2} />
                     </TableCell>
-                    <TableCell>0.153</TableCell>
-                    <TableCell>156 %</TableCell>
-                    <TableCell>875412</TableCell>
+                    <TableCell>0</TableCell>
+                    <TableCell>0 %</TableCell>
+                    <TableCell>0</TableCell>
                     <TableCell>
-                      <IconButton
-                        aria-label="more"
-                        size="small"
-                        color="primary"
+                      <Button
+                        variant="contained"
                         onClick={(e) => {
                           navigate(`${row.link}`);
                         }}
                       >
                         {row.click}
-                      </IconButton>
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -125,8 +119,6 @@ function Stake() {
 
         </Box>
       </Container>
-
-
 
     </React.Fragment>    
   );

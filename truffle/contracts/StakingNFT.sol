@@ -5,7 +5,15 @@ pragma solidity 0.8.15;
 import './ERC20_Nayg.sol';
 import './ERC721_Nftayg.sol';
 
+/**
+* @title Staking NFT (token NFTAYG)
+* @author Alex YE, Yannick JEN, Gregory BADET
+* @notice Implements a contract for staking NFT with token reward $nAYG
+* @notice NFTs boost reward 10% /+20% / +50% when final claim.
+*/
 contract StakingNFT {
+
+    // VARIABLES
     uint totalStaked;
 
     struct Staking {
@@ -16,26 +24,37 @@ contract StakingNFT {
 
     mapping(uint => Staking) NFTsStaked;
 
-    uint rewardsPerHour = 10000000000000000000;  // 10 nAYG per hour
+    uint public rewardsPerHour = 10000*10**18;  // 10000 nAYG per hour
 
-    //pointer
-    Erc20_Nayg token;
-    Erc721_Nftayg nft;
 
+    // EVENTS
     event Staked(address indexed owner, uint tokenId, uint value);
     event Unstaked(address indexed onwer, uint tokenId, uint value);
     event Claimed(address indexed owner, uint totalEarned, uint totalReward, uint totalBonus);
 
 
+    // CONSTRUCTORS
     constructor(Erc20_Nayg _token, Erc721_Nftayg _nft) {
         token = _token;
         nft = _nft;
     }
 
-    // Staking des NFT depuis leurs IDs
-    // array [0] / [1, 15, 37]
+
+    //pointer
+    Erc20_Nayg token;
+    Erc721_Nftayg nft;
+
+
+   /**@dev The function for staking NFT
+    * @notice Stake yours NFT for win reward $nAYG
+    * @notice Only owner of NFT can stake his NFT
+    * @notice Only 5 NFT can be staked in one action (Dos protection on loop For)
+    * @param tokenIds is an array of id NFT who will be stacked
+    */
     function Stake(uint[] calldata tokenIds) external {
         // mettre require pr limité taille de tokenIds
+        require(tokenIds.length>0, "Min 1 NFTs can be staked per action");
+        require(tokenIds.length<5, "Max 5 NFTs can be staked per action");
         uint tokenId;
         totalStaked += tokenIds.length;
 
@@ -56,7 +75,17 @@ contract StakingNFT {
         }
     }
 
+
+   /**@dev The function for unstaking NFT
+    * @notice Unstake yours NFT and get reward $nAYG
+    * @notice Only owner of NFT can unstake his NFT
+    * @notice Only 5 NFT can be unstaked in one action (Dos protection on loop For)
+    * @param owner is address of user
+    * @param tokenIds is an array of id NFT who will be stacked
+    */
     function _unStakeNFTs(address owner, uint[] calldata tokenIds) internal {
+        require(tokenIds.length>0, "Min 1 NFTs can be staked per action");
+        require(tokenIds.length<5, "Max 5 NFTs can be staked per action");
         uint tokenId;
         totalStaked -= tokenIds.length;
 
@@ -71,15 +100,38 @@ contract StakingNFT {
         }
     }
 
+
+   /**@dev The function for claim rewards $nAYG only
+    * @notice Get yours rewards without unstake your NFT
+    * @param tokenIds is an array of id NFT who will be claim
+    */
     function claim(uint[] calldata tokenIds) external {
+        require(tokenIds.length>0, "Min 1 NFTs can be claimed per action");
+        require(tokenIds.length<5, "Max 5 NFTs can be claimed per action");
         _claim(msg.sender, tokenIds, false);
     }
 
+
+   /**@dev The function for claim rewards $nAYG and unstake your NFT
+    * @notice Get yours rewards with unstake your NFT
+    * @param tokenIds is an array of id NFT who will be claim and unstacked
+    */
     function unstake(uint[] calldata tokenIds) external {
+        require(tokenIds.length>0, "Min 1 NFTs can be claimed and unstaked per action");
+        require(tokenIds.length<5, "Max 5 NFTs can be claimed and unstaked per action");
         _claim(msg.sender, tokenIds, true);
     }
 
+
+   /**@dev The function for claim rewards $nAYG with unstake or not your NFT
+    * @notice Get yours rewards with unstake or not your NFT
+    * @notice Reward is calculed on base : 10000 nAYG per hour
+    * @param owner is address of user
+    * @param tokenIds is an array of id NFT who will be claim and unstacked
+    */
     function _claim(address owner, uint[] calldata tokenIds, bool _unstake) internal {
+        require(tokenIds.length>0, "Min 1 NFTs can be claimed and unstaked per action");
+        require(tokenIds.length<5, "Max 5 NFTs can be claimed and unstaked per action");
         uint tokenId;
         uint earnedReward;
         uint earnedBonus;
@@ -121,7 +173,16 @@ contract StakingNFT {
         emit Claimed(owner, totalEarned, totalEarnedReward, totalEarnedBonus);
     }
 
+
+   /**@dev The function for calcul only rewards $nAYG of NFTs
+    * @notice Calcul yours rewards from staking NFT
+    * @notice Reward is calculed on base : 10000 nAYG per hour
+    * @param owner is address of user
+    * @param tokenIds is an array of id NFT who will be claim and unstacked
+    */
     function getRewardAmount(address owner, uint[] calldata tokenIds) external view returns(uint) {
+        require(tokenIds.length>0, "Min 1 NFTs can be claimed and unstaked per action");
+        require(tokenIds.length<5, "Max 5 NFTs can be claimed and unstaked per action");
         uint tokenId;
         uint earned;
         uint totalEarned;
@@ -142,7 +203,16 @@ contract StakingNFT {
 
     }
 
+
+   /**@dev The function for calcul only bonus $nAYG of NFTs
+    * @notice Calcul yours bonus from staking NFT
+    * @notice Bonus is calculed reward and the type of NFT booster (+10/30/50% !)
+    * @param owner is address of user
+    * @param tokenIds is an array of id NFT who will be claim and unstacked
+    */
     function getBonusAmount(address owner, uint[] calldata tokenIds) external view returns(uint) {
+        require(tokenIds.length>0, "Min 1 NFTs can be claimed and unstaked per action");
+        require(tokenIds.length<5, "Max 5 NFTs can be claimed and unstaked per action");
         uint tokenId;
         uint earned;
         uint bonusEarned;
@@ -164,6 +234,11 @@ contract StakingNFT {
         return bonusEarned;
     }
 
+
+   /**@dev The function return array with Ids NFT staked
+    * @notice Get array of Ids NFT staked by user address
+    * @param owner is address of user
+    */
     function tokenStakedByOwner(address owner) external view returns(uint[] memory) {
         uint totalSupply = nft.totalSupply();
         uint[] memory tmp = new uint[](totalSupply);
@@ -183,6 +258,11 @@ contract StakingNFT {
         return tokens;
     }
 
+
+   /**@dev The function return value of booster of one NFT
+    * @notice Get value of boost reward of NFT ids (+10/30/50%)
+    * @param tokenId is Id of NFT
+    */
     function _getBoosterById(uint tokenId) internal view returns(uint) {
         uint rateBonus = nft.getBoosterById(tokenId);
         return rateBonus;
