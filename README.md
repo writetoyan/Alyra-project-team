@@ -1,5 +1,7 @@
 ![N|Solid](assets/ban_logo.png)
 
+**ALYRA PROJECT 4 - TEAM PROJECT - ORIGINAL COLLABORATIVE GITHUB: https://github.com/bad4token/Projet4_AYG-Labs_DeFi**
+
 Ce projet DeFi consiste à mettre en place une solution de stacking ERC20 utilisant une méthode de récompense proportionnelle au montant stacké.
 Le staking principal se fait sur le token du protocol AYG qui permet de générer du token AYG. Nous avons en plus introduit un staking de LP token lorsque l'utilisateur fournit de la liquidité dans la pool maison du protocol. Il permet également d'être récompensé avec des tokens AYG. Enfin, l'utilisateur peut minter des NFT pour obtenir des bonus de staking en étant récompensé par des tokens spécifique les nAYG. Ceux-ci constituent avec le token principal, le AYG, une pool qui permet de swap entre eux ces deux tokens. générant ainsi des trading fees et staking rewards pour ces derniers. 
 Le protocol permet également d'obtenir des tokens AYG en fournissant en collatéral de l'ETH dans un VAULT. Grâce à Chainlink, nous avons défini que ces derniers, peuvent minter la moitié de la valeur d'un ETH en token AYG, soit un collatéral de 200%.
